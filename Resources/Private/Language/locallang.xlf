@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-02-13T13:47:45Z" product-name="reint_downloadmanager">
+		<header/>
+		<body>
+			<trans-unit id="plugin_label">
+				<source>Download manager</source>
+			</trans-unit>
+			<trans-unit id="plugin_value">
+				<source>A download manager for file collections.</source>
+			</trans-unit>
+			
+			<trans-unit id="tx_reintdownloadmanager_domain_model_manager">
+				<source>Manager</source>
+			</trans-unit>
+			<trans-unit id="tx_reintdownloadmanager_domain_model_manager.filename">
+				<source>Filename</source>
+			</trans-unit>
+			<trans-unit id="tx_reintdownloadmanager_domain_model_manager.filereference">
+				<source>Filereference</source>
+			</trans-unit>
+			
+			<trans-unit id="chead1">
+				<source>View</source>
+			</trans-unit>
+			<trans-unit id="select">
+				<source>Select the view</source>
+			</trans-unit>
+			<trans-unit id="celem0">
+				<source>Please select</source>
+			</trans-unit>
+			<trans-unit id="celem1">
+				<source>List view</source>
+			</trans-unit>
+			<trans-unit id="celem2">
+				<source>Top downloads view</source>
+			</trans-unit>
+			
+			<trans-unit id="lbrpid">
+				<source>Select file collections to display (max. 10)</source>
+			</trans-unit>
+			<trans-unit id="topdnum">
+				<source>Number of items to display (default: 10)</source>
+			</trans-unit>
+			
+			<trans-unit id="nocollection">
+				<source>No collection found. Please set a collection in the backend configuration.</source>
+			</trans-unit>
+			<trans-unit id="nodownloads">
+				<source>No top downloads found.</source>
+			</trans-unit>
+			
+			<trans-unit id="tdhead">
+				<source>Top downloads</source>
+			</trans-unit>
+			
+			<trans-unit id="noselection">
+				<source>There is no view selected in backend. Please select the view to see output.</source>
+			</trans-unit>
+			
+			
+			
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,29 @@
+<f:layout name="Default" />
+
+This Template is responsible for displaying a top ten list of download
+
+<f:section name="main">
+	
+	<f:flashMessages renderMode="div" />
+
+	<div class="all-collection-wrapper">
+		<h3 class="collection-title"><f:translate key="tdhead" /></h3>
+		<f:if condition="{files}">
+			<f:then>
+				<ul class="collection-content">
+					<f:for each="{files}" as="record" key="num">
+						<li class="link-item">
+							{num}. <f:link.page target="_blank" additionalParams="{tx_reintdownloadmanager_reintdlm:{downloaduid:'{record.properties.uid}'}}"><f:if condition="{record.name}"><f:then>{record.name}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension}]</f:link.page>
+						</li>
+					</f:for>
+				</ul>
+			</f:then>
+			<f:else>
+				<p><f:translate key="nodownloads" /></p>
+			</f:else>
+		</f:if>
+
+	</div>
+	
+	
+</f:section>
