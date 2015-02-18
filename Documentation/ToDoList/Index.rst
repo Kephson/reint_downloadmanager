@@ -11,4 +11,4 @@
 To-Do list
 ==========
 
-See the `milestones on Github <https://github.com/Kephson/reint_downloadmanager>`_, if you want to add something, write a pull request or a mail to me.
+See the `milestones on Github <https://github.com/Kephson/reint_downloadmanager/milestones>`_, if you want to add something, write a pull request or a mail to me.

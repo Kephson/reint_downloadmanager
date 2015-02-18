@@ -12,5 +12,5 @@ Known Problems
 ==============
 
 At the momement there are no known problems.
-Please use the `bugtracker system on Github <https://github.com/Kephson/reint_downloadmanager>`_ and report every bug you will find. 
+Please use the `bugtracker system on Github <https://github.com/Kephson/reint_downloadmanager/issues>`_ and report every bug you will find. 
 I will fix the problems as soon as possible (asap) ;-).
