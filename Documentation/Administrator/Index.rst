@@ -29,12 +29,12 @@ To install the extension, perform the following steps:
 #. Load the static template to your site
 
 
-.. figure:: ../Images/AdministratorManual/ExtensionManager.png
+.. figure:: ../Images/Administrator/extensionmanager.png
    :alt: Extension Manager
 
-   Extension Manager (caption of the image)
+   Extension Manager
 
-   List of extensions within the Extension Manager also shorten with "EM" (legend of the image)
+   Install it in the Extension Manager
 
 
 .. _admin-configuration:

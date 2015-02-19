@@ -13,7 +13,7 @@ ChangeLog
 
 - **18.02.2015**
 
-  - initial release of version 0.8.0 on TER
+  - initial release of version 0.5.0 on TER
 
   - list view
 

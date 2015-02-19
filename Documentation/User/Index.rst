@@ -15,26 +15,73 @@ Target group: **Editors**
 
 Go to the page you want to insert the plugin and add a new content element which you can find under plugins, it is called **Download manager**.
 
+.. tip::
+
+   1. Add a subfolder for the file collections and the download counter
+
+.. figure:: ../Images/User/typo3_backend_example.png
+   :width: 800px
+   :alt: collection subfolder
+
+   Collection subfolder
+
+   Add a subfolder for the file collections and the download counter
 
 .. tip::
 
-   1. Insert the **download manager** plugin
+   2. Add file collections to the subfolder
 
-.. figure:: ../Images/UserManual/BackendView.png
-   :width: 500px
+.. figure:: ../Images/User/file_collections_list_view.png
+   :width: 800px
+   :alt: List view with file collections
+
+   List view with file collections
+
+   List view with file collections which are added to the subfolder
+
+.. figure:: ../Images/User/file_collection_example.png
+   :width: 800px
+   :alt: Adding images
+
+   Adding images
+
+   Adding images to a file collection
+
+.. figure:: ../Images/User/file_collection_example_02.png
+   :width: 800px
+   :alt: Adding description
+
+   Adding description
+
+   Adding description to a file collection
+
+.. tip::
+
+   3. Insert the **download manager** plugin
+
+.. figure:: ../Images/User/typo3_backend_add_tt_content.png
+   :width: 800px
    :alt: Insert plugin
 
    Insert plugin
 
    Insert the plugin on the page you want the output
 
+.. figure:: ../Images/User/add_plugin_wizard.png
+   :width: 800px
+   :alt: Insert plugin
+
+   Insert plugin
+
+   Insert the plugin with the wizard
+
 
 .. tip::
 
-   2. Configure the list view
+   4. Configure the list view
 
-.. figure:: ../Images/UserManual/BackendView.png
-   :width: 500px
+.. figure:: ../Images/User/list_view.png
+   :width: 800px
    :alt: List view
 
    List view
@@ -44,10 +91,10 @@ Go to the page you want to insert the plugin and add a new content element which
 
 .. tip::
 
-   2a. Configure the top downloads view
+   4a. Configure the top downloads view
 
-.. figure:: ../Images/UserManual/BackendView.png
-   :width: 500px
+.. figure:: ../Images/User/top_downloads_view.png
+   :width: 800px
    :alt: Top downloads view
 
    Top downloads view
@@ -65,8 +112,8 @@ the plugin where to store the download statistics or from where to get the
 download statistics. 
 If this is not set, the data will be saved on the page where the plugin is set.
 
-.. figure:: ../Images/UserManual/BackendView.png
-   :width: 500px
+.. figure:: ../Images/User/record_storage_page.png
+   :width: 800px
    :alt: Record storage page(s)
 
    Record storage page(s)

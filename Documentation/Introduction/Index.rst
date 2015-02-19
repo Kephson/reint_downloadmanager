@@ -28,7 +28,7 @@ Screenshots
 
 Examples for the **list** and **top downloads** view you can see here:
 
-.. figure:: ../Images/IntroductionPackage.png
+.. figure:: ../Images/Introduction/frontend_collection_example.png
    :width: 500px
    :alt: List view
 
@@ -38,7 +38,7 @@ Examples for the **list** and **top downloads** view you can see here:
 
 -----------
 
-.. figure:: ../Images/IntroductionPackage.png
+.. figure:: ../Images/Introduction/frontend_top_downloads_example.png
    :width: 500px
    :alt: Top downloads view
 
