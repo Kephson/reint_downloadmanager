@@ -64,7 +64,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @inject
 	 */
 	protected $fileCollectionRepository;
-	
+
 	/**
 	 * @var \TYPO3\CMS\Core\Resource\FileRepository
 	 * @inject
@@ -78,7 +78,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	protected function initializeAction() {
 		parent::initializeAction();
-		
+
 		//fallback to current pid if no storagePid is defined
 		$configuration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 		if( empty($configuration['persistence']['storagePid']) ) {
@@ -97,7 +97,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	public function emptyAction() {
 		
 	}
-	
+
 	/**
 	 * action list
 	 * displays a list with the defined file collections
@@ -108,14 +108,14 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		// check if there is a file download request
 		$this->checkFileDownloadRequest();
-		
-		
+
+
 		$collections = array();
 
 		if( isset($this->settings['lbpid']) && !empty($this->settings['lbpid']) ) {
 
 			$uids = explode(',', $this->settings['lbpid']);
-			
+
 			// Get all existing collections
 			foreach( $uids as $uid ) {
 				$collections[] = $this->fileCollectionRepository->findByUid($uid);
@@ -139,25 +139,26 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @return void
 	 */
 	public function topdownloadsAction() {
-		
+
 		// check if there is a file download request
 		$this->checkFileDownloadRequest();
-		
-		if( isset($this->settings['topdnum']) && (int) $this->settings['topdnum'] > 0 ){
+
+		if( isset($this->settings['topdnum']) && (int) $this->settings['topdnum'] > 0 ) {
 			$files = $this->downloadRepository->findTopDownloadList((int) $this->settings['topdnum']);
-		}else {
+		}
+		else {
 			$files = $this->downloadRepository->findTopDownloadList();
 		}
-		
+
 		$filesArray = array();
 		$index = 1;
-		
-		if( is_object($files) ){
-			foreach($files as $f ){
-				
+
+		if( is_object($files) ) {
+			foreach( $files as $f ) {
+
 				$fileRepository = $this->objectManager->get('\\TYPO3\\CMS\\Core\\Resource\\FileRepository');
 				$file = $fileRepository->findByUid($f->getSysFileUid());
-				if( is_object($file) ){
+				if( is_object($file) ) {
 					$file->getContents();
 					$filesArray[$index] = $file;
 					$index++;
@@ -165,7 +166,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			}
 		}
 		//DebuggerUtility::var_dump($filesArray);
-		
+
 		$this->view->assign('files', $filesArray);
 	}
 
@@ -188,12 +189,12 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			return '';
 		}
 	}
-	
+
 	/**
 	 * check if there is a file download request
 	 * 
 	 */
-	protected function checkFileDownloadRequest(){
+	protected function checkFileDownloadRequest() {
 		// download file and exit
 		if( $this->request->hasArgument('downloaduid') ) {
 			$this->setDownload();
@@ -216,14 +217,18 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			$file = $fileRepository->getFileObject($recordUid);
 			$publicUri = $file->getPublicUrl();
 			$fileName = $file->getName();
+			
+			$privateUri = urldecode($publicUri);
 
-			if( is_file($publicUri) ) {
+			//DebuggerUtility::var_dump($new_uri);
+			
+			if( is_file($privateUri) ) {
+				
 				// update counter or set new
 				$this->updateUserSessionDownloads($recordUid);
-				$this->downloadFile($publicUri, $fileName);
+				$this->downloadFile($privateUri, $fileName);
 			}
 		}
-		
 	}
 
 	/**
@@ -282,16 +287,20 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	/**
 	 * set download headers and download a file
 	 * 
-	 * @param string $publicUri
+	 * @param string $privateUri
 	 * @param string $fileName
 	 */
-	protected function downloadFile( $publicUri, $fileName ) {
+	protected function downloadFile( $privateUri, $fileName ) {
 
-		if( is_file($publicUri) ) {
+		if( is_file($privateUri) ) {
 
-			$fileLen = filesize($publicUri);
+			$fileLen = filesize($privateUri);
 			$ext = strtolower(substr(strrchr($fileName, '.'), 1));
+			$invalid_chars = array('<', '>', '?', '"', ':', '|', '\\', '/', '*', '&');
+			$fileName_valid = str_replace($invalid_chars, '', $fileName);
 
+			//DebuggerUtility::var_dump($ext); die();
+			
 			switch( $ext ) {
 
 				//forbidden filetypes
@@ -307,27 +316,35 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 					exit;
 
 				default:
-					$cType = 'application/force-download';
+					// should be better than 'application/force-download'
+					$cType = 'application/octet-stream';
 					break;
 			}
 
 			$headers = array(
 				'Pragma' => 'public',
-				'Expires' => 0,
+				'Expires' => -1,
 				'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
 				'Cache-Control' => 'public',
-				'Content-Description' => 'File Transfer',
+				//'Content-Description' => 'File Transfer', // not in http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+				//'Content-Transfer-Encoding' => 'binary', // not in http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
 				'Content-Type' => $cType,
-				'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
-				'Content-Transfer-Encoding' => 'binary',
+				'Content-Disposition' => 'attachment; filename="' . $fileName_valid . '"',
 				'Content-Length' => $fileLen
 			);
-
+			
+			//DebuggerUtility::var_dump($headers); die();
+			
+			ob_clean(); // set to remove wrong headers which crashed some files (e.g. xls, dot, ...)
 			foreach( $headers as $header => $data ) {
 				$this->response->setHeader($header, $data);
 			}
 			$this->response->sendHeaders();
-			@readfile($publicUri);
+			
+			@readfile($privateUri);
+		}
+		else {
+			//DebuggerUtility::var_dump($privateUri);
 		}
 		exit;
 	}

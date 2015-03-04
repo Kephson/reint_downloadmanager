@@ -11,6 +11,16 @@
 ChangeLog
 =========
 
+- **04.03.2015** -> 0.5.2
+
+  - bugfix release
+  - updated download headers
+  - added ob_clean() to fix destroyed downloaded files like xls, xlt, dot, docx
+  - fixed wrong reading of files with whitespaces
+  - removed not valid file name characters
+
+-----------------------
+
 - **19.02.2015** -> 0.5.1
 
   - changed state to beta
