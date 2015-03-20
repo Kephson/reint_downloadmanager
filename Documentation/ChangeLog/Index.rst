@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+- **20.03.2015** -> 0.5.3
+
+  - added a viewhelper for stringtolower
+  - added option to redirect to the file after tracking the download instead of downloading all files (see :ref:`configuration documentation <configuration-typoscript>`)
+
+-----------------------
+
 - **04.03.2015** -> 0.5.2
 
   - bugfix release

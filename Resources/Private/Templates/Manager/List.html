@@ -1,3 +1,4 @@
+{namespace r=RENOLIT\ReintDownloadmanager\ViewHelpers}
 <f:layout name="Default" />
 
 <f:debug>{collection}</f:debug>
@@ -19,7 +20,7 @@
 						<ul class="collection-content">
 							<f:for each="{collection.items}" as="record">
 								<li class="link-item">
-									<f:link.page target="_blank" additionalParams="{tx_reintdownloadmanager_reintdlm:{downloaduid:'{record.originalFile.properties.uid}'}}"><f:if condition="{record.title}"><f:then>{record.title}</f:then><f:else>{record.originalFile.name}</f:else></f:if> [{record.originalFile.properties.extension}]</f:link.page>
+									<f:link.page target="_blank" additionalParams="{tx_reintdownloadmanager_reintdlm:{downloaduid:'{record.originalFile.properties.uid}'}}"><f:if condition="{record.title}"><f:then>{record.title}</f:then><f:else>{record.originalFile.name}</f:else></f:if> [{record.originalFile.properties.extension -> r:format.strtolower()}]</f:link.page>
 								</li>
 							</f:for>
 						</ul>

@@ -5,61 +5,78 @@
 		<body>
 			<trans-unit id="plugin_label">
 				<source>Download manager</source>
+				<target state="translated">Download Manager</target>
 			</trans-unit>
 			<trans-unit id="plugin_value">
 				<source>A download manager for file collections.</source>
+				<target state="translated">Ein Download Manager für Dateisammlungen.</target>
 			</trans-unit>
 			
 			<trans-unit id="tx_reintdownloadmanager_domain_model_manager">
 				<source>Manager</source>
+				<target state="translated">Manager</target>
 			</trans-unit>
 			<trans-unit id="tx_reintdownloadmanager_domain_model_manager.filename">
 				<source>Filename</source>
+				<target state="translated">Dateiname</target>
 			</trans-unit>
 			<trans-unit id="tx_reintdownloadmanager_domain_model_manager.filereference">
 				<source>Filereference</source>
+				<target state="translated">Datei Referenz</target>
 			</trans-unit>
 			
 			<trans-unit id="chead1">
 				<source>View</source>
+				<target state="translated">Ausgabe</target>
 			</trans-unit>
 			<trans-unit id="select">
 				<source>Select the view</source>
+				<target state="translated">Ausgabe auswählen</target>
 			</trans-unit>
 			<trans-unit id="celem0">
 				<source>Please select</source>
+				<target state="translated">Bitte auswählen</target>
 			</trans-unit>
 			<trans-unit id="celem1">
 				<source>List view</source>
+				<target state="translated">Listen Ansicht</target>
 			</trans-unit>
 			<trans-unit id="celem2">
 				<source>Top downloads view</source>
+				<target state="translated">Top Downloads Ansicht</target>
 			</trans-unit>
 			
 			<trans-unit id="lbrpid">
 				<source>Select file collections to display (max. 10)</source>
+				<target state="translated">Dateisammlungen auswählen (max. 10)</target>
 			</trans-unit>
 			<trans-unit id="topdnum">
 				<source>Number of items to display (default: 10)</source>
+				<target state="translated">Anzahl der Einträge zum Anzeigen (Standard: 10)</target>
 			</trans-unit>
 			
 			<trans-unit id="nocollection">
 				<source>No collection found. Please set a collection in the backend configuration.</source>
+				<target state="translated">Keine Dateisammlung gefunden. Bitte wählen Sie Dateisammlungen im Backend aus.</target>
 			</trans-unit>
 			<trans-unit id="nodownloads">
 				<source>No top downloads found.</source>
+				<target state="translated">Keine Top Downloads gefunden.</target>
 			</trans-unit>
 			
 			<trans-unit id="tdhead">
 				<source>Top downloads</source>
+				<target state="translated">Top Downloads</target>
 			</trans-unit>
 			
 			<trans-unit id="noselection">
 				<source>There is no view selected in backend. Please select the view to see output.</source>
+				<target state="translated">Es wurde keine Ansicht im Backend ausgewählt. Bitte konfigurieren Sie das Plugin.</target>
 			</trans-unit>
 
 			<trans-unit id="titledesc">
 				<source>Click to see the content of this collection</source>
+				<target state="translated">Klicken um den Inhalt dieser Sammlung zu sehen</target>
 			</trans-unit>			
 			
 		</body>

@@ -29,6 +29,7 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
 
 use \TYPO3\CMS\Core\Messaging\FlashMessage;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\DebugUtility;
 use \TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use \TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
@@ -198,7 +199,6 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		// download file and exit
 		if( $this->request->hasArgument('downloaduid') ) {
 			$this->setDownload();
-			exit;
 		}
 	}
 
@@ -226,7 +226,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 				
 				// update counter or set new
 				$this->updateUserSessionDownloads($recordUid);
-				$this->downloadFile($privateUri, $fileName);
+				$this->downloadFile($privateUri, $fileName, $publicUri);
 			}
 		}
 	}
@@ -289,17 +289,24 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * 
 	 * @param string $privateUri
 	 * @param string $fileName
+	 * @param string $publicUri
 	 */
-	protected function downloadFile( $privateUri, $fileName ) {
+	protected function downloadFile( $privateUri, $fileName, $publicUri ) {
 
-		if( is_file($privateUri) ) {
+		//DebuggerUtility::var_dump($this->settings); die();
+		
+		// check if there is a setting to redirect only to the file
+		if( isset($this->settings['redirecttofile']) && (int) $this->settings['redirecttofile'] === 1 ){
+			$fullPublicUri = GeneralUtility::locationHeaderUrl($publicUri);
+			header('Location: '.$fullPublicUri);
+			
+		}
+		else if( is_file($privateUri) ) {
 
 			$fileLen = filesize($privateUri);
 			$ext = strtolower(substr(strrchr($fileName, '.'), 1));
 			$invalid_chars = array('<', '>', '?', '"', ':', '|', '\\', '/', '*', '&');
 			$fileName_valid = str_replace($invalid_chars, '', $fileName);
-
-			//DebuggerUtility::var_dump($ext); die();
 			
 			switch( $ext ) {
 
@@ -346,7 +353,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		else {
 			//DebuggerUtility::var_dump($privateUri);
 		}
-		exit;
+		exit();
+		
 	}
 
 }

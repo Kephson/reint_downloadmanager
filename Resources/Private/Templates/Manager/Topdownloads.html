@@ -1,3 +1,4 @@
+{namespace r=RENOLIT\ReintDownloadmanager\ViewHelpers}
 <f:layout name="Default" />
 
 This Template is responsible for displaying a top ten list of download
@@ -13,7 +14,7 @@ This Template is responsible for displaying a top ten list of download
 				<ul class="collection-content">
 					<f:for each="{files}" as="record" key="num">
 						<li class="link-item">
-							{num}. <f:link.page target="_blank" additionalParams="{tx_reintdownloadmanager_reintdlm:{downloaduid:'{record.properties.uid}'}}"><f:if condition="{record.name}"><f:then>{record.name}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension}]</f:link.page>
+							{num}. <f:link.page target="_blank" additionalParams="{tx_reintdownloadmanager_reintdlm:{downloaduid:'{record.properties.uid}'}}"><f:if condition="{record.name}"><f:then>{record.name}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
 						</li>
 					</f:for>
 				</ul>

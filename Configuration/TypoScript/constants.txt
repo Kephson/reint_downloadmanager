@@ -12,4 +12,8 @@ plugin.tx_reintdownloadmanager {
 		# cat=plugin.tx_reintdownloadmanager//a; type=string; label=Default storage PID
 		storagePid =
 	}
+	settings {
+		# cat=plugin.tx_reintdownloadmanager//a; type=boolean; label=Redirect to file instead of download header
+		redirecttofile = 0
+	}
 }

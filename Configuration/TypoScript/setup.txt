@@ -1,17 +1,22 @@
 
 plugin.tx_reintdownloadmanager {
+	# configure the path for the templates here
 	view {
 		templateRootPath = {$plugin.tx_reintdownloadmanager.view.templateRootPath}
 		partialRootPath = {$plugin.tx_reintdownloadmanager.view.partialRootPath}
 		layoutRootPath = {$plugin.tx_reintdownloadmanager.view.layoutRootPath}
 	}
+	# configure a default storage pid here
 	persistence {
 		storagePid = {$plugin.tx_reintdownloadmanager.persistence.storagePid}
+	}
+	# configure settings for the extension here
+	settings {
+		# use redirecting to the file instead of a download header for all files
+		redirecttofile = {$plugin.tx_reintdownloadmanager.settings.redirecttofile}
 	}
 }
 
 plugin.tx_reintdownloadmanager._CSS_DEFAULT_STYLE (
-
-
 
 )

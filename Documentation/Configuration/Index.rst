@@ -25,22 +25,33 @@ Overwrite the template path or the default storage page id and change the defaul
 
 ::
 
-	plugin.tx_reintdownloadmanager {
-		view {
-			# cat=plugin.tx_reintdownloadmanager/file; type=string; label=Path to template root (FE)
-			templateRootPath = EXT:reint_downloadmanager/Resources/Private/Templates/
-			# cat=plugin.tx_reintdownloadmanager/file; type=string; label=Path to template partials (FE)
-			partialRootPath = EXT:reint_downloadmanager/Resources/Private/Partials/
-			# cat=plugin.tx_reintdownloadmanager/file; type=string; label=Path to template layouts (FE)
-			layoutRootPath = EXT:reint_downloadmanager/Resources/Private/Layouts/
+		plugin.tx_reintdownloadmanager {
+			# configure the path for the templates here
+			view {
+				templateRootPath = {$plugin.tx_reintdownloadmanager.view.templateRootPath}
+				partialRootPath = {$plugin.tx_reintdownloadmanager.view.partialRootPath}
+				layoutRootPath = {$plugin.tx_reintdownloadmanager.view.layoutRootPath}
+			}
+			# configure a default storage pid here
+			persistence {
+				storagePid = {$plugin.tx_reintdownloadmanager.persistence.storagePid}
+			}
+			# configure settings for the extension here
+			settings {
+				# use redirecting to the file instead of a download header for all files
+				redirecttofile = {$plugin.tx_reintdownloadmanager.settings.redirecttofile}
+			}
 		}
-		persistence {
-			# cat=plugin.tx_reintdownloadmanager//a; type=string; label=Default storage PID
-			storagePid =
-		}
-	}
 
-	plugin.tx_reintdownloadmanager._CSS_DEFAULT_STYLE (
+		plugin.tx_reintdownloadmanager._CSS_DEFAULT_STYLE (
 
-	)
+		)
 
+
+
+With the setting
+
+**plugin.tx_reintdownloadmanager.settings.redirecttofile = 1**
+
+it is possible to redirect to the file after tracking the download, so the browsers default behaviour is used for the file.
+The default setting is false, so all files will be downloaded automatically.
