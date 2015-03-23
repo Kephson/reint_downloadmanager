@@ -78,7 +78,7 @@ Go to the page you want to insert the plugin and add a new content element which
 
 .. tip::
 
-   4. Configure the list view
+   4a. Configure the list view
 
 .. figure:: ../Images/User/list_view.png
    :width: 800px
@@ -91,7 +91,7 @@ Go to the page you want to insert the plugin and add a new content element which
 
 .. tip::
 
-   4a. Configure the top downloads view
+   4b. Configure the top downloads view
 
 .. figure:: ../Images/User/top_downloads_view.png
    :width: 800px
@@ -100,6 +100,34 @@ Go to the page you want to insert the plugin and add a new content element which
    Top downloads view
 
    Configuration of the top downloads view
+
+
+
+.. tip::
+
+   4c. Configure the file search
+
+.. figure:: ../Images/User/search_view.png
+   :width: 800px
+   :alt: Top downloads view
+
+   Top downloads view
+
+   Configuration of the top downloads view
+
+
+
+.. tip::
+
+   5. Add keywords to the files
+
+.. figure:: ../Images/User/file_keywords.png
+   :width: 800px
+   :alt: Top downloads view
+
+   Add keywords
+
+   Add keywords to the files (separated by whitespaces), to add more content to search for (needs extension filemetadata installed). The default search is only for the title of the file.
 
 
 

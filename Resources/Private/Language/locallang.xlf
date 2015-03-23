@@ -35,9 +35,15 @@
 			<trans-unit id="celem2">
 				<source>Top downloads view</source>
 			</trans-unit>
+			<trans-unit id="celem3">
+				<source>File search</source>
+			</trans-unit>
 			
 			<trans-unit id="lbrpid">
-				<source>Select file collections to display (max. 10)</source>
+				<source>Select single file collections to display (max. 10)</source>
+			</trans-unit>
+			<trans-unit id="dfolder">
+				<source>Select a folder or page with file collections (max. 2)</source>
 			</trans-unit>
 			<trans-unit id="topdnum">
 				<source>Number of items to display (default: 10)</source>
@@ -60,7 +66,11 @@
 
 			<trans-unit id="titledesc">
 				<source>Click to see the content of this collection</source>
-			</trans-unit>			
+			</trans-unit>
+			
+			<trans-unit id="searchplaceholder">
+				<source>Please type your search</source>
+			</trans-unit>
 			
 		</body>
 	</file>

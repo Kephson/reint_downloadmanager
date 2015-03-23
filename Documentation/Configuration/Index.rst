@@ -40,18 +40,29 @@ Overwrite the template path or the default storage page id and change the defaul
 			settings {
 				# use redirecting to the file instead of a download header for all files
 				redirecttofile = {$plugin.tx_reintdownloadmanager.settings.redirecttofile}
+				# Include JavaScript for file search
+				includedefaultjs = {$plugin.tx_reintdownloadmanager.settings.includedefaultjs}
+				# Include default CSS
+				includedefaultcss = {$plugin.tx_reintdownloadmanager.settings.includedefaultcss}
 			}
 		}
 
-		plugin.tx_reintdownloadmanager._CSS_DEFAULT_STYLE (
-
-		)
 
 
 
-With the setting
+**plugin.tx_reintdownloadmanager.settings.redirecttofile = 1** (default: 0)
 
-**plugin.tx_reintdownloadmanager.settings.redirecttofile = 1**
-
-it is possible to redirect to the file after tracking the download, so the browsers default behaviour is used for the file.
+Makes it possible to redirect to the file after tracking the download, so the browsers default behaviour is used for the file.
 The default setting is false, so all files will be downloaded automatically.
+
+-----------------------
+
+**plugin.tx_reintdownloadmanager.settings.includedefaultjs = 1** (default: 1)
+
+As default a JS file is included which uses jQuery Mobile for a simple search. File could be removed with this option or in the Fluid template.
+
+-----------------------
+
+**plugin.tx_reintdownloadmanager.settings.includedefaultcss = 1** (default: 1)
+
+As default a CSS file is included. File could be removed with this option or in the Fluid template.

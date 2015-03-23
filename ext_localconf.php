@@ -7,7 +7,7 @@ if (!defined('TYPO3_MODE')) {
 	'RENOLIT.' . $_EXTKEY,
 	'Reintdlm',
 	array(
-		'Manager' => 'list, topdownloads, empty',
+		'Manager' => 'list, topdownloads, empty, filesearch',
 		
 	),
 	// non-cacheable actions

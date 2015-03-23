@@ -15,5 +15,9 @@ plugin.tx_reintdownloadmanager {
 	settings {
 		# cat=plugin.tx_reintdownloadmanager//a; type=boolean; label=Redirect to file instead of download header
 		redirecttofile = 0
+		# cat=plugin.tx_reintdownloadmanager//a; type=boolean; label=Include default JavaScript file
+		includedefaultjs = 1
+		# cat=plugin.tx_reintdownloadmanager//a; type=boolean; label=Include default CSS file
+		includedefaultcss = 1
 	}
 }

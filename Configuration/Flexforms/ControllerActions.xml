@@ -30,6 +30,10 @@
 										<numIndex index="0">LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem2</numIndex>
 										<numIndex index="1">Manager->topdownloads</numIndex>
 									</numIndex>
+									<numIndex index="3">
+										<numIndex index="0">LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem3</numIndex>
+										<numIndex index="1">Manager->filesearch</numIndex>
+									</numIndex>
 								</items>
 							</config>
 						</TCEforms>
@@ -37,8 +41,14 @@
 					
 					<settings.lbpid>
 						<TCEforms>
+							<exclude>0</exclude>
 							<label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:lbrpid</label>
-							<displayCond>FIELD:switchableControllerActions:=:Manager->list</displayCond>
+							<displayCond>
+								<OR>
+									<numIndex index="0">FIELD:switchableControllerActions:=:Manager->list</numIndex>
+									<numIndex index="1">FIELD:switchableControllerActions:=:Manager->filesearch</numIndex>
+								</OR>
+							</displayCond>
 							<config>
 								<type>group</type>
 								<internal_type>db</internal_type>
@@ -51,8 +61,31 @@
 						</TCEforms>						
 					</settings.lbpid>
 					
+					<settings.dfolder>
+						<TCEforms>
+							<exclude>0</exclude>
+							<label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:dfolder</label>
+							<displayCond>
+								<OR>
+									<numIndex index="0">FIELD:switchableControllerActions:=:Manager->list</numIndex>
+									<numIndex index="1">FIELD:switchableControllerActions:=:Manager->filesearch</numIndex>
+								</OR>
+							</displayCond>
+							<config>
+								<type>group</type>
+								<internal_type>db</internal_type>
+								<allowed>pages</allowed>
+								<size>2</size>
+								<maxitems>2</maxitems>
+								<minitems>0</minitems>
+								<show_thumbs>0</show_thumbs>
+							</config>
+						</TCEforms>						
+					</settings.dfolder>
+					
 					<settings.topdnum>
 						<TCEforms>
+							<exclude>0</exclude>
 							<label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:topdnum</label>
 							<displayCond>FIELD:switchableControllerActions:=:Manager->topdownloads</displayCond>
 							<config>

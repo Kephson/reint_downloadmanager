@@ -11,6 +11,15 @@
 ChangeLog
 =========
 
+- **23.03.2015** -> 1.0.0
+
+  - added a search for files with the option to use the keywords of files to find a file by special keyword (based on `jQuery Mobile filterable <http://api.jquerymobile.com/filterable/>`_)
+  - added option to select a folder with file collections instead of single file collections or both
+  - added simple default JavaScript file and a simple CSS file (could be excluded, see :ref:`configuration documentation <configuration-typoscript>`)
+  - added German translations
+
+-----------------------
+
 - **23.03.2015** -> 0.5.4
 
   - bugfix update, flexform field couldn't be edited by user groups (removed exclude=1)
