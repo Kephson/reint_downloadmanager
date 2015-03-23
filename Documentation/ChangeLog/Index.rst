@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **23.03.2015** -> 0.5.4
+
+  - bugfix update, flexform field couldn't be edited by user groups (removed exclude=1)
+
+-----------------------
+
 - **20.03.2015** -> 0.5.3
 
   - added a viewhelper for stringtolower

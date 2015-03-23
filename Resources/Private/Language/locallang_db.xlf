@@ -7,7 +7,7 @@
 				<source>Downloads</source>
 			</trans-unit>
 			<trans-unit id="tx_reintdownloadmanager_domain_model_download.sys_file_uid">
-				<source>sys_file reference</source>
+				<source>File reference id</source>
 			</trans-unit>
 			<trans-unit id="tx_reintdownloadmanager_domain_model_download.downloads">
 				<source>Number of downloads</source>
