@@ -315,7 +315,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		if( count($pageids) > 0 ) {
 			foreach( $pageids as $pageid ) {
 				$fileCollections = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-						'*', $table, 'pid = ' . $pageid . ' AND hidden=0 AND deleted=0', '', '', 1000
+						'*', $table, 'pid = ' . $pageid . ' AND hidden=0 AND deleted=0', '', 'sorting', 1000
 				);
 				if( count($fileCollections) > 0 ) {
 					foreach( $fileCollections as $col ) {

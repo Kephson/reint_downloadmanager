@@ -38,3 +38,12 @@ CREATE TABLE tx_reintdownloadmanager_domain_model_download (
 	KEY `sys_file_uid` (`sys_file_uid`)
 
 );
+
+
+
+#
+# add sorting field for file collections
+#
+CREATE TABLE sys_file_collection (
+  sorting int(11) DEFAULT '0' NOT NULL
+);

@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **31.03.2015** -> 1.0.1
+
+  - added a sorting field for file collections, default ordering is now with sorting field
+
+-----------------------
+
 - **23.03.2015** -> 1.0.0
 
   - added a search for files with the option to use the keywords of files to find a file by special keyword (based on `jQuery Mobile filterable <http://api.jquerymobile.com/filterable/>`_)

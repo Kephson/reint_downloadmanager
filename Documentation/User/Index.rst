@@ -154,5 +154,15 @@ If this is not set, the data will be saved on the page where the plugin is set.
 
 FAQ
 ---
+Is it possible to set the ordering of the collections?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Yes, since version 1.0.1. Please use the sorting option in TYPO3 backend to order your collections in a folder.
+If you have selected single file collections, you can order them in the plugin field.
 
-If there are any questions, please contact me (ephraim.haerer@rebnolit.com) or write an issue/request on `Github <https://github.com/Kephson/reint_downloadmanager>`_.
+
+
+.. _user-gethelp:
+
+Get help
+--------
+If there are any other questions, please contact me (ephraim.haerer@rebnolit.com) or write an issue/request on `Github <https://github.com/Kephson/reint_downloadmanager>`_.
