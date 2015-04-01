@@ -37,7 +37,7 @@ class DownloadRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * 
 	 * @param array $uid
 	 */
-	public function getOneBySysFileUid( $uid ) {
+	public function getOneBySysFileUid($uid) {
 
 		$query = $this->createQuery();
 		$query->matching(
@@ -50,7 +50,7 @@ class DownloadRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * find the top ten downloads ordered by the counter
 	 * 
 	 */
-	public function findTopDownloadList( $limit = 10 ) {
+	public function findTopDownloadList($limit = 10) {
 
 		$query = $this->createQuery();
 		$query->setLimit($limit);

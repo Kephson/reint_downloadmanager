@@ -29,7 +29,7 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
 
 use \TYPO3\CMS\Core\Messaging\FlashMessage;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\DebugUtility;
+use \TYPO3\CMS\Core\Utility\DebugUtility;
 use \TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use \TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
@@ -83,7 +83,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @var array
 	 */
 	protected $collections = array();
-	
+
 	/**
 	 * The collection search strings
 	 * @var array
@@ -110,16 +110,17 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		//fallback to current pid if no storagePid is defined
 		$configuration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
-		if( empty($configuration['persistence']['storagePid']) ) {
+		if (empty($configuration['persistence']['storagePid'])) {
 			$currentPid = array();
 			$currentPid['persistence']['storagePid'] = $GLOBALS["TSFE"]->id;
 			$this->configurationManager->setConfiguration(array_merge($configuration, $currentPid));
 		}
 
-		if( isset($this->settings['includedefaultjs']) ) {
+		// check settings for css and js
+		if (isset($this->settings['includedefaultjs'])) {
 			$this->defaultTsConfig['includedefaultjs'] = (int) $this->settings['includedefaultjs'];
 		}
-		if( isset($this->settings['includedefaultcss']) ) {
+		if (isset($this->settings['includedefaultcss'])) {
 			$this->defaultTsConfig['includedefaultcss'] = (int) $this->settings['includedefaultcss'];
 		}
 	}
@@ -149,7 +150,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		// assign headline search strings
 		$this->view->assign('collectionSearchStrings', $this->collectionSearchStrings);
-		
+
 		// assign the collections to fluid
 		$this->view->assign('filecollections', $this->collections);
 	}
@@ -193,22 +194,21 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		// include default config
 		$this->view->assign('config', $this->defaultTsConfig);
 
-		if( isset($this->settings['topdnum']) && (int) $this->settings['topdnum'] > 0 ) {
+		if (isset($this->settings['topdnum']) && (int) $this->settings['topdnum'] > 0) {
 			$files = $this->downloadRepository->findTopDownloadList((int) $this->settings['topdnum']);
-		}
-		else {
+		} else {
 			$files = $this->downloadRepository->findTopDownloadList();
 		}
 
 		$filesArray = array();
 		$index = 1;
 
-		if( is_object($files) ) {
-			foreach( $files as $f ) {
+		if (is_object($files)) {
+			foreach ($files as $f) {
 
 				$fileRepository = $this->objectManager->get('\\TYPO3\\CMS\\Core\\Resource\\FileRepository');
 				$file = $fileRepository->findByUid($f->getSysFileUid());
-				if( is_object($file) ) {
+				if (is_object($file)) {
 					$file->getContents();
 					$filesArray[$index] = $file;
 					$index++;
@@ -237,17 +237,17 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	protected function writeCollectionTitleSearchfield() {
 
-		if( is_array($this->collections) ) {
-			foreach( $this->collections as $key => $col ) {
+		if (is_array($this->collections)) {
+			foreach ($this->collections as $key => $col) {
 				$searchItems = array();
-				foreach( $col as $file ) {
+				foreach ($col as $file) {
 					$searchItems[] = $file->getTitle();
-					if( !empty($file->getExtension()) && !isset($searchItems[strtolower($file->getExtension())])){
+					if (!empty($file->getExtension()) && !isset($searchItems[strtolower($file->getExtension())])) {
 						$searchItems[strtolower($file->getExtension())] = $file->getExtension();
 					}
 					// check if there are keywords for the file
 					$keywords = $file->getProperty('keywords');
-					if( !empty($keywords) && $keywords!== NULL ){
+					if (!empty($keywords) && $keywords !== NULL) {
 						$searchItems[] = $keywords;
 					}
 				}
@@ -265,14 +265,14 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	protected function loadCollectionsFromDb() {
 		// check if there are any collections
-		if( count($this->collectionIds) > 0 ) {
+		if (count($this->collectionIds) > 0) {
 			// Get all existing collections
-			foreach( $this->collectionIds as $uid ) {
+			foreach ($this->collectionIds as $uid) {
 				$this->collections[] = $this->fileCollectionRepository->findByUid($uid);
 			}
 
 			// Load the records in each file collection
-			foreach( $this->collections as $c ) {
+			foreach ($this->collections as $c) {
 				$c->loadContents();
 				// load and set description of file collection which is not loaded by default
 				$c->setDescription($this->getSysFileCollectionData($c->getIdentifier()));
@@ -287,17 +287,17 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	protected function loadCollectionsFromFlexform() {
 		// check if single collections are set
-		if( isset($this->settings['lbpid']) && !empty($this->settings['lbpid']) ) {
+		if (isset($this->settings['lbpid']) && !empty($this->settings['lbpid'])) {
 			$uids = explode(',', $this->settings['lbpid']);
-			if( count($uids) > 0 ) {
-				foreach( $uids as $uid ) {
+			if (count($uids) > 0) {
+				foreach ($uids as $uid) {
 					$this->collectionIds[$uid] = $uid;
 				}
 			}
 		}
 
 		// check if a folder or page with collections is set
-		if( isset($this->settings['dfolder']) && !empty($this->settings['dfolder']) ) {
+		if (isset($this->settings['dfolder']) && !empty($this->settings['dfolder'])) {
 			$pageids = explode(',', $this->settings['dfolder']);
 			$this->getCollectionsFromPages($pageids);
 		}
@@ -309,17 +309,17 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * 
 	 * @param array $pageids
 	 */
-	protected function getCollectionsFromPages( $pageids ) {
+	protected function getCollectionsFromPages($pageids) {
 
 		$table = 'sys_file_collection';
-		if( count($pageids) > 0 ) {
-			foreach( $pageids as $pageid ) {
+		if (count($pageids) > 0) {
+			foreach ($pageids as $pageid) {
 				$fileCollections = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 						'*', $table, 'pid = ' . $pageid . ' AND hidden=0 AND deleted=0', '', 'sorting', 1000
 				);
-				if( count($fileCollections) > 0 ) {
-					foreach( $fileCollections as $col ) {
-						if( !isset($this->collectionIds[$col['uid']]) ) {
+				if (count($fileCollections) > 0) {
+					foreach ($fileCollections as $col) {
+						if (!isset($this->collectionIds[$col['uid']])) {
 							$this->collectionIds[$col['uid']] = $col['uid'];
 						}
 					}
@@ -334,16 +334,15 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 *
 	 * @return string
 	 */
-	protected function getSysFileCollectionData( $uid, $fieldname = 'webdescription' ) {
+	protected function getSysFileCollectionData($uid, $fieldname = 'webdescription') {
 
 		$table = 'sys_file_collection';
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
 				'*', $table, 'uid = ' . $uid, '', ''
 		);
-		if( isset($res[$fieldname]) ) {
+		if (isset($res[$fieldname])) {
 			return $res[$fieldname];
-		}
-		else {
+		} else {
 			return '';
 		}
 	}
@@ -354,7 +353,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	protected function checkFileDownloadRequest() {
 		// download file and exit
-		if( $this->request->hasArgument('downloaduid') ) {
+		if ($this->request->hasArgument('downloaduid')) {
 			$this->setDownload();
 		}
 	}
@@ -366,7 +365,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	protected function setDownload() {
 
-		if( $this->request->hasArgument('downloaduid') ) {
+		if ($this->request->hasArgument('downloaduid')) {
 
 			$recordUid = (int) $this->request->getArgument('downloaduid');
 
@@ -374,16 +373,14 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			$file = $fileRepository->getFileObject($recordUid);
 			$publicUri = $file->getPublicUrl();
 			$fileName = $file->getName();
-
+			$fileModDate = $file->getProperty('tstamp');
 			$privateUri = urldecode($publicUri);
 
-			//DebuggerUtility::var_dump($new_uri);
-
-			if( is_file($privateUri) ) {
+			if (is_file($privateUri)) {
 
 				// update counter or set new
 				$this->updateUserSessionDownloads($recordUid);
-				$this->downloadFile($privateUri, $fileName, $publicUri);
+				$this->downloadFile($privateUri, $fileName, $publicUri, $fileModDate);
 			}
 		}
 	}
@@ -393,7 +390,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * 
 	 * @param integer $recordUid
 	 */
-	protected function updateUserSessionDownloads( $recordUid ) {
+	protected function updateUserSessionDownloads($recordUid) {
 
 		$countEntry = $this->downloadRepository->getOneBySysFileUid($recordUid);
 		//DebuggerUtility::var_dump($countEntry);
@@ -402,7 +399,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		//DebuggerUtility::var_dump($sessionData);
 
 		$newEntry = FALSE;
-		if( !$countEntry ) {
+		if (!$countEntry) {
 			$countEntry = $this->objectManager->get('\\RENOLIT\\ReintDownloadmanager\\Domain\\Model\\Download');
 			$countEntry->setSysFileUid($recordUid);
 			$countEntry->setDownloads(0);
@@ -410,25 +407,23 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		}
 
 		// check session for user downloads
-		if( !empty($sessionData) && isset($sessionData['downloads']) ) {
+		if (!empty($sessionData) && isset($sessionData['downloads'])) {
 			$data = explode(',', $sessionData['downloads']);
 			// check if download is not set in session then update counter
-			if( !in_array($recordUid, $data) && !empty($data) ) {
+			if (!in_array($recordUid, $data) && !empty($data)) {
 				$sessionData['downloads'] .= ',' . $recordUid;
 				$countEntry->setDownloads($countEntry->getDownloads() + 1);
 			}
-		}
-		else {
+		} else {
 			$sessionData = array(
 				'downloads' => $recordUid,
 			);
 			$countEntry->setDownloads($countEntry->getDownloads() + 1);
 		}
 
-		if( $newEntry ) {
+		if ($newEntry) {
 			$this->downloadRepository->add($countEntry);
-		}
-		else {
+		} else {
 			$this->downloadRepository->update($countEntry);
 		}
 
@@ -447,23 +442,28 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @param string $privateUri
 	 * @param string $fileName
 	 * @param string $publicUri
+	 * @param string $fileModDate
 	 */
-	protected function downloadFile( $privateUri, $fileName, $publicUri ) {
+	protected function downloadFile($privateUri, $fileName, $publicUri, $fileModDate = 1) {
 
 		//DebuggerUtility::var_dump($this->settings); die();
 		// check if there is a setting to redirect only to the file
-		if( isset($this->settings['redirecttofile']) && (int) $this->settings['redirecttofile'] === 1 ) {
-			$fullPublicUri = GeneralUtility::locationHeaderUrl($publicUri);
+		if (isset($this->settings['redirecttofile']) && (int) $this->settings['redirecttofile'] === 1) {
+			// add modification date when set in setup
+			if (isset($this->settings['addfiletstamp']) && (int) $this->settings['addfiletstamp'] === 1) {
+				$fullPublicUri = GeneralUtility::locationHeaderUrl($publicUri) . '?v=' . $fileModDate;
+			} else {
+				$fullPublicUri = GeneralUtility::locationHeaderUrl($publicUri);
+			}
 			header('Location: ' . $fullPublicUri);
-		}
-		else if( is_file($privateUri) ) {
+		} else if (is_file($privateUri)) {
 
 			$fileLen = filesize($privateUri);
 			$ext = strtolower(substr(strrchr($fileName, '.'), 1));
-			$invalid_chars = array( '<', '>', '?', '"', ':', '|', '\\', '/', '*', '&' );
+			$invalid_chars = array('<', '>', '?', '"', ':', '|', '\\', '/', '*', '&');
 			$fileName_valid = str_replace($invalid_chars, '', $fileName);
 
-			switch( $ext ) {
+			switch ($ext) {
 
 				//forbidden filetypes
 				case 'inc':
@@ -498,14 +498,13 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			//DebuggerUtility::var_dump($headers); die();
 
 			ob_clean(); // set to remove wrong headers which crashed some files (e.g. xls, dot, ...)
-			foreach( $headers as $header => $data ) {
+			foreach ($headers as $header => $data) {
 				$this->response->setHeader($header, $data);
 			}
 			$this->response->sendHeaders();
 
 			@readfile($privateUri);
-		}
-		else {
+		} else {
 			//DebuggerUtility::var_dump($privateUri);
 		}
 		exit();

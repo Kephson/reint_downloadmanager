@@ -41,32 +41,31 @@ class IncludeFileViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 	 * @param boolean $compress Define if file should be compressed
 	 * @return void
 	 */
-	public function render( $path, $name = '', $compress = FALSE ) {
-		if( TYPO3_MODE === 'FE' ) {
+	public function render($path, $name = '', $compress = FALSE) {
+		if (TYPO3_MODE === 'FE') {
 			$path = $GLOBALS['TSFE']->tmpl->getFileName($path);
-			if( $name === '' ) {
+			if ($name === '') {
 				$name = 'dmfile' . strtolower(basename($path));
 			}
 
 			// JS
-			if( strtolower(substr($path, -3)) === '.js' ) {
+			if (strtolower(substr($path, -3)) === '.js') {
 				$GLOBALS['TSFE']->getPageRenderer()->addJsFooterLibrary($name, $path, FALSE, $compress, FALSE, '', TRUE);
 			}
 			// CSS
-			elseif( strtolower(substr($path, -4)) === '.css' ) {
+			elseif (strtolower(substr($path, -4)) === '.css') {
 				$GLOBALS['TSFE']->getPageRenderer()->addCssFile($path, 'stylesheet', 'all', '', $compress);
 			}
-		}
-		else {
+		} else {
 			$doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\Template\\DocumentTemplate');
 			$pageRenderer = $doc->getPageRenderer();
 
 			// JS
-			if( strtolower(substr($path, -3)) === '.js' ) {
+			if (strtolower(substr($path, -3)) === '.js') {
 				$pageRenderer->addJsFile($path, NULL, $compress);
 			}
 			// CSS
-			elseif( strtolower(substr($path, -4)) === '.css' ) {
+			elseif (strtolower(substr($path, -4)) === '.css') {
 				$pageRenderer->addCssFile($path, 'stylesheet', 'all', '', $compress);
 			}
 		}

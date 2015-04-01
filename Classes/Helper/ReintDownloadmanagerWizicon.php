@@ -38,7 +38,7 @@ class ReintDownloadmanagerWizicon {
 	 * @param array $wizardItems : The wizard items
 	 * @return Modified array with wizard items
 	 */
-	function proc( $wizardItems ) {
+	function proc($wizardItems) {
 
 		$wizardItems['plugins_reint_downloadmanager'] = array(
 			'icon' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('reint_downloadmanager') . 'Resources/Public/wizard_icon.png',

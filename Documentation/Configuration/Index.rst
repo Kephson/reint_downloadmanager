@@ -40,6 +40,8 @@ Overwrite the template path or the default storage page id and change the defaul
 			settings {
 				# use redirecting to the file instead of a download header for all files
 				redirecttofile = {$plugin.tx_reintdownloadmanager.settings.redirecttofile}
+				# add the modification date when redirecting to file
+				addfiletstamp = {$plugin.tx_reintdownloadmanager.settings.addfiletstamp}
 				# Include JavaScript for file search
 				includedefaultjs = {$plugin.tx_reintdownloadmanager.settings.includedefaultjs}
 				# Include default CSS
@@ -54,6 +56,12 @@ Overwrite the template path or the default storage page id and change the defaul
 
 Makes it possible to redirect to the file after tracking the download, so the browsers default behaviour is used for the file.
 The default setting is false, so all files will be downloaded automatically.
+
+-----------------------
+
+**plugin.tx_reintdownloadmanager.settings.addfiletstamp = 0** (default: 0)
+
+When redirecting to file (redirecttofile = 1) is set, it is possible to add the change date as param to the file, to reload in browsers like IE when file was changed.
 
 -----------------------
 

@@ -14,6 +14,8 @@ plugin.tx_reintdownloadmanager {
 	settings {
 		# use redirecting to the file instead of a download header for all files
 		redirecttofile = {$plugin.tx_reintdownloadmanager.settings.redirecttofile}
+		# add the modification date when redirecting to file
+		addfiletstamp = {$plugin.tx_reintdownloadmanager.settings.addfiletstamp}
 		# Include JavaScript for file search
 		includedefaultjs = {$plugin.tx_reintdownloadmanager.settings.includedefaultjs}
 		# Include default CSS

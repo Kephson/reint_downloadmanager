@@ -1,8 +1,8 @@
 <?php
+
 namespace RENOLIT\ReintDownloadmanager\Domain\Model;
 
-
-/***************************************************************
+/* * *************************************************************
  *
  *  Copyright notice
  *
@@ -25,20 +25,20 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Model;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * ************************************************************* */
 
 /**
  * Manages the downloads.
  */
 class Download extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
-	
+
 	/**
 	 * sysFileUid
 	 *
 	 * @var integer
 	 */
 	protected $sysFileUid = 0;
-	
+
 	/**
 	 * downloads
 	 *
@@ -64,7 +64,7 @@ class Download extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setSysFileUid($sysFileUid) {
 		$this->sysFileUid = $sysFileUid;
 	}
-	
+
 	/**
 	 * Returns the downloads
 	 *

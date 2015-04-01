@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **01.04.2015** -> 1.0.2
+
+  - added a sorting field for file collections, default ordering is now with sorting field
+
+-----------------------
+
 - **31.03.2015** -> 1.0.1
 
   - added a sorting field for file collections, default ordering is now with sorting field

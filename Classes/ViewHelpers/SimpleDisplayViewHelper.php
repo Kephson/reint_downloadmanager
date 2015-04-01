@@ -40,12 +40,11 @@ class SimpleDisplayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractV
 	 * @param string $prop property or key
 	 * @return void
 	 */
-	public function render( $obj, $prop ) {
-		if( is_object($obj) ) {
+	public function render($obj, $prop) {
+		if (is_object($obj)) {
 			return $obj->$prop;
-		}
-		elseif( is_array($obj) ) {
-			if( array_key_exists($prop, $obj) ) {
+		} elseif (is_array($obj)) {
+			if (array_key_exists($prop, $obj)) {
 				return $obj[$prop];
 			}
 		}

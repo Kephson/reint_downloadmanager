@@ -26,6 +26,7 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers\Format;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
 /**
  * Formats string with all alphabetic characters converted to lowercase.
  * @see http://www.php.net/manual/en/function.strtolower.php
@@ -54,4 +55,5 @@ class StrtolowerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 	public function render() {
 		return strtolower($this->renderChildren());
 	}
+
 }
