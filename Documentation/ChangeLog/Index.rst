@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **21.05.2015** -> 1.0.3
+
+  - bugfix update see: https://github.com/Kephson/reint_downloadmanager/issues/2
+
+-----------------------
+
 - **01.04.2015** -> 1.0.2
 
   - added a sorting field for file collections, default ordering is now with sorting field

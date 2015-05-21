@@ -241,14 +241,18 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			foreach ($this->collections as $key => $col) {
 				$searchItems = array();
 				foreach ($col as $file) {
-					$searchItems[] = $file->getTitle();
-					if (!empty($file->getExtension()) && !isset($searchItems[strtolower($file->getExtension())])) {
-						$searchItems[strtolower($file->getExtension())] = $file->getExtension();
-					}
-					// check if there are keywords for the file
-					$keywords = $file->getProperty('keywords');
-					if (!empty($keywords) && $keywords !== NULL) {
-						$searchItems[] = $keywords;
+					if (is_object($file)) {
+						$searchItems[] = $file->getTitle();
+						$fileExt = $file->getExtension();
+						$fileExtLower = strtolower($fileExt);
+						if (!empty($fileExt) && !isset($searchItems[$fileExtLower])) {
+							$searchItems[$fileExtLower] = $fileExt;
+						}
+						// check if there are keywords for the file
+						$keywords = $file->getProperty('keywords');
+						if (!empty($keywords) && $keywords !== NULL) {
+							$searchItems[] = $keywords;
+						}
 					}
 				}
 				$searchItemString = implode(' ', $searchItems);
