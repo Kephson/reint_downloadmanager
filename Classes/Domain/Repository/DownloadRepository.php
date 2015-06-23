@@ -62,4 +62,13 @@ class DownloadRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		return $query->execute();
 	}
 
+	/**
+	 * return all entries without page id specified
+	 */
+	public function findAllWithoutPid() {
+		$query = $this->createQuery();
+		$query->getQuerySettings()->setRespectStoragePage(FALSE);
+		return $query->execute();
+	}
+
 }

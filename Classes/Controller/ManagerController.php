@@ -194,6 +194,9 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		// include default config
 		$this->view->assign('config', $this->defaultTsConfig);
 
+		// remove old and deleted files
+		$this->cleanupTopDownloads();
+
 		if (isset($this->settings['topdnum']) && (int) $this->settings['topdnum'] > 0) {
 			$files = $this->downloadRepository->findTopDownloadList((int) $this->settings['topdnum']);
 		} else {
@@ -205,10 +208,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		if (is_object($files)) {
 			foreach ($files as $f) {
-
-				$fileRepository = $this->objectManager->get('\\TYPO3\\CMS\\Core\\Resource\\FileRepository');
-				$file = $fileRepository->findByUid($f->getSysFileUid());
-				if (is_object($file)) {
+				$file = $this->fileRepository->findByUid($f->getSysFileUid());
+				if (is_object($file) && !is_null($file)) {
 					$file->getContents();
 					$filesArray[$index] = $file;
 					$index++;
@@ -218,6 +219,21 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		//DebuggerUtility::var_dump($filesArray);
 
 		$this->view->assign('files', $filesArray);
+	}
+
+	/**
+	 * cleanup the top download table if file was deleted
+	 */
+	protected function cleanupTopDownloads() {
+		$topdownloads = $this->downloadRepository->findAllWithoutPid();
+		foreach ($topdownloads as $d) {
+			$fileUid = $d->getSysFileUid();
+			$res = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('uid', 'sys_file', 'uid=' . $fileUid);
+			if (!$res) {
+				$this->downloadRepository->remove($d);
+			}
+		}
+		$this->persistenceManager->persistAll();
 	}
 
 	/**

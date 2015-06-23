@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **23.06.2015** -> 1.0.4
+
+  - bugfix update: fixed problem with deleted files in top downloads view
+
+-----------------------
+
 - **21.05.2015** -> 1.0.3
 
   - bugfix update see: https://github.com/Kephson/reint_downloadmanager/issues/2
