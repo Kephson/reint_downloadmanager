@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+- **07.07.2015** -> 1.0.5
+
+  - bugfix: improved search string for headline of file collection
+  - compatibility: added compatibility for TYPO3 CMS 7
+
+-----------------------
+
 - **23.06.2015** -> 1.0.4
 
   - bugfix update: fixed problem with deleted files in top downloads view

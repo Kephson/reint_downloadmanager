@@ -253,21 +253,27 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	protected function writeCollectionTitleSearchfield() {
 
-		if (is_array($this->collections)) {
+		if (is_array($this->collections) && !empty($this->collections)) {
 			foreach ($this->collections as $key => $col) {
 				$searchItems = array();
 				foreach ($col as $file) {
 					if (is_object($file)) {
-						$searchItems[] = $file->getTitle();
+						if (!empty($file->getTitle())) {
+							$searchItems[] = $file->getTitle();
+						} else if (!empty($file->getName())) {
+							$searchItems[] = $file->getName();
+						}
 						$fileExt = $file->getExtension();
 						$fileExtLower = strtolower($fileExt);
 						if (!empty($fileExt) && !isset($searchItems[$fileExtLower])) {
 							$searchItems[$fileExtLower] = $fileExt;
 						}
 						// check if there are keywords for the file
-						$keywords = $file->getProperty('keywords');
-						if (!empty($keywords) && $keywords !== NULL) {
-							$searchItems[] = $keywords;
+						if ($file->hasProperty('keywords')) {
+							$keywords = $file->getProperty('keywords');
+							if (!empty($keywords) && $keywords !== NULL) {
+								$searchItems[] = $keywords;
+							}
 						}
 					}
 				}
@@ -389,8 +395,9 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 			$recordUid = (int) $this->request->getArgument('downloaduid');
 
-			$fileRepository = $this->objectManager->get('\\TYPO3\\CMS\\Core\\Resource\\ResourceFactory');
+			$fileRepository = $this->objectManager->get('TYPO3\\CMS\\Core\\Resource\\ResourceFactory');
 			$file = $fileRepository->getFileObject($recordUid);
+
 			$publicUri = $file->getPublicUrl();
 			$fileName = $file->getName();
 			$fileModDate = $file->getProperty('tstamp');
@@ -420,7 +427,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		$newEntry = FALSE;
 		if (!$countEntry) {
-			$countEntry = $this->objectManager->get('\\RENOLIT\\ReintDownloadmanager\\Domain\\Model\\Download');
+			$countEntry = $this->objectManager->get('RENOLIT\\ReintDownloadmanager\\Domain\\Model\\Download');
 			$countEntry->setSysFileUid($recordUid);
 			$countEntry->setDownloads(0);
 			$newEntry = TRUE;
