@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **14.11.2015** -> 1.1.0
+
+  - compatibility: added compatibility for TYPO3 CMS 7 LTS
+
+-----------------------
+
 - **07.07.2015** -> 1.0.5
 
   - bugfix: improved search string for headline of file collection
