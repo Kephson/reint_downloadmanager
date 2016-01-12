@@ -32,6 +32,7 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Core\Utility\DebugUtility;
 use \TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use \TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * ManagerController
@@ -258,10 +259,12 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 				$searchItems = array();
 				foreach ($col as $file) {
 					if (is_object($file)) {
-						if (!empty($file->getTitle())) {
-							$searchItems[] = $file->getTitle();
-						} else if (!empty($file->getName())) {
-							$searchItems[] = $file->getName();
+						$title = $file->getTitle();
+						$name = $file->getName();
+						if (!empty($title)) {
+							$searchItems[] = $title;
+						} else if (!empty($name)) {
+							$searchItems[] = $name;
 						}
 						$fileExt = $file->getExtension();
 						$fileExtLower = strtolower($fileExt);
@@ -398,18 +401,40 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			$fileRepository = $this->objectManager->get('TYPO3\\CMS\\Core\\Resource\\ResourceFactory');
 			$file = $fileRepository->getFileObject($recordUid);
 
-			$publicUri = $file->getPublicUrl();
-			$fileName = $file->getName();
-			$fileModDate = $file->getProperty('tstamp');
-			$privateUri = urldecode($publicUri);
+			$privateUri = '';
+			if (is_object($file)) {
+				$publicUri = $file->getPublicUrl();
+				$fileName = $file->getName();
+				$fileModDate = $file->getProperty('tstamp');
+				$privateUri = urldecode($this->checkPublicUriForParams($publicUri));
+			}
+			//DebuggerUtility::var_dump($privateUri); die();
 
 			if (is_file($privateUri)) {
-
 				// update counter or set new
 				$this->updateUserSessionDownloads($recordUid);
 				$this->downloadFile($privateUri, $fileName, $publicUri, $fileModDate);
 			}
 		}
+	}
+
+	/**
+	 * checks the public uri for params or extension reint_file_timestamp
+	 * 
+	 * @param string $publicUri
+	 */
+	protected function checkPublicUriForParams($publicUri) {
+
+		if (ExtensionManagementUtility::isLoaded('reint_file_timestamp') || stripos($publicUri, '?') !== FALSE) {
+			$uriFragments = explode('?', $publicUri);
+			if (isset($uriFragments[0]) && !empty($uriFragments[0])) {
+				$uri = $uriFragments[0];
+			}
+		} else {
+			$uri = $publicUri;
+		}
+
+		return $uri;
 	}
 
 	/**
@@ -478,7 +503,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		if (isset($this->settings['redirecttofile']) && (int) $this->settings['redirecttofile'] === 1) {
 			// add modification date when set in setup
 			if (isset($this->settings['addfiletstamp']) && (int) $this->settings['addfiletstamp'] === 1) {
-				$fullPublicUri = GeneralUtility::locationHeaderUrl($publicUri) . '?v=' . $fileModDate;
+				$fullPublicUri = GeneralUtility::locationHeaderUrl($this->checkPublicUriForParams($publicUri)) . '?v=' . $fileModDate;
 			} else {
 				$fullPublicUri = GeneralUtility::locationHeaderUrl($publicUri);
 			}

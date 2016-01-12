@@ -11,6 +11,14 @@
 ChangeLog
 =========
 
+- **12.01.2016** -> 1.1.1
+
+  - compatibility: added support for parameters in public file uri
+  - bugfix: fixed issues with PHP versions below 5.5, see https://github.com/Kephson/reint_downloadmanager/issues/3 and https://github.com/Kephson/reint_downloadmanager/issues/4
+  - set minimum PHP version to 5.4
+
+-----------------------
+
 - **14.11.2015** -> 1.1.0
 
   - compatibility: added compatibility for TYPO3 CMS 7 LTS
@@ -89,8 +97,6 @@ ChangeLog
 - **19.02.2015** -> 0.5.0
 
   - initial release of version 0.5.0 on TER
-
   - list view
-
   - top downloads
 
