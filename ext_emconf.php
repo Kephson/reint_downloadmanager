@@ -3,8 +3,6 @@
 /* * *************************************************************
  * Extension Manager/Repository config file for ext "reint_downloadmanager".
  *
- * Auto generated 19-11-2015 15:53
- *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
  * writing. "version" and "dependencies" must not be touched!
@@ -14,7 +12,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Download manager',
 	'description' => 'A simple download manager with different views of file collections as downloadable lists.',
 	'category' => 'plugin',
-	'version' => '1.1.1',
+	'version' => '1.2.0',
 	'state' => 'stable',
 	'uploadfolder' => false,
 	'createDirs' => '',

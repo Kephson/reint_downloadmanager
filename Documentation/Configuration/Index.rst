@@ -28,9 +28,20 @@ Overwrite the template path or the default storage page id and change the defaul
 		plugin.tx_reintdownloadmanager {
 			# configure the path for the templates here
 			view {
-				templateRootPath = {$plugin.tx_reintdownloadmanager.view.templateRootPath}
-				partialRootPath = {$plugin.tx_reintdownloadmanager.view.partialRootPath}
-				layoutRootPath = {$plugin.tx_reintdownloadmanager.view.layoutRootPath}
+				templateRootPaths {
+					0 = EXT:reint_downloadmanager/Resources/Private/Templates/
+					1 = {$plugin.tx_reintdownloadmanager.view.templateRootPath}
+				}
+
+				partialRootPaths {
+					0 = EXT:reint_downloadmanager/Resources/Private/Partials/
+					1 = {$plugin.tx_reintdownloadmanager.view.partialRootPath}
+				}
+
+				layoutRootPaths {
+					0 = EXT:reint_downloadmanager/Resources/Private/Layouts/
+					1 = {$plugin.tx_reintdownloadmanager.view.layoutRootPath}
+				}
 			}
 			# configure a default storage pid here
 			persistence {

@@ -11,6 +11,19 @@
 ChangeLog
 =========
 
+- **02.02.2016** -> 1.2.0
+
+  - code cleanup
+  - TypoScript setup updated to templateRootPaths, partialRootPaths and layoutRootPaths
+
+-----------------------
+
+- **29.01.2016** -> 1.1.2
+
+  - code cleanup
+
+-----------------------
+
 - **12.01.2016** -> 1.1.1
 
   - compatibility: added support for parameters in public file uri

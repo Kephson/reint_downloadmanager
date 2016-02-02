@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
  *
  *  Copyright notice
  *
- *  (c) 2015 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2016 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -452,7 +452,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		$newEntry = FALSE;
 		if (!$countEntry) {
-			$countEntry = $this->objectManager->get('RENOLIT\\ReintDownloadmanager\\Domain\\Model\\Download');
+			$countEntry = $this->objectManager->get('RENOLIT\ReintDownloadmanager\Domain\Model\Download');
 			$countEntry->setSysFileUid($recordUid);
 			$countEntry->setDownloads(0);
 			$newEntry = TRUE;

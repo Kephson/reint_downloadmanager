@@ -17,7 +17,7 @@ Download manager
 		reint_downloadmanager
 
 	:Version:
-		1.1.1
+		1.2.0
 
 	:Language:
 		en
@@ -29,7 +29,7 @@ Download manager
 		FAL,file,download,manager,collection,top
 
 	:Copyright:
-		2015
+		2016
 
 	:Author:
 		Ephraim Härer
