@@ -41,7 +41,7 @@ class ReintDownloadmanagerWizicon {
 	function proc($wizardItems) {
 
 		$wizardItems['plugins_reint_downloadmanager'] = array(
-			'icon' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('reint_downloadmanager') . 'Resources/Public/wizard_icon.png',
+			'icon' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('reint_downloadmanager') . 'Resources/Public/Images/wizard.png',
 			'title' => LocalizationUtility::translate('plugin_label', 'reint_downloadmanager'),
 			'description' => LocalizationUtility::translate('plugin_value', 'reint_downloadmanager'),
 			'params' => '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=reintdownloadmanager_reintdlm'

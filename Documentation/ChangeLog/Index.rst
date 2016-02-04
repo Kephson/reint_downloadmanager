@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+- **04.02.2016** -> 1.2.1
+
+  - TCA corrections
+  - Icon update
+
+-----------------------
+
 - **02.02.2016** -> 1.2.0
 
   - code cleanup

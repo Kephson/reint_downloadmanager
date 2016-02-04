@@ -6,7 +6,7 @@ if (!defined('TYPO3_MODE')) {
 
 // register extbase plugin
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-		$_EXTKEY, 'Reintdlm', 'LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:plugin_label', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/download_icon.png'
+		$_EXTKEY, 'Reintdlm', 'LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:plugin_label', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Images/download_icon.png'
 );
 
 // add wizard icon to the "add new record" in backend
@@ -47,7 +47,7 @@ $GLOBALS['TCA']['tx_reintdownloadmanager_domain_model_download'] = array(
 		),
 		'searchFields' => 'sys_file_uid',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Download.php',
-		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/tx_reintdownloadmanager_domain_model_download.png'
+		'iconfile' => 'EXT:' . $_EXTKEY . '/Resources/Public/Images/renolit_table.png',
 	),
 );
 
