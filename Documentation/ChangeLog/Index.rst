@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+- **11.02.2016** -> 1.3.0
+
+  - update of table description file
+  - cleanup of coding
+
+-----------------------
+
 - **04.02.2016** -> 1.2.1
 
   - TCA corrections

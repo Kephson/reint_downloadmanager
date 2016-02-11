@@ -17,7 +17,7 @@ Download manager
 		reint_downloadmanager
 
 	:Version:
-		1.2.1
+		1.3.0
 
 	:Language:
 		en

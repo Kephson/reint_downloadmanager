@@ -1,12 +1,27 @@
 <?php
 
-if (!defined('TYPO3_MODE')) {
-	die('Access denied.');
-}
-
-
-$GLOBALS['TCA']['tx_reintdownloadmanager_domain_model_download'] = array(
-	'ctrl' => $GLOBALS['TCA']['tx_reintdownloadmanager_domain_model_download']['ctrl'],
+return array(
+	'ctrl' => array(
+		'title' => 'LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang_db.xlf:tx_reintdownloadmanager_domain_model_download',
+		'label' => 'sys_file_uid',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
+		'versioningWS' => 2,
+		'versioning_followPages' => TRUE,
+		'languageField' => 'sys_language_uid',
+		'transOrigPointerField' => 'l10n_parent',
+		'transOrigDiffSourceField' => 'l10n_diffsource',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+			'disabled' => 'hidden',
+			'starttime' => 'starttime',
+			'endtime' => 'endtime',
+		),
+		'searchFields' => 'sys_file_uid',
+		'iconfile' => 'EXT:reint_downloadmanager/Resources/Public/Images/renolit_table.png',
+	),
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, sys_file_uid, downloads',
 	),
