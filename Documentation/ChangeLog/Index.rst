@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+- **08.03.2016** -> 1.4.0
+
+  - update your fluid templates to make sure all type of file collections work correct (static, categories, folder)!
+  - cleanup of coding
+
+-----------------------
+
 - **11.02.2016** -> 1.3.0
 
   - update of table description file

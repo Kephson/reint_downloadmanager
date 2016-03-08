@@ -21,8 +21,8 @@
 						<f:for each="{filecollections}" as="collection" key="i">
 							<li data-filter="true" data-filtertext="{collection.title} {r:SimpleDisplay(obj:'{collectionSearchStrings}',prop:'{i}')}" class="headerItem ui-screen-hidden" data-role="list-divider">{collection.title}</li>
 							<f:for each="{collection.items}" as="record">
-								<li data-filter="true" data-filtertext="{collection.title} {f:if(condition:'{record.title}',then:'{record.title}',else:'{record.originalFile.name}')}{f:if(condition:'{record.properties.keywords}',then:' {record.properties.keywords}')}" class="list-item ui-screen-hidden">
-									<f:link.page target="_blank" additionalParams="{tx_reintdownloadmanager_reintdlm:{downloaduid:'{record.originalFile.properties.uid}'}}"><f:if condition="{record.title}"><f:then>{record.title}</f:then><f:else>{record.originalFile.name}</f:else></f:if> [{record.originalFile.properties.extension -> r:format.strtolower()}]</f:link.page>
+								<li data-filter="true" data-filtertext="{collection.title} {f:if(condition:'{record.properties.title}',then:'{record.properties.title}',else:'{record.properties.name}')}{f:if(condition:'{record.properties.keywords}',then:' {record.properties.keywords}')}" class="list-item ui-screen-hidden">
+									<f:link.page target="_blank" additionalParams="{tx_reintdownloadmanager_reintdlm:{downloaduid:'{record.properties.file}'}}"><f:if condition="{record.properties.title}"><f:then>{record.properties.title}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
 								</li>
 							</f:for>
 						</f:for>

@@ -258,9 +258,26 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			foreach ($this->collections as $key => $col) {
 				$searchItems = array();
 				foreach ($col as $file) {
-					if (is_object($file)) {
-						$title = $file->getTitle();
-						$name = $file->getName();
+					if (is_object($file) && is_a($file, '\TYPO3\CMS\Core\Resource\File')) {
+						$file->getContents();
+
+						// check if there is a title set for file
+						if (method_exists($file, 'getTitle')) {
+							$title = $file->getTitle();
+						} else if ($file->hasProperty('title')) {
+							$title = $file->getProperty('title');
+						} else {
+							$title = '';
+						}
+						// check if there is a filename set for file
+						if (method_exists($file, 'getName')) {
+							$name = $file->getName();
+						} else if ($file->hasProperty('name')) {
+							$name = $file->getProperty('name');
+						} else {
+							$name = '';
+						}
+						// add title and name to search string if not empty
 						if (!empty($title)) {
 							$searchItems[] = $title;
 						} else if (!empty($name)) {
@@ -271,7 +288,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 						if (!empty($fileExt) && !isset($searchItems[$fileExtLower])) {
 							$searchItems[$fileExtLower] = $fileExt;
 						}
-						// check if there are keywords for the file
+						// check if there are keywords for the file and add them, too
 						if ($file->hasProperty('keywords')) {
 							$keywords = $file->getProperty('keywords');
 							if (!empty($keywords) && $keywords !== NULL) {
@@ -293,6 +310,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @return true
 	 */
 	protected function loadCollectionsFromDb() {
+
 		// check if there are any collections
 		if (count($this->collectionIds) > 0) {
 			// Get all existing collections
