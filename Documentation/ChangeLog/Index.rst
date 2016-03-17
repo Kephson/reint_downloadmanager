@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **17.03.2016** -> 1.4.1
+
+  - bugfix update for file search string
+
+-----------------------
+
 - **08.03.2016** -> 1.4.0
 
   - update your fluid templates to make sure all type of file collections work correct (static, categories, folder)!

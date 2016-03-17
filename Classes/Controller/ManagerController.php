@@ -258,7 +258,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			foreach ($this->collections as $key => $col) {
 				$searchItems = array();
 				foreach ($col as $file) {
-					if (is_object($file) && is_a($file, '\TYPO3\CMS\Core\Resource\File')) {
+					if (is_object($file)) {
 						$file->getContents();
 
 						// check if there is a title set for file
