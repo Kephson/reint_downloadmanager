@@ -10,7 +10,7 @@ This Template is responsible for displaying a top ten list of download
 	<f:flashMessages renderMode="div" />
 
 	<div class="all-collection-wrapper">
-		<h3 class="collection-title"><f:translate key="tdhead" /></h3>
+		<h3 class="collection-title">{f:if(condition:'{config.topdtitle}',then:'{config.topdtitle}',else:'{f:translate(key:\'tdhead\')}')}</h3>
 		<f:if condition="{files}">
 			<f:then>
 				<ul class="collection-content">

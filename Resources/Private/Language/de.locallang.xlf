@@ -62,6 +62,14 @@
 				<source>Number of items to display (default: 10)</source>
 				<target state="translated">Anzahl der Einträge zum Anzeigen (Standard: 10)</target>
 			</trans-unit>
+			<trans-unit id="topdtitle">
+				<source>Title for top downloads</source>
+				<target state="translated">Titel für Top Downloads</target>
+			</trans-unit>
+			<trans-unit id="customsearchplaceholder">
+				<source>Placeholder for search field</source>
+				<target state="translated">Platzhalter für Suchfeld</target>
+			</trans-unit>
 			
 			<trans-unit id="nocollection">
 				<source>No collection found. Please set a collection in the backend configuration.</source>
@@ -90,7 +98,7 @@
 			<trans-unit id="searchplaceholder">
 				<source>Please type your search</source>
 				<target state="translated">Suchbegriff eingeben</target>
-			</trans-unit>		
+			</trans-unit>
 			
 		</body>
 	</file>

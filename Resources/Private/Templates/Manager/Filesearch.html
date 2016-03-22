@@ -12,7 +12,7 @@
 	
 	<div class="dm-search search-list-out">
 		<form autocomplete="off" class="ui-filterable">
-			<input data-type="search" id="searchFileField" placeholder="{f:translate(key:'searchplaceholder')}" />
+			<input data-type="search" id="searchFileField" placeholder="{f:if(condition:'{config.searchplaceholder}',then:'{config.searchplaceholder}',else:'{f:translate(key:\'searchplaceholder\')}')}" />
 		</form>
 		<div id="filterList">
 			<f:if condition="{filecollections}">

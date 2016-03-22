@@ -97,6 +97,34 @@
 						</TCEforms>						
 					</settings.topdnum>
 					
+					<settings.topdtitle>
+						<TCEforms>
+							<exclude>0</exclude>
+							<label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:topdtitle</label>
+							<displayCond>FIELD:switchableControllerActions:=:Manager->topdownloads</displayCond>
+							<config>
+								<type>input</type>
+								<size>60</size>
+								<max>255</max>
+								<eval>trim</eval>
+							</config>
+						</TCEforms>						
+					</settings.topdtitle>
+					
+					<settings.searchplaceholder>
+						<TCEforms>
+							<exclude>0</exclude>
+							<label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:customsearchplaceholder</label>
+							<displayCond>FIELD:switchableControllerActions:=:Manager->filesearch</displayCond>
+							<config>
+								<type>input</type>
+								<size>60</size>
+								<max>255</max>
+								<eval>trim</eval>
+							</config>
+						</TCEforms>						
+					</settings.searchplaceholder>
+					
 				</el>
 			</ROOT>
 		</element>

@@ -48,6 +48,12 @@
 			<trans-unit id="topdnum">
 				<source>Number of items to display (default: 10)</source>
 			</trans-unit>
+			<trans-unit id="topdtitle">
+				<source>Title for top downloads</source>
+			</trans-unit>
+			<trans-unit id="customsearchplaceholder">
+				<source>Placeholder for search field</source>
+			</trans-unit>
 			
 			<trans-unit id="nocollection">
 				<source>No collection found. Please set a collection in the backend configuration.</source>

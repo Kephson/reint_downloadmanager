@@ -124,6 +124,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		if (isset($this->settings['includedefaultcss'])) {
 			$this->defaultTsConfig['includedefaultcss'] = (int) $this->settings['includedefaultcss'];
 		}
+		$this->defaultTsConfig['topdtitle'] = $this->settings['topdtitle'];
+		$this->defaultTsConfig['searchplaceholder'] = $this->settings['searchplaceholder'];
 	}
 
 	/**

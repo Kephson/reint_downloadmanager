@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+- **22.03.2016** -> 1.4.2
+
+  - added option to overwrite placeholder for searchfield in FlexForm
+  - added option to overwrite top downloads title in FlexForm
+
+-----------------------
+
 - **17.03.2016** -> 1.4.1
 
   - bugfix update for file search string
