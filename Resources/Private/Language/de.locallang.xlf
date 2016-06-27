@@ -100,6 +100,11 @@
 				<target state="translated">Suchbegriff eingeben</target>
 			</trans-unit>
 			
+			<trans-unit id="fileNotFound">
+				<source>The file for download couldn't found.</source>
+				<target state="translated">Die angeforderte Datei für einen Download wurde nicht gefunden.</target>
+			</trans-unit>
+			
 		</body>
 	</file>
 </xliff>

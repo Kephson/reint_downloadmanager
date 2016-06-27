@@ -77,6 +77,10 @@
 			<trans-unit id="searchplaceholder">
 				<source>Please type your search</source>
 			</trans-unit>
+
+			<trans-unit id="fileNotFound">
+				<source>The file for download couldn't found.</source>
+			</trans-unit>
 			
 		</body>
 	</file>

@@ -418,23 +418,58 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 			$recordUid = (int) $this->request->getArgument('downloaduid');
 
-			$fileRepository = $this->objectManager->get('TYPO3\\CMS\\Core\\Resource\\ResourceFactory');
-			$file = $fileRepository->getFileObject($recordUid);
-
-			$privateUri = '';
-			if (is_object($file)) {
-				$publicUri = $file->getPublicUrl();
-				$fileName = $file->getName();
-				$fileModDate = $file->getProperty('tstamp');
-				$privateUri = urldecode($this->checkPublicUriForParams($publicUri));
+			if ($recordUid > 0) {
+				if ($this->isFileAvailable($recordUid)) {
+					$fileRepository = $this->objectManager->get('TYPO3\\CMS\\Core\\Resource\\ResourceFactory');
+					$file = $fileRepository->getFileObject($recordUid);
+					$privateUri = '';
+					if (is_object($file)) {
+						$publicUri = $file->getPublicUrl();
+						$fileName = $file->getName();
+						$fileModDate = $file->getProperty('tstamp');
+						$privateUri = urldecode($this->checkPublicUriForParams($publicUri));
+					} else {
+						$this->setFileNotFound();
+					}
+					if (is_file($privateUri)) {
+						// update counter or set new
+						$this->updateUserSessionDownloads($recordUid);
+						$this->downloadFile($privateUri, $fileName, $publicUri, $fileModDate);
+					} else {
+						$this->setFileNotFound();
+					}
+				} else {
+					$this->setFileNotFound();
+				}
+			} else {
+				$this->setFileNotFound();
 			}
+
 			//DebuggerUtility::var_dump($privateUri); die();
+		}
+	}
 
-			if (is_file($privateUri)) {
-				// update counter or set new
-				$this->updateUserSessionDownloads($recordUid);
-				$this->downloadFile($privateUri, $fileName, $publicUri, $fileModDate);
-			}
+	/**
+	 * sets the flashmessage for not found file
+	 */
+	protected function setFileNotFound() {
+		$this->flashMessageContainer->add(LocalizationUtility::translate('fileNotFound', $this->request->getControllerExtensionKey()), '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+	}
+
+	/**
+	 * 
+	 * @param integer $uid
+	 * @return boolean
+	 */
+	protected function isFileAvailable($uid) {
+		$existingFileRecord = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
+				'uid', 'sys_file', 'uid=' . $uid
+		);
+		//DebuggerUtility::var_dump($existingFileRecord);
+		if (is_array($existingFileRecord)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 

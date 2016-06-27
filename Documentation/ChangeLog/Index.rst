@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **27.06.2016** -> 1.4.3
+
+  - added better failure handling if file could not found
+
+-----------------------
+
 - **22.03.2016** -> 1.4.2
 
   - added option to overwrite placeholder for searchfield in FlexForm
