@@ -51,12 +51,12 @@
 			</trans-unit>
 			
 			<trans-unit id="lbrpid">
-				<source>Select single file collections to display (max. 10)</source>
-				<target state="translated">Einzelne Dateisammlungen auswählen (max. 10)</target>
+				<source>Select single file collections to display (max. 99)</source>
+				<target state="translated">Einzelne Dateisammlungen auswählen (max. 99)</target>
 			</trans-unit>
 			<trans-unit id="dfolder">
-				<source>Select a folder or page with file collections (max. 2)</source>
-				<target state="translated">Ordner oder Seite mit Dateisammlungen auswählen (max. 2)</target>
+				<source>Select a folder or page with file collections (max. 99)</source>
+				<target state="translated">Ordner oder Seite mit Dateisammlungen auswählen (max. 99)</target>
 			</trans-unit>
 			<trans-unit id="topdnum">
 				<source>Number of items to display (default: 10)</source>

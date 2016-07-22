@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **22.07.2016** -> 1.4.4
+
+  - changed limits in FlexForm
+
+-----------------------
+
 - **27.06.2016** -> 1.4.3
 
   - added better failure handling if file could not found
