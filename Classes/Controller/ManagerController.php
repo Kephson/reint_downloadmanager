@@ -26,18 +26,19 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
 use \TYPO3\CMS\Core\Messaging\FlashMessage;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Core\Utility\DebugUtility;
 use \TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use \TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use \TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * ManagerController
  */
-class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+{
 
 	/**
 	 * persistenceManager
@@ -106,7 +107,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 *
 	 * @return void
 	 */
-	protected function initializeAction() {
+	protected function initializeAction()
+	{
 		parent::initializeAction();
 
 		//fallback to current pid if no storagePid is defined
@@ -134,7 +136,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 *
 	 * @return void
 	 */
-	public function filesearchAction() {
+	public function filesearchAction()
+	{
 
 		// check if there is a file download request
 		$this->checkFileDownloadRequest();
@@ -164,7 +167,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 *
 	 * @return void
 	 */
-	public function listAction() {
+	public function listAction()
+	{
 
 		// check if there is a file download request
 		$this->checkFileDownloadRequest();
@@ -189,7 +193,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 *
 	 * @return void
 	 */
-	public function topdownloadsAction() {
+	public function topdownloadsAction()
+	{
 
 		// check if there is a file download request
 		$this->checkFileDownloadRequest();
@@ -227,7 +232,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	/**
 	 * cleanup the top download table if file was deleted
 	 */
-	protected function cleanupTopDownloads() {
+	protected function cleanupTopDownloads()
+	{
 		$topdownloads = $this->downloadRepository->findAllWithoutPid();
 		foreach ($topdownloads as $d) {
 			$fileUid = $d->getSysFileUid();
@@ -245,7 +251,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 *
 	 * @return void
 	 */
-	public function emptyAction() {
+	public function emptyAction()
+	{
 		
 	}
 
@@ -254,7 +261,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * includes the *file titles*, *file extensions* and *file keywords*
 	 * 
 	 */
-	protected function writeCollectionTitleSearchfield() {
+	protected function writeCollectionTitleSearchfield()
+	{
 
 		if (is_array($this->collections) && !empty($this->collections)) {
 			foreach ($this->collections as $key => $col) {
@@ -311,7 +319,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * 
 	 * @return true
 	 */
-	protected function loadCollectionsFromDb() {
+	protected function loadCollectionsFromDb()
+	{
 
 		// check if there are any collections
 		if (count($this->collectionIds) > 0) {
@@ -334,7 +343,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * 
 	 * @return true
 	 */
-	protected function loadCollectionsFromFlexform() {
+	protected function loadCollectionsFromFlexform()
+	{
 		// check if single collections are set
 		if (isset($this->settings['lbpid']) && !empty($this->settings['lbpid'])) {
 			$uids = explode(',', $this->settings['lbpid']);
@@ -358,13 +368,14 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * 
 	 * @param array $pageids
 	 */
-	protected function getCollectionsFromPages($pageids) {
+	protected function getCollectionsFromPages($pageids)
+	{
 
 		$table = 'sys_file_collection';
 		if (count($pageids) > 0) {
 			foreach ($pageids as $pageid) {
 				$fileCollections = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-						'*', $table, 'pid = ' . $pageid . ' AND hidden=0 AND deleted=0', '', 'sorting', 1000
+					'*', $table, 'pid = ' . $pageid . ' AND hidden=0 AND deleted=0', '', 'sorting', 1000
 				);
 				if (count($fileCollections) > 0) {
 					foreach ($fileCollections as $col) {
@@ -383,11 +394,12 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 *
 	 * @return string
 	 */
-	protected function getSysFileCollectionData($uid, $fieldname = 'webdescription') {
+	protected function getSysFileCollectionData($uid, $fieldname = 'webdescription')
+	{
 
 		$table = 'sys_file_collection';
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
-				'*', $table, 'uid = ' . $uid, '', ''
+			'*', $table, 'uid = ' . $uid, '', ''
 		);
 		if (isset($res[$fieldname])) {
 			return $res[$fieldname];
@@ -400,7 +412,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * check if there is a file download request
 	 * 
 	 */
-	protected function checkFileDownloadRequest() {
+	protected function checkFileDownloadRequest()
+	{
 		// download file and exit
 		if ($this->request->hasArgument('downloaduid')) {
 			$this->setDownload();
@@ -412,7 +425,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 *
 	 * @return void
 	 */
-	protected function setDownload() {
+	protected function setDownload()
+	{
 
 		if ($this->request->hasArgument('downloaduid')) {
 
@@ -452,8 +466,17 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	/**
 	 * sets the flashmessage for not found file
 	 */
-	protected function setFileNotFound() {
-		$this->flashMessageContainer->add(LocalizationUtility::translate('fileNotFound', $this->request->getControllerExtensionKey()), '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+	protected function setFileNotFound()
+	{
+		$errorFlashMessage = LocalizationUtility::translate('fileNotFound', $this->request->getControllerExtensionKey());
+		if (VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getNumericTypo3Version()) >= 7006000) {
+			$errorFlashMessageObject = new FlashMessage(
+				$errorFlashMessage, '', FlashMessage::ERROR
+			);
+			$this->controllerContext->getFlashMessageQueue()->enqueue($errorFlashMessageObject);
+		} else {
+			$this->flashMessageContainer->add($errorFlashMessage, '', FlashMessage::ERROR);
+		}
 	}
 
 	/**
@@ -461,9 +484,10 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @param integer $uid
 	 * @return boolean
 	 */
-	protected function isFileAvailable($uid) {
+	protected function isFileAvailable($uid)
+	{
 		$existingFileRecord = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
-				'uid', 'sys_file', 'uid=' . $uid
+			'uid', 'sys_file', 'uid=' . $uid
 		);
 		//DebuggerUtility::var_dump($existingFileRecord);
 		if (is_array($existingFileRecord)) {
@@ -478,7 +502,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * 
 	 * @param string $publicUri
 	 */
-	protected function checkPublicUriForParams($publicUri) {
+	protected function checkPublicUriForParams($publicUri)
+	{
 
 		if (ExtensionManagementUtility::isLoaded('reint_file_timestamp') || stripos($publicUri, '?') !== FALSE) {
 			$uriFragments = explode('?', $publicUri);
@@ -497,7 +522,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * 
 	 * @param integer $recordUid
 	 */
-	protected function updateUserSessionDownloads($recordUid) {
+	protected function updateUserSessionDownloads($recordUid)
+	{
 
 		$countEntry = $this->downloadRepository->getOneBySysFileUid($recordUid);
 		//DebuggerUtility::var_dump($countEntry);
@@ -551,7 +577,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @param string $publicUri
 	 * @param string $fileModDate
 	 */
-	protected function downloadFile($privateUri, $fileName, $publicUri, $fileModDate = 1) {
+	protected function downloadFile($privateUri, $fileName, $publicUri, $fileModDate = 1)
+	{
 
 		//DebuggerUtility::var_dump($this->settings); die();
 		// check if there is a setting to redirect only to the file
@@ -616,5 +643,4 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		}
 		exit();
 	}
-
 }

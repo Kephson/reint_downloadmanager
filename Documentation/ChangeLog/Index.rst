@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **27.10.2016** -> 1.4.5
+
+  - fixed flashmessages for TYPO3 >= 7.6
+
+-----------------------
+
 - **22.07.2016** -> 1.4.4
 
   - changed limits in FlexForm
