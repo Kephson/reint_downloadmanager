@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers\Format;
  *
  *  Copyright notice
  *
- *  (c) 2016 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -43,7 +43,8 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers\Format;
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @api
  */
-class StrtolowerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class StrtolowerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
 	/**
 	 * Format the string with strtolower()
@@ -52,8 +53,8 @@ class StrtolowerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 	 * @author Ephraim Härer <ephraim.haerer@renolit.com>
 	 * @api
 	 */
-	public function render() {
+	public function render()
+	{
 		return strtolower($this->renderChildren());
 	}
-
 }

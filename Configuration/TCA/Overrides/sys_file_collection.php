@@ -1,5 +1,4 @@
 <?php
-
 // add sorting for file collections
 $newSysCategoryColumns = array(
 	'sorting' => array(

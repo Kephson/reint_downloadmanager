@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+- **10.08.2017** -> 1.5.0
+
+  - updated TCA, reformatted code and fixed ViewHelper
+  - updated dependencies and added composer.json file
+
+-----------------------
+
 - **27.10.2016** -> 1.4.5
 
   - fixed flashmessages for TYPO3 >= 7.6

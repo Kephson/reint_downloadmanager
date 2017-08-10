@@ -1,5 +1,4 @@
 <?php
-
 return array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang_db.xlf:tx_reintdownloadmanager_domain_model_download',
@@ -26,7 +25,7 @@ return array(
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, sys_file_uid, downloads',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, sys_file_uid, downloads, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, sys_file_uid, downloads, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),

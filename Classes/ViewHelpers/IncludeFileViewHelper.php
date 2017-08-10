@@ -31,7 +31,8 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers;
  * @package TYPO3
  * @subpackage reint_downloadmanager
  */
-class IncludeFileViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class IncludeFileViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
 	/**
 	 * Include a CSS/JS file
@@ -41,34 +42,34 @@ class IncludeFileViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 	 * @param boolean $compress Define if file should be compressed
 	 * @return void
 	 */
-	public function render($path, $name = '', $compress = FALSE) {
+	public function render($path, $name = '', $compress = FALSE)
+	{
+		// Retrieve pagerenderer instance
+		$pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
+		if (!$pageRenderer) {
+			return;
+		}
+
 		if (TYPO3_MODE === 'FE') {
 			$path = $GLOBALS['TSFE']->tmpl->getFileName($path);
 			if ($name === '') {
 				$name = 'dmfile' . strtolower(basename($path));
 			}
-
-			// JS
 			if (strtolower(substr($path, -3)) === '.js') {
-				$GLOBALS['TSFE']->getPageRenderer()->addJsFooterLibrary($name, $path, FALSE, $compress, FALSE, '', TRUE);
-			}
-			// CSS
-			elseif (strtolower(substr($path, -4)) === '.css') {
-				$GLOBALS['TSFE']->getPageRenderer()->addCssFile($path, 'stylesheet', 'all', '', $compress);
+				// JS
+				$pageRenderer->addJsFooterLibrary($name, $path, FALSE, $compress, FALSE, '', TRUE);
+			} elseif (strtolower(substr($path, -4)) === '.css') {
+				// CSS
+				$pageRenderer->addCssFile($path, 'stylesheet', 'all', '', $compress);
 			}
 		} else {
-			$doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\Template\\DocumentTemplate');
-			$pageRenderer = $doc->getPageRenderer();
-
-			// JS
 			if (strtolower(substr($path, -3)) === '.js') {
+				// JS
 				$pageRenderer->addJsFile($path, NULL, $compress);
-			}
-			// CSS
-			elseif (strtolower(substr($path, -4)) === '.css') {
+			} elseif (strtolower(substr($path, -4)) === '.css') {
+				// CSS
 				$pageRenderer->addCssFile($path, 'stylesheet', 'all', '', $compress);
 			}
 		}
 	}
-
 }

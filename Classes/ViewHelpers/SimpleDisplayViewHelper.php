@@ -30,7 +30,8 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers;
  * @package TYPO3
  * @subpackage reint_downloadmanager
  */
-class SimpleDisplayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class SimpleDisplayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
 	/**
 	 * Output and object element with property or
@@ -40,7 +41,8 @@ class SimpleDisplayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractV
 	 * @param string $prop property or key
 	 * @return void
 	 */
-	public function render($obj, $prop) {
+	public function render($obj, $prop)
+	{
 		if (is_object($obj)) {
 			return $obj->$prop;
 		} elseif (is_array($obj)) {
@@ -50,5 +52,4 @@ class SimpleDisplayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractV
 		}
 		return NULL;
 	}
-
 }

@@ -1,10 +1,9 @@
 <?php
-
 /* * *************************************************************
  *
  *  Copyright notice
  *
- *  (c) 2016 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -24,13 +23,13 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class that adds the wizard icon.
  */
-class ReintDownloadmanagerWizicon {
+class ReintDownloadmanagerWizicon
+{
 
 	/**
 	 * Processing the wizard items array
@@ -38,7 +37,8 @@ class ReintDownloadmanagerWizicon {
 	 * @param array $wizardItems : The wizard items
 	 * @return Modified array with wizard items
 	 */
-	function proc($wizardItems) {
+	function proc($wizardItems)
+	{
 
 		$wizardItems['plugins_reint_downloadmanager'] = array(
 			'icon' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('reint_downloadmanager') . 'Resources/Public/Images/wizard.png',
@@ -49,5 +49,4 @@ class ReintDownloadmanagerWizicon {
 
 		return $wizardItems;
 	}
-
 }

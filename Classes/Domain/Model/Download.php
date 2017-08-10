@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Model;
  *
  *  Copyright notice
  *
- *  (c) 2016 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -30,7 +30,8 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Model;
 /**
  * Manages the downloads.
  */
-class Download extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Download extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
 
 	/**
 	 * sysFileUid
@@ -51,7 +52,8 @@ class Download extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @return integer $sysFileUid
 	 */
-	public function getSysFileUid() {
+	public function getSysFileUid()
+	{
 		return $this->sysFileUid;
 	}
 
@@ -61,7 +63,8 @@ class Download extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @param integer $sysFileUid
 	 * @return void
 	 */
-	public function setSysFileUid($sysFileUid) {
+	public function setSysFileUid($sysFileUid)
+	{
 		$this->sysFileUid = $sysFileUid;
 	}
 
@@ -70,7 +73,8 @@ class Download extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @return integer $downloads
 	 */
-	public function getDownloads() {
+	public function getDownloads()
+	{
 		return $this->downloads;
 	}
 
@@ -80,8 +84,8 @@ class Download extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @param string $downloads
 	 * @return void
 	 */
-	public function setDownloads($downloads) {
+	public function setDownloads($downloads)
+	{
 		$this->downloads = $downloads;
 	}
-
 }
