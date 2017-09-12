@@ -434,7 +434,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 			if ($recordUid > 0) {
 				if ($this->isFileAvailable($recordUid)) {
-					$fileRepository = $this->objectManager->get('TYPO3\\CMS\\Core\\Resource\\ResourceFactory');
+					$fileRepository = $this->objectManager->get(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
 					$file = $fileRepository->getFileObject($recordUid);
 					$privateUri = '';
 					if (is_object($file)) {
@@ -533,7 +533,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		$newEntry = FALSE;
 		if (!$countEntry) {
-			$countEntry = $this->objectManager->get('RENOLIT\ReintDownloadmanager\Domain\Model\Download');
+			$countEntry = $this->objectManager->get(\RENOLIT\ReintDownloadmanager\Domain\Model\Download::class);
 			$countEntry->setSysFileUid($recordUid);
 			$countEntry->setDownloads(0);
 			$newEntry = TRUE;

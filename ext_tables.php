@@ -13,9 +13,6 @@ if (TYPO3_MODE == "BE") {
 	$TBE_MODULES_EXT["xMOD_db_new_content_el"]["addElClasses"]["ReintDownloadmanagerWizicon"] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Classes/Helper/ReintDownloadmanagerWizicon.php';
 }
 
-// add typoscript file
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Download manager');
-
 // load flexform for backend config
 $pluginSignature = str_replace('_', '', $_EXTKEY) . '_' . 'reintdlm';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';

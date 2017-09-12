@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **12.09.2017** -> 1.6.0
+
+  - updated dependencies & icons
+
+-----------------------
+
 - **10.08.2017** -> 1.5.0
 
   - updated TCA, reformatted code and fixed ViewHelper

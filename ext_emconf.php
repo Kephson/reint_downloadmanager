@@ -12,7 +12,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Download manager',
 	'description' => 'A simple download manager with different views of file collections as downloadable lists.',
 	'category' => 'plugin',
-	'version' => '1.5.0',
+	'version' => '1.6.0',
 	'state' => 'stable',
 	'uploadfolder' => false,
 	'createDirs' => '',
@@ -24,8 +24,8 @@ $EM_CONF[$_EXTKEY] = array(
 	array(
 		'depends' =>
 		array(
-			'typo3' => '7.6.99-8.99.99',
-			'php' => '5.4.0-7.1.999',
+			'typo3' => '7.6.0-8.99.99',
+			'php' => '5.5.0-7.1.999',
 		),
 		'conflicts' =>
 		array(
