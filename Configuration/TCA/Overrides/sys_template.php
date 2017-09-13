@@ -8,5 +8,7 @@ $newSysCategoryColumns = array(
 		)
 	),
 );
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('sys_file_collection', $newSysCategoryColumns);
+
 // add typoscript file
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Download manager');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('reint_downloadmanager', 'Configuration/TypoScript', 'Download manager');

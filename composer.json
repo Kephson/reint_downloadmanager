@@ -1,6 +1,7 @@
 {
 	"name": "renolit/reint-downloadmanager",
 	"type": "typo3-cms-extension",
+	"version": "1.6.1",
 	"description": "A simple download manager with different views of file collections as downloadable lists.",
 	"homepage": "https://github.com/Kephson/reint_downloadmanager",
 	"license": "GPL-2.0+",

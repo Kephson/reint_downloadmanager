@@ -37,7 +37,7 @@ class SimpleDisplayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractV
 	 * Output and object element with property or
 	 * an array element with the given key
 	 *
-	 * @param object $obj object or array
+	 * @param mixed $obj object or array
 	 * @param string $prop property or key
 	 * @return void
 	 */

@@ -11,6 +11,14 @@
 ChangeLog
 =========
 
+- **13.09.2017** -> 1.6.1
+
+  - updated dependencies and composer.json
+  - fixed icons for TYPO3 8
+  - removed class for wizard icon and added default pageTS
+
+-----------------------
+
 - **12.09.2017** -> 1.6.0
 
   - updated dependencies & icons
