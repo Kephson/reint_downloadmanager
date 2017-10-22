@@ -82,6 +82,10 @@
 				<source>The file for download couldn't found.</source>
 			</trans-unit>
 			
+			<trans-unit id="fileNoAccess">
+				<source>You have no access to download this file.</source>
+			</trans-unit>
+			
 		</body>
 	</file>
 </xliff>

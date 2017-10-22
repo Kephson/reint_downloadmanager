@@ -105,6 +105,11 @@
 				<target state="translated">Die angeforderte Datei für einen Download wurde nicht gefunden.</target>
 			</trans-unit>
 			
+			<trans-unit id="fileNoAccess">
+				<source>You have no access to download this file.</source>
+				<target state="translated">Sie haben keine Berechtigung zum Download dieser Datei.</target>
+			</trans-unit>
+			
 		</body>
 	</file>
 </xliff>

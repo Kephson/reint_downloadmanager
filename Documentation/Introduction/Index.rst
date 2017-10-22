@@ -27,6 +27,7 @@ E.g. if a file title has not the keyword to find a file in the search you can ad
 
 The download manager can handle multiple files and multiple file collections and all the views are cached, but it is not tested with thousands of files ;-).
 
+The extension is compatible with fal_securedownload and file access could be defined via fe_user groups.
 
 
 .. _screenshots:

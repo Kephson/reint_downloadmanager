@@ -1,5 +1,4 @@
 <?php
-
 namespace RENOLIT\ReintDownloadmanager\Controller;
 
 /* * *************************************************************
@@ -26,6 +25,7 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
+
 use \TYPO3\CMS\Core\Messaging\FlashMessage;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Core\Utility\DebugUtility;
@@ -39,6 +39,13 @@ use \TYPO3\CMS\Core\Utility\VersionNumberUtility;
  */
 class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
+
+	/**
+	 * feUserFileAccess
+	 *
+	 * @var boolean
+	 */
+	protected $feUserFileAccess = true;
 
 	/**
 	 * persistenceManager
@@ -434,23 +441,38 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 			if ($recordUid > 0) {
 				if ($this->isFileAvailable($recordUid)) {
+					/* @var $fileRepository \TYPO3\CMS\Core\Resource\ResourceFactory */
 					$fileRepository = $this->objectManager->get(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+					/* @var $file \TYPO3\CMS\Core\Resource\File */
 					$file = $fileRepository->getFileObject($recordUid);
+
 					$privateUri = '';
 					if (is_object($file)) {
 						$publicUri = $file->getPublicUrl();
 						$fileName = $file->getName();
 						$fileModDate = $file->getProperty('tstamp');
-						$privateUri = urldecode($this->checkPublicUriForParams($publicUri));
+						if (!$file->getStorage()->isPublic()) {
+							if (ExtensionManagementUtility::isLoaded('fal_securedownload')) {
+								/* @var $checkPermissions \BeechIt\FalSecuredownload\Security\CheckPermissions */
+								$checkPermissions = GeneralUtility::makeInstance(\BeechIt\FalSecuredownload\Security\CheckPermissions::class);
+								$this->feUserFileAccess = $checkPermissions->checkFileAccessForCurrentFeUser($file);
+								$privateUri = $this->getPrivateUrlForNonPublic($file);
+							}
+						}
+						$privateUri = $this->getPrivateUrlForNonPublic($file);
 					} else {
 						$this->setFileNotFound();
 					}
-					if (is_file($privateUri)) {
+					if (!$file->isMissing() && is_file($privateUri) && $this->feUserFileAccess) {
 						// update counter or set new
 						$this->updateUserSessionDownloads($recordUid);
 						$this->downloadFile($privateUri, $fileName, $publicUri, $fileModDate);
 					} else {
-						$this->setFileNotFound();
+						if (!$this->feUserFileAccess) {
+							$this->setFileNoAccess();
+						} else {
+							$this->setFileNotFound();
+						}
 					}
 				} else {
 					$this->setFileNotFound();
@@ -464,19 +486,49 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	}
 
 	/**
+	 * return the private path to the file if storage is not public
+	 * 
+	 * @param \TYPO3\CMS\Core\Resource\File $file
+	 * @return string
+	 */
+	protected function getPrivateUrlForNonPublic(\TYPO3\CMS\Core\Resource\File $file)
+	{
+		$storageConfiguration = $file->getStorage()->getConfiguration();
+		$storageBasePath = $storageConfiguration['basePath'];
+		return $storageBasePath . $file->getIdentifier();
+	}
+
+	/**
 	 * sets the flashmessage for not found file
 	 */
 	protected function setFileNotFound()
 	{
 		$errorFlashMessage = LocalizationUtility::translate('fileNotFound', $this->request->getControllerExtensionKey());
-		if (VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getNumericTypo3Version()) >= 7006000) {
-			$errorFlashMessageObject = new FlashMessage(
-				$errorFlashMessage, '', FlashMessage::ERROR
-			);
-			$this->controllerContext->getFlashMessageQueue()->enqueue($errorFlashMessageObject);
-		} else {
-			$this->flashMessageContainer->add($errorFlashMessage, '', FlashMessage::ERROR);
-		}
+		$this->writeFlashMessage($errorFlashMessage);
+	}
+
+	/**
+	 * sets the flashmessage for not found file
+	 */
+	protected function setFileNoAccess()
+	{
+		$errorFlashMessage = LocalizationUtility::translate('fileNoAccess', $this->request->getControllerExtensionKey());
+		$this->writeFlashMessage($errorFlashMessage);
+	}
+
+	/**
+	 * write the flash messages to flash message queue
+	 * 
+	 * @param string $errorFlashMessage
+	 * 
+	 * @return void
+	 */
+	protected function writeFlashMessage($errorFlashMessage)
+	{
+		$errorFlashMessageObject = new FlashMessage(
+			$errorFlashMessage, '', FlashMessage::ERROR
+		);
+		$this->controllerContext->getFlashMessageQueue()->enqueue($errorFlashMessageObject);
 	}
 
 	/**
@@ -501,15 +553,17 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * checks the public uri for params or extension reint_file_timestamp
 	 * 
 	 * @param string $publicUri
+	 * @param integer $fileModDate
+	 * 
+	 * @return string
 	 */
-	protected function checkPublicUriForParams($publicUri)
+	protected function checkPublicUriForParams($publicUri, $fileModDate = 0)
 	{
 
 		if (ExtensionManagementUtility::isLoaded('reint_file_timestamp') || stripos($publicUri, '?') !== FALSE) {
-			$uriFragments = explode('?', $publicUri);
-			if (isset($uriFragments[0]) && !empty($uriFragments[0])) {
-				$uri = $uriFragments[0];
-			}
+			$uri = $publicUri . '&v=' . $fileModDate;
+		} else if ($fileModDate > 0) {
+			$uri = $publicUri . '?v=' . $fileModDate;
 		} else {
 			$uri = $publicUri;
 		}
@@ -585,12 +639,14 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		if (isset($this->settings['redirecttofile']) && (int) $this->settings['redirecttofile'] === 1) {
 			// add modification date when set in setup
 			if (isset($this->settings['addfiletstamp']) && (int) $this->settings['addfiletstamp'] === 1) {
-				$fullPublicUri = GeneralUtility::locationHeaderUrl($this->checkPublicUriForParams($publicUri)) . '?v=' . $fileModDate;
+				$fullPublicUri = GeneralUtility::locationHeaderUrl($this->checkPublicUriForParams($publicUri, $fileModDate));
 			} else {
 				$fullPublicUri = GeneralUtility::locationHeaderUrl($publicUri);
 			}
 			header('Location: ' . $fullPublicUri);
 		} else if (is_file($privateUri)) {
+
+			//DebuggerUtility::var_dump($privateUri); die();
 
 			$fileLen = filesize($privateUri);
 			$ext = strtolower(substr(strrchr($fileName, '.'), 1));

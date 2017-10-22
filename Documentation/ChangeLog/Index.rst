@@ -11,6 +11,15 @@
 ChangeLog
 =========
 
+- **22.10.2017** -> 1.7.0
+
+  - added support for use with non-public storage folders
+  - added compatibility with fal_securedownload
+  - allow downloads from storages outside of webroot
+  - code cleanup
+
+-----------------------
+
 - **13.09.2017** -> 1.6.1
 
   - updated dependencies and composer.json
