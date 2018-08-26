@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Model;
  *
  *  Copyright notice
  *
- *  (c) 2017 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2018 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -33,59 +33,59 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Model;
 class Download extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
 
-	/**
-	 * sysFileUid
-	 *
-	 * @var integer
-	 */
-	protected $sysFileUid = 0;
+    /**
+     * sysFileUid
+     *
+     * @var integer
+     */
+    protected $sysFileUid = 0;
 
-	/**
-	 * downloads
-	 *
-	 * @var integer
-	 */
-	protected $downloads = 0;
+    /**
+     * downloads
+     *
+     * @var integer
+     */
+    protected $downloads = 0;
 
-	/**
-	 * Returns the sysFileUid
-	 *
-	 * @return integer $sysFileUid
-	 */
-	public function getSysFileUid()
-	{
-		return $this->sysFileUid;
-	}
+    /**
+     * Returns the sysFileUid
+     *
+     * @return integer $sysFileUid
+     */
+    public function getSysFileUid()
+    {
+        return $this->sysFileUid;
+    }
 
-	/**
-	 * Sets the sysFileUid
-	 *
-	 * @param integer $sysFileUid
-	 * @return void
-	 */
-	public function setSysFileUid($sysFileUid)
-	{
-		$this->sysFileUid = $sysFileUid;
-	}
+    /**
+     * Sets the sysFileUid
+     *
+     * @param integer $sysFileUid
+     * @return void
+     */
+    public function setSysFileUid($sysFileUid)
+    {
+        $this->sysFileUid = $sysFileUid;
+    }
 
-	/**
-	 * Returns the downloads
-	 *
-	 * @return integer $downloads
-	 */
-	public function getDownloads()
-	{
-		return $this->downloads;
-	}
+    /**
+     * Returns the downloads
+     *
+     * @return integer $downloads
+     */
+    public function getDownloads()
+    {
+        return $this->downloads;
+    }
 
-	/**
-	 * Sets the downloads
-	 *
-	 * @param string $downloads
-	 * @return void
-	 */
-	public function setDownloads($downloads)
-	{
-		$this->downloads = $downloads;
-	}
+    /**
+     * Sets the downloads
+     *
+     * @param string $downloads
+     * @return void
+     */
+    public function setDownloads($downloads)
+    {
+        $this->downloads = $downloads;
+    }
 }

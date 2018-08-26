@@ -1,4 +1,3 @@
-
 plugin.tx_reintdownloadmanager {
 	# configure the path for the templates here
 	view {
@@ -17,10 +16,12 @@ plugin.tx_reintdownloadmanager {
 			1 = {$plugin.tx_reintdownloadmanager.view.layoutRootPath}
 		}
 	}
+
 	# configure a default storage pid here
 	persistence {
 		storagePid = {$plugin.tx_reintdownloadmanager.persistence.storagePid}
 	}
+
 	# configure settings for the extension here
 	settings {
 		# use redirecting to the file instead of a download header for all files

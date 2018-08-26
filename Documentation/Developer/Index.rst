@@ -13,6 +13,16 @@ Developer Corner
 
 Target group: **Developers**
 
-In the near future it could be possible to implement a hook or anything else. 
-This you will find here.
+.. _developer-realurl:
 
+RealUrl example configuration
+--------------------
+
+Example realurl configuration you could use:
+
+::
+		$TYPO3_CONF_VARS['EXTCONF']['realurl']['_DEFAULT']['postVarSets']['_DEFAULT']['dlmanager'] = array(
+			array(
+				'GETvar' => 'tx_reintdownloadmanager_reintdlm[downloaduid]',
+			),
+		);

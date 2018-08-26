@@ -1,17 +1,19 @@
 <?php
 if (!defined('TYPO3_MODE')) {
-	die('Access denied.');
+    die('Access denied.');
 }
 
 // register extbase plugin
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-	$_EXTKEY, 'Reintdlm', 'LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:plugin_label', 'EXT:reint_downloadmanager/Resources/Public/Images/download_icon.png'
+    $_EXTKEY, 'Reintdlm', 'LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:plugin_label',
+    'EXT:reint_downloadmanager/Resources/Public/Images/download_icon.png'
 );
 
 // load flexform for backend config
 $pluginSignature = str_replace('_', '', $_EXTKEY) . '_' . 'reintdlm';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/ControllerActions.xml');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature,
+    'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/ControllerActions.xml');
 
 // table for download counter
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_reintdownloadmanager_domain_model_download');

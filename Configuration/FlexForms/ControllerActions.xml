@@ -6,11 +6,12 @@
 		<element>
 			<ROOT>
 				<TCEforms>
-					<sheetTitle>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:chead1</sheetTitle>
+					<sheetTitle>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:chead1
+					</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>
-					
+
 					<switchableControllerActions>
 						<TCEforms>
 							<label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:select</label>
@@ -19,26 +20,34 @@
 								<type>select</type>
 								<items>
 									<numIndex index="0">
-										<numIndex index="0">LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem0</numIndex>
+										<numIndex index="0">
+											LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem0
+										</numIndex>
 										<numIndex index="1">Manager->empty</numIndex>
 									</numIndex>
 									<numIndex index="1">
-										<numIndex index="0">LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem1</numIndex>
+										<numIndex index="0">
+											LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem1
+										</numIndex>
 										<numIndex index="1">Manager->list</numIndex>
 									</numIndex>
 									<numIndex index="2">
-										<numIndex index="0">LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem2</numIndex>
+										<numIndex index="0">
+											LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem2
+										</numIndex>
 										<numIndex index="1">Manager->topdownloads</numIndex>
 									</numIndex>
 									<numIndex index="3">
-										<numIndex index="0">LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem3</numIndex>
+										<numIndex index="0">
+											LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem3
+										</numIndex>
 										<numIndex index="1">Manager->filesearch</numIndex>
 									</numIndex>
 								</items>
 							</config>
 						</TCEforms>
 					</switchableControllerActions>
-					
+
 					<settings.lbpid>
 						<TCEforms>
 							<exclude>0</exclude>
@@ -46,7 +55,8 @@
 							<displayCond>
 								<OR>
 									<numIndex index="0">FIELD:switchableControllerActions:=:Manager->list</numIndex>
-									<numIndex index="1">FIELD:switchableControllerActions:=:Manager->filesearch</numIndex>
+									<numIndex index="1">FIELD:switchableControllerActions:=:Manager->filesearch
+									</numIndex>
 								</OR>
 							</displayCond>
 							<config>
@@ -58,17 +68,19 @@
 								<minitems>0</minitems>
 								<show_thumbs>0</show_thumbs>
 							</config>
-						</TCEforms>						
+						</TCEforms>
 					</settings.lbpid>
-					
+
 					<settings.dfolder>
 						<TCEforms>
 							<exclude>0</exclude>
-							<label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:dfolder</label>
+							<label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:dfolder
+							</label>
 							<displayCond>
 								<OR>
 									<numIndex index="0">FIELD:switchableControllerActions:=:Manager->list</numIndex>
-									<numIndex index="1">FIELD:switchableControllerActions:=:Manager->filesearch</numIndex>
+									<numIndex index="1">FIELD:switchableControllerActions:=:Manager->filesearch
+									</numIndex>
 								</OR>
 							</displayCond>
 							<config>
@@ -80,13 +92,14 @@
 								<minitems>0</minitems>
 								<show_thumbs>0</show_thumbs>
 							</config>
-						</TCEforms>						
+						</TCEforms>
 					</settings.dfolder>
-					
+
 					<settings.topdnum>
 						<TCEforms>
 							<exclude>0</exclude>
-							<label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:topdnum</label>
+							<label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:topdnum
+							</label>
 							<displayCond>FIELD:switchableControllerActions:=:Manager->topdownloads</displayCond>
 							<config>
 								<type>input</type>
@@ -94,13 +107,14 @@
 								<max>10</max>
 								<eval>trim</eval>
 							</config>
-						</TCEforms>						
+						</TCEforms>
 					</settings.topdnum>
-					
+
 					<settings.topdtitle>
 						<TCEforms>
 							<exclude>0</exclude>
-							<label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:topdtitle</label>
+							<label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:topdtitle
+							</label>
 							<displayCond>FIELD:switchableControllerActions:=:Manager->topdownloads</displayCond>
 							<config>
 								<type>input</type>
@@ -108,13 +122,15 @@
 								<max>255</max>
 								<eval>trim</eval>
 							</config>
-						</TCEforms>						
+						</TCEforms>
 					</settings.topdtitle>
-					
+
 					<settings.searchplaceholder>
 						<TCEforms>
 							<exclude>0</exclude>
-							<label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:customsearchplaceholder</label>
+							<label>
+								LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:customsearchplaceholder
+							</label>
 							<displayCond>FIELD:switchableControllerActions:=:Manager->filesearch</displayCond>
 							<config>
 								<type>input</type>
@@ -122,9 +138,9 @@
 								<max>255</max>
 								<eval>trim</eval>
 							</config>
-						</TCEforms>						
+						</TCEforms>
 					</settings.searchplaceholder>
-					
+
 				</el>
 			</ROOT>
 		</element>

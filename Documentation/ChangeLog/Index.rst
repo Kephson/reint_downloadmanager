@@ -11,6 +11,14 @@
 ChangeLog
 =========
 
+- **26.08.2018** -> 1.8.0
+
+  - added example for realurl configuration
+  - added Hook for "Page is beeing generated" message if download should start
+  - please clear all caches or reinstall extension!
+
+-----------------------
+
 - **22.10.2017** -> 1.7.0
 
   - added support for use with non-public storage folders
