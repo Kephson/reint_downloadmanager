@@ -30,14 +30,22 @@ class SimpleDisplayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractV
 {
 
     /**
+     * initialize arguments
+     * https://docs.typo3.org/typo3cms/ExtbaseFluidBook/9.5/8-Fluid/8-developing-a-custom-viewhelper.html
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('obj', 'mixed', 'Object or array', false);
+        $this->registerArgument('prop', 'string', 'Property or key', false);
+    }
+
+    /**
      * Output and object element with property or
      * an array element with the given key
      *
-     * @param mixed $obj object or array
-     * @param string $prop property or key
      * @return void
      */
-    public function render($obj, $prop)
+    public function render()
     {
         if (is_object($obj)) {
             return $obj->$prop;

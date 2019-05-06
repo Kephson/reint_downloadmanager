@@ -31,14 +31,17 @@ class IncludeFileViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
 {
 
     /**
-     * Include a CSS/JS file
-     *
-     * @param string $path Path to the CSS/JS file which should be included
-     * @param string $name Name of the file
-     * @param boolean $compress Define if file should be compressed
-     * @return void
-     */
-    public function render($path, $name = '', $compress = false)
+     * initialize arguments
+     * https://docs.typo3.org/typo3cms/ExtbaseFluidBook/9.5/8-Fluid/8-developing-a-custom-viewhelper.html
+    */
+    public function initializeArguments()
+    {
+        $this->registerArgument('path', 'string', 'Path to file', true);
+        $this->registerArgument('name', 'string', 'Name of file', false, '');
+        $this->registerArgument('compress', 'boolean', 'Compress', false, 'false');
+    }
+
+    public function render()
     {
         // Retrieve pagerenderer instance
         $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
@@ -47,24 +50,27 @@ class IncludeFileViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
         }
 
         if (TYPO3_MODE === 'FE') {
-            $path = $GLOBALS['TSFE']->tmpl->getFileName($path);
-            if ($name === '') {
-                $name = 'dmfile' . strtolower(basename($path));
+            $this->arguments['path'] = $GLOBALS['TSFE']->tmpl->getFileName($this->arguments['path']);
+            if ($this->arguments['name'] === '') {
+                $this->arguments['name'] = 'dmfile' . strtolower(basename($this->arguments['path']));
             }
-            if (strtolower(substr($path, -3)) === '.js') {
+            if (strtolower(substr($this->arguments['path'], -3)) === '.js') {
                 // JS
-                $pageRenderer->addJsFooterLibrary($name, $path, false, $compress, false, '', true);
-            } elseif (strtolower(substr($path, -4)) === '.css') {
+                $pageRenderer->addJsFooterLibrary($this->arguments['name'], $this->arguments['path'], false,
+                    $this->arguments['compress'], false, '', true);
+            } elseif (strtolower(substr($this->arguments['path'], -4)) === '.css') {
                 // CSS
-                $pageRenderer->addCssFile($path, 'stylesheet', 'all', '', $compress);
+                $pageRenderer->addCssFile($this->arguments['path'], 'stylesheet', 'all', '',
+                    $this->arguments['compress']);
             }
         } else {
-            if (strtolower(substr($path, -3)) === '.js') {
+            if (strtolower(substr($this->arguments['path'], -3)) === '.js') {
                 // JS
-                $pageRenderer->addJsFile($path, null, $compress);
-            } elseif (strtolower(substr($path, -4)) === '.css') {
+                $pageRenderer->addJsFile($this->arguments['path'], null, $this->arguments['compress']);
+            } elseif (strtolower(substr($this->arguments['path'], -4)) === '.css') {
                 // CSS
-                $pageRenderer->addCssFile($path, 'stylesheet', 'all', '', $compress);
+                $pageRenderer->addCssFile($this->arguments['path'], 'stylesheet', 'all', '',
+                    $this->arguments['compress']);
             }
         }
     }
