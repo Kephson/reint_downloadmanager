@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
  *
  *  Copyright notice
  *
- *  (c) 2017-2018 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2019 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -34,6 +34,7 @@ use \TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use \TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use \TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use \TYPO3\CMS\Core\Database\ConnectionPool;
 
 /**
  * ManagerController
@@ -246,9 +247,12 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     protected function cleanupTopDownloads()
     {
         $topdownloads = $this->downloadRepository->findAllWithoutPid();
+        /** @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_file');
         foreach ($topdownloads as $d) {
             $fileUid = $d->getSysFileUid();
-            $res = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('uid', 'sys_file', 'uid=' . $fileUid);
+            $res = $queryBuilder->select('uid')->from('sys_file')->where($queryBuilder->expr()->eq('uid',
+                $fileUid))->execute()->fetch();
             if (!$res) {
                 $this->downloadRepository->remove($d);
             }
@@ -386,13 +390,16 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      */
     protected function getCollectionsFromPages($pageids)
     {
-
         $table = 'sys_file_collection';
         if (count($pageids) > 0) {
+            /** @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
             foreach ($pageids as $pageid) {
-                $fileCollections = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-                    '*', $table, 'pid = ' . $pageid . ' AND hidden=0 AND deleted=0', '', 'sorting', 1000
-                );
+                $fileCollections = $queryBuilder->select('*')->from($table)
+                    ->where($queryBuilder->expr()->eq('pid', $pageid),
+                        $queryBuilder->expr()->eq('hidden', 0),
+                        $queryBuilder->expr()->eq('deleted', 0))
+                    ->orderBy('sorting')->execute()->fetchAll();
                 if (count($fileCollections) > 0) {
                     foreach ($fileCollections as $col) {
                         if (!isset($this->collectionIds[$col['uid']])) {
@@ -412,11 +419,12 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      */
     protected function getSysFileCollectionData($uid, $fieldname = 'webdescription')
     {
-
         $table = 'sys_file_collection';
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
-            '*', $table, 'uid = ' . $uid, '', ''
-        );
+        /** @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+        $res = $queryBuilder->select('*')->from($table)
+            ->where($queryBuilder->expr()->eq('uid', $uid))
+            ->execute()->fetch();
         if (isset($res[$fieldname])) {
             return $res[$fieldname];
         } else {
@@ -545,9 +553,12 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      */
     protected function isFileAvailable($uid)
     {
-        $existingFileRecord = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
-            'uid', 'sys_file', 'uid=' . $uid
-        );
+        $table = 'sys_file';
+        /** @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+        $existingFileRecord = $queryBuilder->select('uid')->from($table)
+            ->where($queryBuilder->expr()->eq('uid', $uid))
+            ->execute()->fetch();
         //DebuggerUtility::var_dump($existingFileRecord);
         if (is_array($existingFileRecord)) {
             return true;

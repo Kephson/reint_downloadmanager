@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Model;
  *
  *  Copyright notice
  *
- *  (c) 2017-2018 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2019 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *

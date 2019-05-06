@@ -55,4 +55,4 @@ FAQ
 
 Is it possible to use my own templates?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Yes, please copy the templates from the extension to your own folder (e.g. /fileadmin/sites/etc/myTemplates/) and configure the path in the TypoScript of the extension. See also step 1 and 2 in configuration.
+Yes, please copy the templates from the extension to your own folder (e.g. EXT:my_site_package/Resources/Private/Templates/Ext/) and configure the path in the TypoScript of the extension. See also step 1 and 2 in configuration.

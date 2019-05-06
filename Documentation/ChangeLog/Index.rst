@@ -11,6 +11,15 @@
 ChangeLog
 =========
 
+- **06.05.2019** -> 2.0.0
+
+  - added example for slug configuration
+  - updated flexform to allow 999 pages or collections
+  - cleaned up coding
+  - new release for TYPO3 8.7 and 9.5
+
+-----------------------
+
 - **26.08.2018** -> 1.8.0
 
   - added example for realurl configuration

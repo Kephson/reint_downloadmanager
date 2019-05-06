@@ -9,12 +9,6 @@ if (!defined('TYPO3_MODE')) {
     'EXT:reint_downloadmanager/Resources/Public/Images/download_icon.png'
 );
 
-// load flexform for backend config
-$pluginSignature = str_replace('_', '', $_EXTKEY) . '_' . 'reintdlm';
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature,
-    'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/ControllerActions.xml');
-
 // table for download counter
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_reintdownloadmanager_domain_model_download');
 

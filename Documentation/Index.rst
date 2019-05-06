@@ -29,7 +29,7 @@ Download manager
 		FAL,file,download,manager,collection,top
 
 	:Copyright:
-		2018
+		2019
 
 	:Author:
 		Ephraim Härer
