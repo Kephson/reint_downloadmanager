@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **25.07.2019** -> 2.0.3
+
+  - added translations handling of file collection when using multiple translations
+
+-----------------------
+
 - **25.07.2019** -> 2.0.2
 
   - updated ViewHelpers and removed depraction

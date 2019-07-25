@@ -29,9 +29,7 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
 
 use \TYPO3\CMS\Core\Messaging\FlashMessage;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
-use \TYPO3\CMS\Core\Utility\DebugUtility;
 use \TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use \TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use \TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use \TYPO3\CMS\Core\Database\ConnectionPool;
@@ -236,7 +234,6 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
                 }
             }
         }
-        //DebuggerUtility::var_dump($filesArray);
 
         $this->view->assign('files', $filesArray);
     }
@@ -331,7 +328,6 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
                 $this->collectionSearchStrings[$key] = $searchItemString;
             }
         }
-        //DebuggerUtility::var_dump($this->collectionSearchStrings);
     }
 
     /**
@@ -395,14 +391,21 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
             /** @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
             foreach ($pageids as $pageid) {
+                // load all file collections in default language and current language if set
                 $fileCollections = $queryBuilder->select('*')->from($table)
                     ->where($queryBuilder->expr()->eq('pid', $pageid),
                         $queryBuilder->expr()->eq('hidden', 0),
                         $queryBuilder->expr()->eq('deleted', 0))
+                    ->andWhere($queryBuilder->expr()->eq('sys_language_uid', $GLOBALS['TSFE']->sys_language_uid))
+                    ->orWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
                     ->orderBy('sorting')->execute()->fetchAll();
                 if (count($fileCollections) > 0) {
                     foreach ($fileCollections as $col) {
                         if (!isset($this->collectionIds[$col['uid']])) {
+                            // check if there is a parent translation and remove it to get only the translated file collection
+                            if (isset($col['l10n_parent']) && $col['l10n_parent'] > 0 && isset($this->collectionIds[$col['l10n_parent']])) {
+                                unset($this->collectionIds[$col['l10n_parent']]);
+                            }
                             $this->collectionIds[$col['uid']] = $col['uid'];
                         }
                     }
@@ -496,7 +499,6 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
             } else {
                 $this->setFileNotFound();
             }
-            //DebuggerUtility::var_dump($privateUri); die();
         }
     }
 
@@ -559,7 +561,6 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
         $existingFileRecord = $queryBuilder->select('uid')->from($table)
             ->where($queryBuilder->expr()->eq('uid', $uid))
             ->execute()->fetch();
-        //DebuggerUtility::var_dump($existingFileRecord);
         if (is_array($existingFileRecord)) {
             return true;
         } else {
@@ -597,12 +598,9 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      */
     protected function updateUserSessionDownloads($recordUid)
     {
-
         $countEntry = $this->downloadRepository->getOneBySysFileUid($recordUid);
-        //DebuggerUtility::var_dump($countEntry);
 
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'reint_downloadmanager');
-        //DebuggerUtility::var_dump($sessionData);
 
         $newEntry = false;
         if (!$countEntry) {
@@ -651,8 +649,6 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      */
     protected function downloadFile($privateUri, $fileName, $publicUri, $fileModDate = 1)
     {
-
-        //DebuggerUtility::var_dump($this->settings); die();
         // check if there is a setting to redirect only to the file
         if (isset($this->settings['redirecttofile']) && (int)$this->settings['redirecttofile'] === 1) {
             // add modification date when set in setup
@@ -665,8 +661,6 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
             header('Location: ' . $fullPublicUri);
         } else {
             if (is_file($privateUri)) {
-
-                //DebuggerUtility::var_dump($privateUri); die();
 
                 $fileLen = filesize($privateUri);
                 $ext = strtolower(substr(strrchr($fileName, '.'), 1));
@@ -705,8 +699,6 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
                     'Content-Length' => $fileLen
                 );
 
-                //DebuggerUtility::var_dump($headers); die();
-
                 ob_clean(); // set to remove wrong headers which crashed some files (e.g. xls, dot, ...)
                 foreach ($headers as $header => $data) {
                     $this->response->setHeader($header, $data);
@@ -715,7 +707,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
                 @readfile($privateUri);
             } else {
-                //DebuggerUtility::var_dump($privateUri);
+
             }
         }
         exit();
