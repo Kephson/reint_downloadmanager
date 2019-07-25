@@ -27,13 +27,13 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers;
  * @package TYPO3
  * @subpackage reint_downloadmanager
  */
-class IncludeFileViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class IncludeFileViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**
      * initialize arguments
      * https://docs.typo3.org/typo3cms/ExtbaseFluidBook/9.5/8-Fluid/8-developing-a-custom-viewhelper.html
-    */
+     */
     public function initializeArguments()
     {
         $this->registerArgument('path', 'string', 'Path to file', true);

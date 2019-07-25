@@ -2,6 +2,8 @@
 
 namespace RENOLIT\ReintDownloadmanager\ViewHelpers;
 
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+
 /**
  * This file is part of the TYPO3 CMS project.
  * It is free software; you can redistribute it and/or modify it under
@@ -26,7 +28,7 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers;
  * @package TYPO3
  * @subpackage reint_downloadmanager
  */
-class SimpleDisplayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class SimpleDisplayViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**
@@ -35,6 +37,7 @@ class SimpleDisplayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractV
      */
     public function initializeArguments()
     {
+        parent::initializeArguments();
         $this->registerArgument('obj', 'mixed', 'Object or array', false);
         $this->registerArgument('prop', 'string', 'Property or key', false);
     }
@@ -43,10 +46,12 @@ class SimpleDisplayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractV
      * Output and object element with property or
      * an array element with the given key
      *
-     * @return void
+     * @return mixed
      */
     public function render()
     {
+        $obj = $this->arguments['obj'];
+        $prop = $this->arguments['prop'];
         if (is_object($obj)) {
             return $obj->$prop;
         } elseif (is_array($obj)) {

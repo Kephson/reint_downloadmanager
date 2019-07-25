@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+- **25.07.2019** -> 2.0.2
+
+  - updated ViewHelpers and removed depraction
+  - fixed wrong getting of arguments in ViewHelper
+
+-----------------------
+
 - **06.05.2019** -> 2.0.0
 
   - added example for slug configuration
