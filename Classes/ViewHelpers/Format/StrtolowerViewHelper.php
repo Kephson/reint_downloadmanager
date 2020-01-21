@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers\Format;
  *
  *  Copyright notice
  *
- *  (c) 2017-2019 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2020 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -27,13 +27,15 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers\Format;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
  * Formats string with all alphabetic characters converted to lowercase.
  *
  * @see http://www.php.net/manual/en/function.strtolower.php
  * = Examples =
  * <code title="Defaults">
- * <f:format.strtolower>This is an example</f:format.number>
+ * <r:format.strtolower>This is an example</r:format.number>
  * </code>
  * <output>
  * this is an example
@@ -41,7 +43,7 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers\Format;
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @api
  */
-class StrtolowerViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class StrtolowerViewHelper extends AbstractViewHelper
 {
 
     /**

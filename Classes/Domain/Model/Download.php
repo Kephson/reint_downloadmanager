@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Model;
  *
  *  Copyright notice
  *
- *  (c) 2017-2019 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2020 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -27,10 +27,12 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use \TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+
 /**
  * Manages the downloads.
  */
-class Download extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class Download extends AbstractEntity
 {
 
     /**

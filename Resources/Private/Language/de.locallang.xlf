@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2015-02-13T13:47:45Z" product-name="reint_downloadmanager">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-02-13T13:47:45Z"
+		  product-name="reint_downloadmanager">
 		<header/>
 		<body>
 			<trans-unit id="plugin_label">
@@ -11,7 +12,7 @@
 				<source>A download manager for file collections.</source>
 				<target state="translated">Ein Download Manager für Dateisammlungen.</target>
 			</trans-unit>
-			
+
 			<trans-unit id="tx_reintdownloadmanager_domain_model_manager">
 				<source>Manager</source>
 				<target state="translated">Manager</target>
@@ -24,7 +25,7 @@
 				<source>Filereference</source>
 				<target state="translated">Datei Referenz</target>
 			</trans-unit>
-			
+
 			<trans-unit id="chead1">
 				<source>View</source>
 				<target state="translated">Ausgabe</target>
@@ -49,7 +50,31 @@
 				<source>File search</source>
 				<target state="translated">Dateisuche</target>
 			</trans-unit>
-			
+			<trans-unit id="celem1_ce">
+				<source>List of downloads</source>
+				<target state="translated">Downloads als Liste</target>
+			</trans-unit>
+			<trans-unit id="celem1_ce_desc">
+				<source>List view of multiple download files</source>
+				<target state="translated">Anzeige von mehreren Downloads als Liste</target>
+			</trans-unit>
+			<trans-unit id="celem2_ce">
+				<source>Top downloads view</source>
+				<target state="translated">Top Downloads</target>
+			</trans-unit>
+			<trans-unit id="celem2_ce_desc">
+				<source>A list of top downloaded files</source>
+				<target state="translated">Eine Liste von Top-Downloads als Liste</target>
+			</trans-unit>
+			<trans-unit id="celem3_ce">
+				<source>Downloads file search</source>
+				<target state="translated">Download Suche</target>
+			</trans-unit>
+			<trans-unit id="celem3_ce_desc">
+				<source>Add the search plugin for download files</source>
+				<target state="translated">Fügt ein Suche für die Download Dateien ein</target>
+			</trans-unit>
+
 			<trans-unit id="lbrpid">
 				<source>Select single file collections to display (max. 99)</source>
 				<target state="translated">Einzelne Dateisammlungen auswählen (max. 99)</target>
@@ -70,46 +95,50 @@
 				<source>Placeholder for search field</source>
 				<target state="translated">Platzhalter für Suchfeld</target>
 			</trans-unit>
-			
+
 			<trans-unit id="nocollection">
 				<source>No collection found. Please set a collection in the backend configuration.</source>
-				<target state="translated">Keine Dateisammlung gefunden. Bitte wählen Sie Dateisammlungen im Backend aus.</target>
+				<target state="translated">Keine Dateisammlung gefunden. Bitte wählen Sie Dateisammlungen im Backend
+					aus.
+				</target>
 			</trans-unit>
 			<trans-unit id="nodownloads">
 				<source>No top downloads found.</source>
 				<target state="translated">Keine Top Downloads gefunden.</target>
 			</trans-unit>
-			
+
 			<trans-unit id="tdhead">
 				<source>Top downloads</source>
 				<target state="translated">Top Downloads</target>
 			</trans-unit>
-			
+
 			<trans-unit id="noselection">
 				<source>There is no view selected in backend. Please select the view to see output.</source>
-				<target state="translated">Es wurde keine Ansicht im Backend ausgewählt. Bitte konfigurieren Sie das Plugin.</target>
+				<target state="translated">Es wurde keine Ansicht im Backend ausgewählt. Bitte konfigurieren Sie das
+					Plugin.
+				</target>
 			</trans-unit>
 
 			<trans-unit id="titledesc">
 				<source>Click to see the content of this collection</source>
 				<target state="translated">Klicken um den Inhalt dieser Sammlung zu sehen</target>
 			</trans-unit>
-			
+
 			<trans-unit id="searchplaceholder">
 				<source>Please type your search</source>
 				<target state="translated">Suchbegriff eingeben</target>
 			</trans-unit>
-			
+
 			<trans-unit id="fileNotFound">
 				<source>The file for download couldn't found.</source>
 				<target state="translated">Die angeforderte Datei für einen Download wurde nicht gefunden.</target>
 			</trans-unit>
-			
+
 			<trans-unit id="fileNoAccess">
 				<source>You have no access to download this file.</source>
 				<target state="translated">Sie haben keine Berechtigung zum Download dieser Datei.</target>
 			</trans-unit>
-			
+
 		</body>
 	</file>
 </xliff>

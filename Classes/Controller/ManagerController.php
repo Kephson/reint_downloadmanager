@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
  *
  *  Copyright notice
  *
- *  (c) 2017-2019 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2020 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -27,17 +27,28 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use \RENOLIT\ReintDownloadmanager\Domain\Model\Download;
+use \RENOLIT\ReintDownloadmanager\Domain\Repository\DownloadRepository;
+use \TYPO3\CMS\Core\Collection\RecordCollectionRepository;
+use TYPO3\CMS\Core\Context\Context;
+use \TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use \TYPO3\CMS\Core\Messaging\FlashMessage;
+use \TYPO3\CMS\Core\Resource\File;
+use \TYPO3\CMS\Core\Resource\FileCollectionRepository;
+use \TYPO3\CMS\Core\Resource\FileRepository;
+use \TYPO3\CMS\Core\Resource\ResourceFactory;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
+use \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use \TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use \TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use \TYPO3\CMS\Core\Database\ConnectionPool;
+use \TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 /**
  * ManagerController
  */
-class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class ManagerController extends ActionController
 {
 
     /**
@@ -50,34 +61,29 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     /**
      * persistenceManager
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
-     * @inject
+     * @var PersistenceManager
      */
     protected $persistenceManager;
 
     /**
      * downloadRepository
      *
-     * @var \RENOLIT\ReintDownloadmanager\Domain\Repository\DownloadRepository
-     * @inject
+     * @var DownloadRepository
      */
     protected $downloadRepository = null;
 
     /**
-     * @var \TYPO3\CMS\Core\Collection\RecordCollectionRepository
-     * @inject
+     * @var RecordCollectionRepository
      */
     protected $collectionRepository;
 
     /**
-     * @var \TYPO3\CMS\Core\Resource\FileCollectionRepository
-     * @inject
+     * @var FileCollectionRepository
      */
     protected $fileCollectionRepository;
 
     /**
-     * @var \TYPO3\CMS\Core\Resource\FileRepository
-     * @inject
+     * @var FileRepository
      */
     protected $fileRepository;
 
@@ -122,7 +128,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
         parent::initializeAction();
 
         //fallback to current pid if no storagePid is defined
-        $configuration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+        $configuration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
         if (empty($configuration['persistence']['storagePid'])) {
             $currentPid = array();
             $currentPid['persistence']['storagePid'] = $GLOBALS["TSFE"]->id;
@@ -138,6 +144,35 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
         }
         $this->defaultTsConfig['topdtitle'] = $this->settings['topdtitle'];
         $this->defaultTsConfig['searchplaceholder'] = $this->settings['searchplaceholder'];
+    }
+
+    public function injectCollectionRepository(
+        RecordCollectionRepository $collectionRepository
+    ) {
+        $this->collectionRepository = $collectionRepository;
+    }
+
+    public function injectDownloadRepository(
+        DownloadRepository $downloadRepository
+    ) {
+        $this->downloadRepository = $downloadRepository;
+    }
+
+    public function injectFileCollectionRepository(
+        FileCollectionRepository $fileCollectionRepository
+    ) {
+        $this->fileCollectionRepository = $fileCollectionRepository;
+    }
+
+    public function injectFileRepository(FileRepository $fileRepository)
+    {
+        $this->fileRepository = $fileRepository;
+    }
+
+    public function injectPersistenceManager(
+        PersistenceManager $persistenceManager
+    ) {
+        $this->persistenceManager = $persistenceManager;
     }
 
     /**
@@ -244,7 +279,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     protected function cleanupTopDownloads()
     {
         $topdownloads = $this->downloadRepository->findAllWithoutPid();
-        /** @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
+        /** @var $queryBuilder QueryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_file');
         foreach ($topdownloads as $d) {
             $fileUid = $d->getSysFileUid();
@@ -333,7 +368,8 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     /**
      * load all collections from database
      *
-     * @return true
+     * @return void
+     * @throws
      */
     protected function loadCollectionsFromDb()
     {
@@ -382,21 +418,24 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     /**
      * load all collection ids from given pages
      *
-     * @param array $pageids
+     * @param array $pageIds
+     * @throws
      */
-    protected function getCollectionsFromPages($pageids)
+    protected function getCollectionsFromPages($pageIds)
     {
         $table = 'sys_file_collection';
-        if (count($pageids) > 0) {
-            /** @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
+        $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+        $context = GeneralUtility::makeInstance(Context::class);
+        if (count($pageIds) > 0) {
+            /** @var $queryBuilder QueryBuilder */
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
-            foreach ($pageids as $pageid) {
+            foreach ($pageIds as $pageId) {
                 // load all file collections in default language and current language if set
                 $fileCollections = $queryBuilder->select('*')->from($table)
-                    ->where($queryBuilder->expr()->eq('pid', $pageid),
+                    ->where($queryBuilder->expr()->eq('pid', $pageId),
                         $queryBuilder->expr()->eq('hidden', 0),
                         $queryBuilder->expr()->eq('deleted', 0))
-                    ->andWhere($queryBuilder->expr()->eq('sys_language_uid', $GLOBALS['TSFE']->sys_language_uid))
+                    ->andWhere($queryBuilder->expr()->eq('sys_language_uid', $languageAspect->getId()))
                     ->orWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
                     ->orderBy('sorting')->execute()->fetchAll();
                 if (count($fileCollections) > 0) {
@@ -418,12 +457,14 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      * gets additional data for file collections
      * TODO: why is the field "webdescription" not loaded?
      *
+     * @param integer $uid
+     * @param string $fieldname
      * @return string
      */
     protected function getSysFileCollectionData($uid, $fieldname = 'webdescription')
     {
         $table = 'sys_file_collection';
-        /** @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
+        /** @var $queryBuilder QueryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
         $res = $queryBuilder->select('*')->from($table)
             ->where($queryBuilder->expr()->eq('uid', $uid))
@@ -450,6 +491,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      * sends a file to download if download param is set
      *
      * @return void
+     * @throws
      */
     protected function setDownload()
     {
@@ -460,9 +502,9 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
             if ($recordUid > 0) {
                 if ($this->isFileAvailable($recordUid)) {
-                    /* @var $fileRepository \TYPO3\CMS\Core\Resource\ResourceFactory */
-                    $fileRepository = $this->objectManager->get(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
-                    /* @var $file \TYPO3\CMS\Core\Resource\File */
+                    /* @var $fileRepository ResourceFactory */
+                    $fileRepository = $this->objectManager->get(ResourceFactory::class);
+                    /* @var $file File */
                     $file = $fileRepository->getFileObject($recordUid);
 
                     $privateUri = '';
@@ -475,7 +517,6 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
                                 /* @var $checkPermissions \BeechIt\FalSecuredownload\Security\CheckPermissions */
                                 $checkPermissions = GeneralUtility::makeInstance(\BeechIt\FalSecuredownload\Security\CheckPermissions::class);
                                 $this->feUserFileAccess = $checkPermissions->checkFileAccessForCurrentFeUser($file);
-                                $privateUri = $this->getPrivateUrlForNonPublic($file);
                             }
                         }
                         $privateUri = $this->getPrivateUrlForNonPublic($file);
@@ -505,10 +546,10 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     /**
      * return the private path to the file if storage is not public
      *
-     * @param \TYPO3\CMS\Core\Resource\File $file
+     * @param File $file
      * @return string
      */
-    protected function getPrivateUrlForNonPublic(\TYPO3\CMS\Core\Resource\File $file)
+    protected function getPrivateUrlForNonPublic(File $file)
     {
         $storageConfiguration = $file->getStorage()->getConfiguration();
         $storageBasePath = $storageConfiguration['basePath'];
@@ -540,6 +581,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      *
      * @param string $errorFlashMessage
      * @return void
+     * @throws
      */
     protected function writeFlashMessage($errorFlashMessage)
     {
@@ -556,7 +598,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     protected function isFileAvailable($uid)
     {
         $table = 'sys_file';
-        /** @var $queryBuilder \TYPO3\CMS\Core\Database\Query\QueryBuilder */
+        /** @var $queryBuilder QueryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
         $existingFileRecord = $queryBuilder->select('uid')->from($table)
             ->where($queryBuilder->expr()->eq('uid', $uid))
@@ -572,16 +614,16 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      * checks the public uri for params or extension reint_file_timestamp
      *
      * @param string $publicUri
-     * @param integer $fileModDate
+     * @param bool $fileModDate
      * @return string
      */
-    protected function checkPublicUriForParams($publicUri, $fileModDate = 0)
+    protected function checkPublicUriForParams($publicUri, $fileModDate = false)
     {
 
         if (ExtensionManagementUtility::isLoaded('reint_file_timestamp') || stripos($publicUri, '?') !== false) {
             $uri = $publicUri . '&v=' . $fileModDate;
         } else {
-            if ($fileModDate > 0) {
+            if ($fileModDate) {
                 $uri = $publicUri . '?v=' . $fileModDate;
             } else {
                 $uri = $publicUri;
@@ -595,6 +637,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      * stores the download of a file in the user session
      *
      * @param integer $recordUid
+     * @throws
      */
     protected function updateUserSessionDownloads($recordUid)
     {
@@ -604,7 +647,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
         $newEntry = false;
         if (!$countEntry) {
-            $countEntry = $this->objectManager->get(\RENOLIT\ReintDownloadmanager\Domain\Model\Download::class);
+            $countEntry = $this->objectManager->get(Download::class);
             $countEntry->setSysFileUid($recordUid);
             $countEntry->setDownloads(0);
             $newEntry = true;
@@ -645,9 +688,9 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      * @param string $privateUri
      * @param string $fileName
      * @param string $publicUri
-     * @param string $fileModDate
+     * @param bool $fileModDate
      */
-    protected function downloadFile($privateUri, $fileName, $publicUri, $fileModDate = 1)
+    protected function downloadFile($privateUri, $fileName, $publicUri, $fileModDate = true)
     {
         // check if there is a setting to redirect only to the file
         if (isset($this->settings['redirecttofile']) && (int)$this->settings['redirecttofile'] === 1) {
@@ -690,7 +733,7 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
                 $headers = array(
                     'Pragma' => 'public',
                     'Expires' => -1,
-                    'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+                    //'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
                     'Cache-Control' => 'public',
                     //'Content-Description' => 'File Transfer', // not in http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
                     //'Content-Transfer-Encoding' => 'binary', // not in http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
@@ -706,8 +749,6 @@ class ManagerController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
                 $this->response->sendHeaders();
 
                 @readfile($privateUri);
-            } else {
-
             }
         }
         exit();

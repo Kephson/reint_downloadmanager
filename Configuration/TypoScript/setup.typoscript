@@ -1,0 +1,58 @@
+plugin.tx_reintdownloadmanager {
+  # configure the path for the templates here
+  view {
+    templateRootPaths {
+      0 = EXT:reint_downloadmanager/Resources/Private/Templates/
+      1 = {$plugin.tx_reintdownloadmanager.view.templateRootPath}
+    }
+
+    partialRootPaths {
+      0 = EXT:reint_downloadmanager/Resources/Private/Partials/
+      1 = {$plugin.tx_reintdownloadmanager.view.partialRootPath}
+    }
+
+    layoutRootPaths {
+      0 = EXT:reint_downloadmanager/Resources/Private/Layouts/
+      1 = {$plugin.tx_reintdownloadmanager.view.layoutRootPath}
+    }
+  }
+
+  # configure a default storage pid here
+  persistence {
+    storagePid = {$plugin.tx_reintdownloadmanager.persistence.storagePid}
+  }
+
+  # configure settings for the extension here
+  settings {
+    # use redirecting to the file instead of a download header for all files
+    redirecttofile = {$plugin.tx_reintdownloadmanager.settings.redirecttofile}
+    # add the modification date when redirecting to file
+    addfiletstamp = {$plugin.tx_reintdownloadmanager.settings.addfiletstamp}
+    # Include JavaScript for file search
+    includedefaultjs = {$plugin.tx_reintdownloadmanager.settings.includedefaultjs}
+    # Include default CSS
+    includedefaultcss = {$plugin.tx_reintdownloadmanager.settings.includedefaultcss}
+  }
+}
+
+plugin.tx_reintdownloadmanager_dmlist {
+  templateName = List
+  view {
+    templateRootPaths {
+      0 = EXT:reint_downloadmanager/Resources/Private/Templates/
+      1 = {$plugin.tx_reintdownloadmanager.view.templateRootPath}
+    }
+
+    partialRootPaths {
+      0 = EXT:reint_downloadmanager/Resources/Private/Partials/
+      1 = {$plugin.tx_reintdownloadmanager.view.partialRootPath}
+    }
+
+    layoutRootPaths {
+      0 = EXT:reint_downloadmanager/Resources/Private/Layouts/
+      1 = {$plugin.tx_reintdownloadmanager.view.layoutRootPath}
+    }
+
+    #pluginNamespace = downloadmanager_list
+  }
+}

@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Repository;
  *
  *  Copyright notice
  *
- *  (c) 2017-2019 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2020 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -27,20 +27,21 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use \TYPO3\CMS\Extbase\Persistence\Repository;
+use \TYPO3\CMS\Extbase\Persistence\QueryInterface;
+
 /**
  * The repository for download statistics
  */
-class DownloadRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class DownloadRepository extends Repository
 {
 
     /**
-     * find one download by sys_file_uid
-     *
-     * @param array $uid
+     * @param integer $uid
+     * @return object
      */
     public function getOneBySysFileUid($uid)
     {
-
         $query = $this->createQuery();
         $query->matching(
             $query->equals('sys_file_uid', $uid)
@@ -50,6 +51,9 @@ class DownloadRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
     /**
      * find the top ten downloads ordered by the counter
+     *
+     * @param integer $limit
+     * @return object
      */
     public function findTopDownloadList($limit = 10)
     {
@@ -58,7 +62,7 @@ class DownloadRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $query->setLimit($limit);
         $query->setOrderings(
             array(
-                'downloads' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING,
+                'downloads' => QueryInterface::ORDER_DESCENDING,
             )
         );
         return $query->execute();
@@ -66,6 +70,8 @@ class DownloadRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
     /**
      * return all entries without page id specified
+     *
+     * @return object
      */
     public function findAllWithoutPid()
     {

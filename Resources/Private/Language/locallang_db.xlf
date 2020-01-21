@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2015-02-13T13:47:45Z" product-name="reint_downloadmanager">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-02-13T13:47:45Z"
+		  product-name="reint_downloadmanager">
 		<header/>
 		<body>
 			<trans-unit id="tx_reintdownloadmanager_domain_model_download">
