@@ -26,10 +26,10 @@ Download manager
 		A simple TYPO3 download manager with different views of file collections as downloadable lists.
 
 	:Keywords:
-		FAL,file,download,manager,collection,top
+		FAL,file,download,manager,collection,top10,downloads
 
 	:Copyright:
-		2019
+		2020
 
 	:Author:
 		Ephraim Härer
@@ -39,13 +39,13 @@ Download manager
 
 	:License:
 		This document is published under the Open Content License
-		available from http://www.opencontent.org/opl.shtml
+		available from https://www.opencontent.org/
 
 	:Rendered:
 		|today|
 
 	The content of this document is related to TYPO3,
-	a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_.
+	a GNU/GPL CMS/Framework available from `www.typo3.org <https://www.typo3.org/>`_.
 
 	**Table of Contents**
 

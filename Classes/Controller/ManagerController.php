@@ -39,7 +39,7 @@ use \TYPO3\CMS\Core\Resource\FileRepository;
 use \TYPO3\CMS\Core\Resource\ResourceFactory;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
-use \TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use \TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use \TYPO3\CMS\Core\Database\ConnectionPool;
@@ -132,7 +132,7 @@ class ManagerController extends ActionController
         $configuration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
         if (empty($configuration['persistence']['storagePid'])) {
             $currentPid = array();
-            $currentPid['persistence']['storagePid'] = $GLOBALS["TSFE"]->id;
+            $currentPid['persistence']['storagePid'] = $GLOBALS['TSFE']->id;
             $this->configurationManager->setConfiguration(array_merge($configuration, $currentPid));
         }
 
@@ -389,6 +389,7 @@ class ManagerController extends ActionController
 
         /* check if there are any collections */
         if (count($this->collectionIds) > 0) {
+            //$this->fileCollectionRepository->
             /* Get all existing collections */
             foreach ($this->collectionIds as $uid) {
                 $this->collections[] = $this->fileCollectionRepository->findByUid($uid);
@@ -511,43 +512,40 @@ class ManagerController extends ActionController
         if ($this->request->hasArgument('downloaduid')) {
 
             $recordUid = (int)$this->request->getArgument('downloaduid');
+            $publicUri = '';
+            $fileName = '';
+            $fileModDate = '';
 
-            if ($recordUid > 0) {
-                if ($this->isFileAvailable($recordUid)) {
-                    /* @var $fileRepository ResourceFactory */
-                    $fileRepository = $this->objectManager->get(ResourceFactory::class);
-                    /* @var $file File */
-                    $file = $fileRepository->getFileObject($recordUid);
+            if (($recordUid > 0) && $this->isFileAvailable($recordUid)) {
+                /* @var $fileRepository ResourceFactory */
+                $fileRepository = $this->objectManager->get(ResourceFactory::class);
+                /* @var $file File */
+                $file = $fileRepository->getFileObject($recordUid);
 
-                    $privateUri = '';
-                    if (is_object($file)) {
-                        $publicUri = $file->getPublicUrl();
-                        $fileName = $file->getName();
-                        $fileModDate = $file->getProperty('tstamp');
-                        if (!$file->getStorage()->isPublic()) {
-                            if (ExtensionManagementUtility::isLoaded('fal_securedownload')) {
-                                /* @var $checkPermissions \BeechIt\FalSecuredownload\Security\CheckPermissions */
-                                $checkPermissions = GeneralUtility::makeInstance(\BeechIt\FalSecuredownload\Security\CheckPermissions::class);
-                                $this->feUserFileAccess = $checkPermissions->checkFileAccessForCurrentFeUser($file);
-                            }
-                        }
-                        $privateUri = $this->getPrivateUrlForNonPublic($file);
+                $privateUri = '';
+                if (is_object($file)) {
+                    $publicUri = $file->getPublicUrl();
+                    $fileName = $file->getName();
+                    $fileModDate = $file->getProperty('tstamp');
+                    if (!$file->getStorage()->isPublic() && ExtensionManagementUtility::isLoaded('fal_securedownload')) {
+                        /* @var $checkPermissions \BeechIt\FalSecuredownload\Security\CheckPermissions */
+                        $checkPermissions = GeneralUtility::makeInstance(\BeechIt\FalSecuredownload\Security\CheckPermissions::class);
+                        $this->feUserFileAccess = $checkPermissions->checkFileAccessForCurrentFeUser($file);
+                    }
+                    $privateUri = $this->getPrivateUrlForNonPublic($file);
+                } else {
+                    $this->setFileNotFound();
+                }
+                if (!$file->isMissing() && is_file($privateUri) && $this->feUserFileAccess) {
+                    /* update counter or set new */
+                    $this->updateUserSessionDownloads($recordUid);
+                    $this->downloadFile($privateUri, $fileName, $publicUri, $fileModDate);
+                } else {
+                    if (!$this->feUserFileAccess) {
+                        $this->setFileNoAccess();
                     } else {
                         $this->setFileNotFound();
                     }
-                    if (!$file->isMissing() && is_file($privateUri) && $this->feUserFileAccess) {
-                        /* update counter or set new */
-                        $this->updateUserSessionDownloads($recordUid);
-                        $this->downloadFile($privateUri, $fileName, $publicUri, $fileModDate);
-                    } else {
-                        if (!$this->feUserFileAccess) {
-                            $this->setFileNoAccess();
-                        } else {
-                            $this->setFileNotFound();
-                        }
-                    }
-                } else {
-                    $this->setFileNotFound();
                 }
             } else {
                 $this->setFileNotFound();

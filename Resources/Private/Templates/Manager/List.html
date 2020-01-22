@@ -1,9 +1,6 @@
 {namespace r=RENOLIT\ReintDownloadmanager\ViewHelpers}
 <f:layout name="Default" />
 
-<f:debug>{collection}</f:debug>
-<f:debug>{record}</f:debug>
-
 <f:section name="main">
 	<f:if condition="{config.includedefaultjs}"><r:includeFile path="EXT:reint_downloadmanager/Resources/Public/js/dmjs.js" name="zdmfile1" /></f:if>
 	<f:if condition="{config.includedefaultcss}"><r:includeFile path="EXT:reint_downloadmanager/Resources/Public/css/dmcss.css" /></f:if>

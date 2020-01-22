@@ -11,6 +11,19 @@
 ChangeLog
 =========
 
+- **22.01.2020** -> 3.0.1
+
+  - added own plugins for each action to include it easier for editors
+  - refactored all coding, removed deprecated functions
+
+-----------------------
+
+- **22.01.2020** -> 3.0.0
+
+  - new release for TYPO3 >= 9.5
+
+-----------------------
+
 - **25.07.2019** -> 2.0.3
 
   - added translations handling of file collection when using multiple translations
