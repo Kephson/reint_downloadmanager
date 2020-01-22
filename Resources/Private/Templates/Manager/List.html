@@ -11,9 +11,9 @@
 	<f:flashMessages/>
 
 	<div class="all-collection-wrapper">
-		<f:if condition="{filecollections}">
+		<f:if condition="{fileCollections}">
 			<f:then>
-				<f:for each="{filecollections}" as="collection">
+				<f:for each="{fileCollections}" as="collection">
 					<div class="collection-wrapper">
 						<div class="collection-header">
 							<h3 class="collection-title">{collection.title}</h3>
@@ -22,7 +22,7 @@
 						<ul class="collection-content">
 							<f:for each="{collection.items}" as="record">
 								<li class="link-item">
-									<f:link.page target="_blank" additionalParams="{tx_reintdownloadmanager_reintdlm:{downloaduid:'{record.properties.file}'}}"><f:if condition="{record.properties.title}"><f:then>{record.properties.title}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
+									<f:link.page target="_blank" additionalParams="{r:pluginArgArray(pluginParam:'{extAdditionalParams}',valueArray:'{downloaduid:\'{record.properties.file}\'}')}"><f:if condition="{record.properties.title}"><f:then>{record.properties.title}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
 								</li>
 							</f:for>
 						</ul>

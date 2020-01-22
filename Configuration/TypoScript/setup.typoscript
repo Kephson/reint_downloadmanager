@@ -35,24 +35,11 @@ plugin.tx_reintdownloadmanager {
   }
 }
 
-plugin.tx_reintdownloadmanager_dmlist {
-  templateName = List
-  view {
-    templateRootPaths {
-      0 = EXT:reint_downloadmanager/Resources/Private/Templates/
-      1 = {$plugin.tx_reintdownloadmanager.view.templateRootPath}
-    }
+plugin.tx_reintdownloadmanager_dmlist < plugin.tx_reintdownloadmanager
+plugin.tx_reintdownloadmanager_dmlist.templateName = List
 
-    partialRootPaths {
-      0 = EXT:reint_downloadmanager/Resources/Private/Partials/
-      1 = {$plugin.tx_reintdownloadmanager.view.partialRootPath}
-    }
+plugin.tx_reintdownloadmanager_dmtopdownloads < plugin.tx_reintdownloadmanager
+plugin.tx_reintdownloadmanager_dmtopdownloads.templateName = Topdownloads
 
-    layoutRootPaths {
-      0 = EXT:reint_downloadmanager/Resources/Private/Layouts/
-      1 = {$plugin.tx_reintdownloadmanager.view.layoutRootPath}
-    }
-
-    #pluginNamespace = downloadmanager_list
-  }
-}
+plugin.tx_reintdownloadmanager_dmfilesearch < plugin.tx_reintdownloadmanager
+plugin.tx_reintdownloadmanager_dmfilesearch.templateName = Filesearch
