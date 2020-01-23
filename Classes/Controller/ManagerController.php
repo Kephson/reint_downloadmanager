@@ -39,7 +39,6 @@ use \TYPO3\CMS\Core\Resource\FileRepository;
 use \TYPO3\CMS\Core\Resource\ResourceFactory;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use \TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use \TYPO3\CMS\Core\Database\ConnectionPool;
@@ -201,12 +200,15 @@ class ManagerController extends ActionController
         /* load the collections from database */
         $this->loadCollectionsFromDb();
 
+        $contentObject = $this->configurationManager->getContentObject()->data;
+
         /* assign the data to fluid */
         $this->view->assignMultiple(
             [
                 'config' => $this->defaultTsConfig,
                 'fileCollections' => $this->collections,
                 'extAdditionalParams' => $this->getUrlExtParam(),
+                'contentobj' => $contentObject,
             ]
         );
     }
@@ -245,12 +247,15 @@ class ManagerController extends ActionController
             }
         }
 
+        $contentObject = $this->configurationManager->getContentObject()->data;
+
         /* assign the data to fluid */
         $this->view->assignMultiple(
             [
                 'config' => $this->defaultTsConfig,
                 'files' => $filesArray,
                 'extAdditionalParams' => $this->getUrlExtParam(),
+                'contentobj' => $contentObject,
             ]
         );
     }
@@ -275,6 +280,8 @@ class ManagerController extends ActionController
         /* write the search field for collection titles */
         $this->writeCollectionTitleSearchfield();
 
+        $contentObject = $this->configurationManager->getContentObject()->data;
+
         /* assign the data to fluid */
         $this->view->assignMultiple(
             [
@@ -282,6 +289,7 @@ class ManagerController extends ActionController
                 'collectionSearchStrings' => $this->collectionSearchStrings,
                 'fileCollections' => $this->collections,
                 'extAdditionalParams' => $this->getUrlExtParam(),
+                'contentobj' => $contentObject,
             ]
         );
     }

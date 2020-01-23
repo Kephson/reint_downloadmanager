@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **23.01.2020** -> 3.0.2
+
+  - pushed content object data to fluid templates
+
+-----------------------
+
 - **22.01.2020** -> 3.0.1
 
   - added own plugins for each action to include it easier for editors
