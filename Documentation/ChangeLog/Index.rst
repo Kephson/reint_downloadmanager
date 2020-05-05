@@ -11,6 +11,14 @@
 ChangeLog
 =========
 
+- **05.05.2020** -> 3.0.3
+
+  - bugfix update, fixes #16
+  - fixed wrong loading of collections from FlexForm
+  - please update if using version 3+
+
+-----------------------
+
 - **23.01.2020** -> 3.0.2
 
   - pushed content object data to fluid templates

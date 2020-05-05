@@ -455,10 +455,12 @@ class ManagerController extends ActionController
                 $fileCollections = $queryBuilder->select('*')->from($table)
                     ->where($queryBuilder->expr()->eq('pid', $pageId),
                         $queryBuilder->expr()->eq('hidden', 0),
-                        $queryBuilder->expr()->eq('deleted', 0))
-                    ->andWhere($queryBuilder->expr()->eq('sys_language_uid', $languageAspect->getId()))
-                    ->orWhere($queryBuilder->expr()->eq('sys_language_uid', 0))
-                    ->orderBy('sorting')->execute()->fetchAll();
+                        $queryBuilder->expr()->eq('deleted', 0),
+                        $queryBuilder->expr()->orX(
+                            $queryBuilder->expr()->eq('sys_language_uid', $languageAspect->getId()),
+                            $queryBuilder->expr()->eq('sys_language_uid', 0)
+                        )
+                    )->orderBy('sorting')->execute()->fetchAll();
                 if (count($fileCollections) > 0) {
                     foreach ($fileCollections as $col) {
                         if (!isset($this->collectionIds[$col['uid']])) {
