@@ -478,13 +478,13 @@ class ManagerController extends ActionController
 
     /**
      * gets additional data for file collections
-     * TODO: why is the field "webdescription" not loaded?
+     * TODO: why is the field "description" not loaded?
      *
      * @param integer $uid
      * @param string $fieldname
      * @return string
      */
-    protected function getSysFileCollectionData($uid, $fieldname = 'webdescription')
+    protected function getSysFileCollectionData($uid, $fieldname = 'description')
     {
         $table = 'sys_file_collection';
         /** @var $queryBuilder QueryBuilder */
