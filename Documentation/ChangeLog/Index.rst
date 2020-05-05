@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+- **05.05.2020** -> 3.0.4
+
+  - bugfix update, fixes #13
+  - fixed wrong loading of collection description
+
+-----------------------
+
 - **05.05.2020** -> 3.0.3
 
   - bugfix update, fixes #16
