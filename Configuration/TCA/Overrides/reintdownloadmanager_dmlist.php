@@ -1,6 +1,6 @@
 <?php
 /** @noinspection PhpFullyQualifiedNameUsageInspection */
-(function (
+(static function (
     $tablename = 'tt_content',
     $contentType = 'reintdownloadmanager_dmlist',
     $iconName = 'reint-dm-icon',

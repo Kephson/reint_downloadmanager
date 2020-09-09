@@ -1,6 +1,6 @@
 <?php
 /** @noinspection PhpFullyQualifiedNameUsageInspection */
-(function ($extKey) {
+(static function ($extKey) {
     /* load default Flexform for default download manager plugin */
     $rdPluginSignature = str_replace('_', '', $extKey) . '_' . 'reintdlm';
     $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$rdPluginSignature] = 'pi_flexform';

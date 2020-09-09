@@ -492,11 +492,7 @@ class ManagerController extends ActionController
         $res = $queryBuilder->select('*')->from($table)
             ->where($queryBuilder->expr()->eq('uid', $uid))
             ->execute()->fetch();
-        if (isset($res[$fieldname])) {
-            return $res[$fieldname];
-        } else {
-            return '';
-        }
+        return $res[$fieldname] ?? '';
     }
 
     /**

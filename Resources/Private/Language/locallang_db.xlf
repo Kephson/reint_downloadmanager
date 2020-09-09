@@ -13,6 +13,9 @@
 			<trans-unit id="tx_reintdownloadmanager_domain_model_download.downloads">
 				<source>Number of downloads</source>
 			</trans-unit>
+			<trans-unit id="sys_file_collection.description">
+				<source>Description</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

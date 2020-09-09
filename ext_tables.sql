@@ -12,5 +12,6 @@ CREATE TABLE tx_reintdownloadmanager_domain_model_download (
 # add sorting field for file collections
 #
 CREATE TABLE sys_file_collection (
-  sorting int(11) DEFAULT '0' NOT NULL
+	description text,
+	sorting int(11) DEFAULT '0' NOT NULL
 );

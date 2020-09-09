@@ -4,7 +4,7 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-(function ($extKey = 'reint_downloadmanager', $iconIdentifier = 'reint-dm-icon') {
+(static function ($extKey = 'reint_downloadmanager', $iconIdentifier = 'reint-dm-icon') {
     $extensionName = 'RENOLIT.' . $extKey;
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         $extensionName,

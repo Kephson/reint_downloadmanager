@@ -17,6 +17,7 @@
                             <onChange>reload</onChange>
                             <config>
                                 <type>select</type>
+                                <renderType>selectSingle</renderType>
                                 <items>
                                     <numIndex index="0">
                                         <numIndex index="0">LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem0</numIndex>
