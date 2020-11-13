@@ -477,14 +477,13 @@ class ManagerController extends ActionController
     }
 
     /**
-     * gets additional data for file collections
-     * TODO: why is the field "description" not loaded?
+     * gets additional data for file collection
      *
      * @param integer $uid
      * @param string $fieldname
      * @return string
      */
-    protected function getSysFileCollectionData($uid, $fieldname = 'description')
+    protected function getSysFileCollectionData($uid, $fieldname = 'description_frontend')
     {
         $table = 'sys_file_collection';
         /** @var $queryBuilder QueryBuilder */
