@@ -22,7 +22,7 @@ Example realurl configuration you could use:
 
 ::
 		$TYPO3_CONF_VARS['EXTCONF']['realurl']['_DEFAULT']['postVarSets']['_DEFAULT']['dlmanager'] = array(
-			array(
+			[
 				'GETvar' => 'tx_reintdownloadmanager_reintdlm[downloaduid]',
-			),
+			],
 		);

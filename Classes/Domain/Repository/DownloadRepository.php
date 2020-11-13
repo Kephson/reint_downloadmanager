@@ -61,9 +61,9 @@ class DownloadRepository extends Repository
         $query = $this->createQuery();
         $query->setLimit($limit);
         $query->setOrderings(
-            array(
+            [
                 'downloads' => QueryInterface::ORDER_DESCENDING,
-            )
+            ]
         );
         return $query->execute();
     }

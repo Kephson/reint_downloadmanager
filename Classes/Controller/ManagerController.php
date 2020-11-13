@@ -92,31 +92,31 @@ class ManagerController extends ActionController
      *
      * @var array
      */
-    protected $collectionIds = array();
+    protected $collectionIds = [];
 
     /**
      * The loaded collections to display
      *
      * @var array
      */
-    protected $collections = array();
+    protected $collections = [];
 
     /**
      * The collection search strings
      *
      * @var array
      */
-    protected $collectionSearchStrings = array();
+    protected $collectionSearchStrings = [];
 
     /**
      * default TypoScript configuration
      *
      * @var array
      */
-    protected $defaultTsConfig = array(
+    protected $defaultTsConfig = [
         'includedefaultjs' => 1,
         'includedefaultcss' => 1,
-    );
+    ];
 
     /**
      * initialize the controller
@@ -130,7 +130,7 @@ class ManagerController extends ActionController
         /* fallback to current pid if no storagePid is defined */
         $configuration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
         if (empty($configuration['persistence']['storagePid'])) {
-            $currentPid = array();
+            $currentPid = [];
             $currentPid['persistence']['storagePid'] = $GLOBALS['TSFE']->id;
             $this->configurationManager->setConfiguration(array_merge($configuration, $currentPid));
         }
@@ -233,7 +233,7 @@ class ManagerController extends ActionController
             $files = $this->downloadRepository->findTopDownloadList();
         }
 
-        $filesArray = array();
+        $filesArray = [];
         $index = 1;
 
         if (is_object($files)) {
@@ -333,7 +333,7 @@ class ManagerController extends ActionController
 
         if (is_array($this->collections) && !empty($this->collections)) {
             foreach ($this->collections as $key => $col) {
-                $searchItems = array();
+                $searchItems = [];
                 foreach ($col as $file) {
                     if (is_object($file)) {
                         $file->getContents();
@@ -678,9 +678,9 @@ class ManagerController extends ActionController
                 $countEntry->setDownloads($countEntry->getDownloads() + 1);
             }
         } else {
-            $sessionData = array(
+            $sessionData = [
                 'downloads' => $recordUid,
-            );
+            ];
             $countEntry->setDownloads($countEntry->getDownloads() + 1);
         }
 
@@ -693,7 +693,7 @@ class ManagerController extends ActionController
         /* persist the database updates because of exit() in download function */
         $this->persistenceManager->persistAll();
 
-        /*$sessionData = array(); to reset session */
+        /*$sessionData = []; to reset session */
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'reint_downloadmanager', $sessionData);
         $GLOBALS['TSFE']->fe_user->storeSessionData();
     }
@@ -723,7 +723,7 @@ class ManagerController extends ActionController
 
                 $fileLen = filesize($privateUri);
                 $ext = strtolower(substr(strrchr($fileName, '.'), 1));
-                $invalid_chars = array('<', '>', '?', '"', ':', '|', '\\', '/', '*', '&');
+                $invalid_chars = ['<', '>', '?', '"', ':', '|', '\\', '/', '*', '&'];
                 $fileName_valid = str_replace($invalid_chars, '', $fileName);
 
                 switch ($ext) {
@@ -746,14 +746,14 @@ class ManagerController extends ActionController
                         break;
                 }
 
-                $headers = array(
+                $headers = [
                     'Pragma' => 'public',
                     'Expires' => -1,
                     'Cache-Control' => 'public',
                     'Content-Type' => $cType,
                     'Content-Disposition' => 'attachment; filename="' . $fileName_valid . '"',
                     'Content-Length' => $fileLen
-                );
+                ];
 
                 /* set to remove wrong headers which crashed some files (e.g. xls, dot, ...) */
                 ob_clean();

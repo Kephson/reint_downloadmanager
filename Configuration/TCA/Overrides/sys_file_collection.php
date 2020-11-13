@@ -2,17 +2,32 @@
 /** @noinspection PhpFullyQualifiedNameUsageInspection */
 (static function ($table) {
     /* add columns for file collections */
-    $newSysCategoryColumns = array(
-        'sorting' => array(
+    $newSysCategoryColumns = [
+        'sorting' => [
             'label' => 'sorting',
-            'config' => array(
+            'config' => [
                 'type' => 'passthrough'
-            )
-        ),
+            ]
+        ],
         'description' => [
             'l10n_mode' => 'prefixLangTitle',
             'exclude' => true,
             'label' => 'LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang_db.xlf:sys_file_collection.description',
+            'config' => [
+                'type' => 'text',
+                'enableRichtext' => true,
+                'cols' => 20,
+                'rows' => 5,
+                'eval' => 'null',
+                'placeholder' => '__row|uid_local|metadata|description',
+                'mode' => 'useOrOverridePlaceholder',
+                'default' => null,
+            ]
+        ],
+        'description_frontend' => [
+            'l10n_mode' => 'prefixLangTitle',
+            'exclude' => true,
+            'label' => 'LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang_db.xlf:sys_file_collection.description_frontend',
             'config' => [
                 'type' => 'text',
                 'cols' => 20,
@@ -23,7 +38,7 @@
                 'default' => null,
             ]
         ],
-    );
+    ];
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($table, $newSysCategoryColumns);
 
     /* order the file collections default by the sorting field */

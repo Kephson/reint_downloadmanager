@@ -13,5 +13,6 @@ CREATE TABLE tx_reintdownloadmanager_domain_model_download (
 #
 CREATE TABLE sys_file_collection (
 	description text,
+	description_frontend text,
 	sorting int(11) DEFAULT '0' NOT NULL
 );
