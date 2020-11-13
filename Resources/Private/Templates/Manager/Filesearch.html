@@ -7,18 +7,18 @@
 
 	<f:flashMessages/>
 
-	<div class="dm-search search-list-out">
-		<form autocomplete="off" class="ui-filterable">
-			<input data-type="search" id="searchFileField" placeholder="{f:if(condition:'{config.searchplaceholder}',then:'{config.searchplaceholder}',else:'{f:translate(key:\'searchplaceholder\')}')}" />
+	<div class="frame-inner dm-search search-list-out">
+		<form autocomplete="off">
+			<input data-type="search" class="searchField form-control" data-search="#filterList-{contentobj.uid}" id="searchFileField-{contentobj.uid}" placeholder="{f:if(condition:'{config.searchplaceholder}',then:'{config.searchplaceholder}',else:'{f:translate(key:\'searchplaceholder\')}')}" />
 		</form>
-		<div id="filterList">
+		<div id="filterList-{contentobj.uid}" class="textpic-item textpic-text">
 			<f:if condition="{fileCollections}">
 				<f:then>
-					<ul id="filterItems" class="searchitems" data-role="listview" data-filter="true" data-input="#searchFileField" data-autodividers="true" data-filter-reveal="true">
+					<ul id="filterItems-{contentobj.uid}" class="searchitems list-normal">
 						<f:for each="{fileCollections}" as="collection" key="i">
-							<li data-filter="true" data-filtertext="{collection.title} {r:SimpleDisplay(obj:'{collectionSearchStrings}',prop:'{i}')}" class="headerItem ui-screen-hidden" data-role="list-divider">{collection.title}</li>
+							<li data-filtertext="{collection.title} {r:SimpleDisplay(obj:'{collectionSearchStrings}',prop:'{i}')}" class="headerItem">{collection.title}</li>
 							<f:for each="{collection.items}" as="record">
-								<li data-filter="true" data-filtertext="{collection.title} {f:if(condition:'{record.properties.title}',then:'{record.properties.title}',else:'{record.properties.name}')}{f:if(condition:'{record.properties.keywords}',then:' {record.properties.keywords}')}" class="list-item ui-screen-hidden">
+								<li data-filtertext="{collection.title} {f:if(condition:'{record.properties.title}',then:'{record.properties.title}',else:'{record.properties.name}')}{f:if(condition:'{record.properties.keywords}',then:' {record.properties.keywords}')}" class="list-item">
 									<f:link.page target="_blank" additionalParams="{r:pluginArgArray(pluginParam:'{extAdditionalParams}',valueArray:'{downloaduid:\'{record.properties.file}\'}')}"><f:if condition="{record.properties.title}"><f:then>{record.properties.title}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
 								</li>
 							</f:for>

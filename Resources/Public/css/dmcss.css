@@ -1,1 +1,12 @@
-.dm-search #filterList #filterItems li.ui-screen-hidden {display:none;}
+.dm-search .searchitems {
+	padding: 10px 0;
+}
+
+.dm-search .searchitems li {
+	display: none;
+}
+
+.dm-search .searchitems li.headerItem {
+	border-bottom: 1px dashed black;
+	margin-top: 10px;
+}
