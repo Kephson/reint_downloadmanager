@@ -1,0 +1,6 @@
+##############
+### PAGETS ###
+##############
+
+# cat=PageTS; type=boolean; label=Disable default pageTs?
+disableDefaultPageTs = 0
