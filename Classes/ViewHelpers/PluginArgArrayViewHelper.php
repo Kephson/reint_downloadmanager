@@ -27,7 +27,7 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
 * ************************************************************* */
 
-use \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * ViewHelper to output an object property or and array element with key

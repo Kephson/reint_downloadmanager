@@ -27,7 +27,7 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use \TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
  * Manages the downloads.

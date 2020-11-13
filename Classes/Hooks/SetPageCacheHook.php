@@ -28,9 +28,9 @@ namespace RENOLIT\ReintDownloadmanager\Hooks;
  *  This copyright notice MUST APPEAR in all copies of the script!
 * ************************************************************* */
 
-use \TYPO3\CMS\Core\Cache\Backend\RedisBackend;
-use \TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Cache\Backend\RedisBackend;
+use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class SetPageCacheHook
 {

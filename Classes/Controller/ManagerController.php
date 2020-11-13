@@ -27,23 +27,23 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use \RENOLIT\ReintDownloadmanager\Domain\Model\Download;
-use \RENOLIT\ReintDownloadmanager\Domain\Repository\DownloadRepository;
-use \TYPO3\CMS\Core\Collection\RecordCollectionRepository;
-use \TYPO3\CMS\Core\Context\Context;
-use \TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use \TYPO3\CMS\Core\Messaging\FlashMessage;
-use \TYPO3\CMS\Core\Resource\File;
-use \TYPO3\CMS\Core\Resource\FileCollectionRepository;
-use \TYPO3\CMS\Core\Resource\FileRepository;
-use \TYPO3\CMS\Core\Resource\ResourceFactory;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
-use \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
-use \TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use \TYPO3\CMS\Core\Database\ConnectionPool;
-use \TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use RENOLIT\ReintDownloadmanager\Domain\Model\Download;
+use RENOLIT\ReintDownloadmanager\Domain\Repository\DownloadRepository;
+use TYPO3\CMS\Core\Collection\RecordCollectionRepository;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\FileCollectionRepository;
+use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 /**
  * ManagerController

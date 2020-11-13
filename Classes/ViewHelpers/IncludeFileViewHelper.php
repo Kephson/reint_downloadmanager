@@ -28,9 +28,9 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers;
 * ************************************************************* */
 
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
-use \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
-use \TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Page\PageRenderer;
 
 /**
  * ViewHelper to include a css/js file
