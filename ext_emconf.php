@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedVariableInspection */
 /* * *************************************************************
  * Extension Manager/Repository config file for ext "reint_downloadmanager".
  *
@@ -10,12 +10,12 @@
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Download manager',
     'description' => 'A simple download manager with different views of file collections as downloadable lists.',
-    'version' => '3.0.6',
+    'version' => '3.0.7',
     'category' => 'plugin',
     'constraints' => [
         'depends' => [
             'typo3' => '9.5.0-10.99.99',
-            'php' => '7.0.0-7.3.99',
+            'php' => '7.0.0-7.4.99',
         ],
         'conflicts' => [],
         'suggests' => [],
