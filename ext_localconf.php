@@ -59,7 +59,7 @@ if (!defined('TYPO3_MODE')) {
      */
     $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
     $iconRegistry->registerIcon(
-        'reint-dm-icon',
+        $iconIdentifier,
         \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
         ['source' => 'EXT:' . $extKey . '/ext_icon.svg']
     );
