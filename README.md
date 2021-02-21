@@ -4,6 +4,8 @@
 [![Total Downloads](https://poser.pugx.org/renolit/reint-downloadmanager/downloads)](//packagist.org/packages/renolit/reint-downloadmanager) 
 [![Latest Unstable Version](https://poser.pugx.org/renolit/reint-downloadmanager/v/unstable)](//packagist.org/packages/renolit/reint-downloadmanager) 
 [![License](https://poser.pugx.org/renolit/reint-downloadmanager/license)](//packagist.org/packages/renolit/reint-downloadmanager)
+[![.gitattributes](https://poser.pugx.org/renolit/reint-downloadmanager/gitattributes)](//packagist.org/packages/renolit/reint-downloadmanager)
+
 
 > A simple download manager with different views of file collections as downloadable lists.
 
