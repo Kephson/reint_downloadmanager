@@ -16,7 +16,7 @@ Target group: **Developers**
 .. _developer-realurl:
 
 RealUrl example configuration
---------------------
+-----------------------------
 
 Example realurl configuration you could use:
 
@@ -26,3 +26,11 @@ Example realurl configuration you could use:
 				'GETvar' => 'tx_reintdownloadmanager_reintdlm[downloaduid]',
 			],
 		);
+
+TYPO3 9.5+ example slug configuration
+-------------------------------------
+
+As example slug configuration you could use in your sites configuration the following:
+
+::
+		---

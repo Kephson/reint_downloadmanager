@@ -11,15 +11,15 @@
 ChangeLog
 =========
 
-- **09.09.2020** -> 3.0.6
+- **21.02.2021** -> 3.0.6
 
-  - bugfix update, fixes #18
   - added description field for sys_file_collection
 
 -----------------------
 
 - **05.05.2020** -> 3.0.4, 3.0.5
 
+  - bugfix update, fixes #18
   - bugfix update, fixes #13
   - fixed wrong loading of collection description
 
