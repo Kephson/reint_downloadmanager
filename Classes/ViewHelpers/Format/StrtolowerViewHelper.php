@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers\Format;
  *
  *  Copyright notice
  *
- *  (c) 2017-2020 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2021 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *

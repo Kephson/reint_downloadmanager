@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+- **26.08.2021** -> 3.1.0
+
+  - migrated TCA and updated classes
+  - new release is TYPO3 10 only
+
+-----------------------
+
 - **21.02.2021** -> 3.0.6
 
   - added description field for sys_file_collection
