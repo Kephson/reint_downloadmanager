@@ -16,7 +16,7 @@
 					<div class="collection-wrapper">
 						<div class="collection-header">
 							<h3 class="collection-title">{collection.title}</h3>
-							<f:if condition="{collection.description}"><p><f:format.raw>{collection.description}</f:format.raw></p></f:if>
+							<f:if condition="{collection.description}"><p><f:format.html>{collection.description}</f:format.html></p></f:if>
 						</div>
 						<ul class="collection-content">
 							<f:for each="{collection.items}" as="record">
