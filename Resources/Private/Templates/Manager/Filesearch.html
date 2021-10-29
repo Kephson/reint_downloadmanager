@@ -1,6 +1,9 @@
 {namespace r=RENOLIT\ReintDownloadmanager\ViewHelpers}
 <f:layout name="Default" />
 
+<f:debug>{collection}</f:debug>
+<f:debug>{record}</f:debug>
+
 <f:section name="main">
 	<f:if condition="{config.includedefaultjs}"><r:includeFile path="EXT:reint_downloadmanager/Resources/Public/js/dmjs.js" name="zdmfile1" /></f:if>
 	<f:if condition="{config.includedefaultcss}"><r:includeFile path="EXT:reint_downloadmanager/Resources/Public/css/dmcss.css" /></f:if>
@@ -12,14 +15,14 @@
 			<input data-type="search" id="searchFileField" placeholder="{f:if(condition:'{config.searchplaceholder}',then:'{config.searchplaceholder}',else:'{f:translate(key:\'searchplaceholder\')}')}" />
 		</form>
 		<div id="filterList">
-			<f:if condition="{fileCollections}">
+			<f:if condition="{filecollections}">
 				<f:then>
 					<ul id="filterItems" class="searchitems" data-role="listview" data-filter="true" data-input="#searchFileField" data-autodividers="true" data-filter-reveal="true">
-						<f:for each="{fileCollections}" as="collection" key="i">
+						<f:for each="{filecollections}" as="collection" key="i">
 							<li data-filter="true" data-filtertext="{collection.title} {r:SimpleDisplay(obj:'{collectionSearchStrings}',prop:'{i}')}" class="headerItem ui-screen-hidden" data-role="list-divider">{collection.title}</li>
 							<f:for each="{collection.items}" as="record">
 								<li data-filter="true" data-filtertext="{collection.title} {f:if(condition:'{record.properties.title}',then:'{record.properties.title}',else:'{record.properties.name}')}{f:if(condition:'{record.properties.keywords}',then:' {record.properties.keywords}')}" class="list-item ui-screen-hidden">
-									<f:link.page target="_blank" additionalParams="{r:pluginArgArray(pluginParam:'{extAdditionalParams}',valueArray:'{downloaduid:\'{record.properties.file}\'}')}"><f:if condition="{record.properties.title}"><f:then>{record.properties.title}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
+									<f:link.page target="_blank" additionalParams="{tx_reintdownloadmanager_reintdlm:{downloaduid:'{record.properties.file}'}}"><f:if condition="{record.properties.title}"><f:then>{record.properties.title}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
 								</li>
 							</f:for>
 						</f:for>

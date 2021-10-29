@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Model;
  *
  *  Copyright notice
  *
- *  (c) 2017-2021 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2019 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -27,32 +27,30 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-
 /**
  * Manages the downloads.
  */
-class Download extends AbstractEntity
+class Download extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
 
     /**
      * sysFileUid
      *
-     * @var int
+     * @var integer
      */
     protected $sysFileUid = 0;
 
     /**
      * downloads
      *
-     * @var int
+     * @var integer
      */
     protected $downloads = 0;
 
     /**
      * Returns the sysFileUid
      *
-     * @return int $sysFileUid
+     * @return integer $sysFileUid
      */
     public function getSysFileUid()
     {
@@ -62,7 +60,7 @@ class Download extends AbstractEntity
     /**
      * Sets the sysFileUid
      *
-     * @param int $sysFileUid
+     * @param integer $sysFileUid
      * @return void
      */
     public function setSysFileUid($sysFileUid)
@@ -73,7 +71,7 @@ class Download extends AbstractEntity
     /**
      * Returns the downloads
      *
-     * @return int $downloads
+     * @return integer $downloads
      */
     public function getDownloads()
     {

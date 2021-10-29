@@ -1,7 +1,8 @@
-<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-	  xmlns:r="http://typo3.org/ns/RENOLIT/ReintDownloadmanager/ViewHelpers"
-	  data-namespace-typo3-fluid="true">
+{namespace r=RENOLIT\ReintDownloadmanager\ViewHelpers}
 <f:layout name="Default" />
+
+<f:debug>{collection}</f:debug>
+<f:debug>{record}</f:debug>
 
 <f:section name="main">
 	<f:if condition="{config.includedefaultjs}"><r:includeFile path="EXT:reint_downloadmanager/Resources/Public/js/dmjs.js" name="zdmfile1" /></f:if>
@@ -10,18 +11,18 @@
 	<f:flashMessages/>
 
 	<div class="all-collection-wrapper">
-		<f:if condition="{fileCollections}">
+		<f:if condition="{filecollections}">
 			<f:then>
-				<f:for each="{fileCollections}" as="collection">
+				<f:for each="{filecollections}" as="collection">
 					<div class="collection-wrapper">
 						<div class="collection-header">
 							<h3 class="collection-title">{collection.title}</h3>
-							<f:if condition="{collection.description}"><p><f:format.raw>{collection.description}</f:format.raw></p></f:if>
+							<f:if condition="{collection.description}"><f:format.raw>{collection.description}</f:format.raw></f:if>
 						</div>
 						<ul class="collection-content">
 							<f:for each="{collection.items}" as="record">
 								<li class="link-item">
-									<f:link.page target="_blank" additionalParams="{r:pluginArgArray(pluginParam:'{extAdditionalParams}',valueArray:'{downloaduid:\'{record.properties.file}\'}')}"><f:if condition="{record.properties.title}"><f:then>{record.properties.title}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
+									<f:link.page target="_blank" additionalParams="{tx_reintdownloadmanager_reintdlm:{downloaduid:'{record.properties.file}'}}"><f:if condition="{record.properties.title}"><f:then>{record.properties.title}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
 								</li>
 							</f:for>
 						</ul>
@@ -33,5 +34,5 @@
 			</f:else>
 		</f:if>
 	</div>
+
 </f:section>
-</html>

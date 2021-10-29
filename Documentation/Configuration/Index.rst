@@ -26,50 +26,39 @@ Overwrite the template path or the default storage page id and change the defaul
 ::
 
 		plugin.tx_reintdownloadmanager {
-		  # configure the path for the templates here
-		  view {
-			templateRootPaths {
-			  0 = EXT:reint_downloadmanager/Resources/Private/Templates/
-			  1 = {$plugin.tx_reintdownloadmanager.view.templateRootPath}
+			# configure the path for the templates here
+			view {
+				templateRootPaths {
+					0 = EXT:reint_downloadmanager/Resources/Private/Templates/
+					1 = {$plugin.tx_reintdownloadmanager.view.templateRootPath}
+				}
+
+				partialRootPaths {
+					0 = EXT:reint_downloadmanager/Resources/Private/Partials/
+					1 = {$plugin.tx_reintdownloadmanager.view.partialRootPath}
+				}
+
+				layoutRootPaths {
+					0 = EXT:reint_downloadmanager/Resources/Private/Layouts/
+					1 = {$plugin.tx_reintdownloadmanager.view.layoutRootPath}
+				}
 			}
-
-			partialRootPaths {
-			  0 = EXT:reint_downloadmanager/Resources/Private/Partials/
-			  1 = {$plugin.tx_reintdownloadmanager.view.partialRootPath}
+			# configure a default storage pid here
+			persistence {
+				storagePid = {$plugin.tx_reintdownloadmanager.persistence.storagePid}
 			}
-
-			layoutRootPaths {
-			  0 = EXT:reint_downloadmanager/Resources/Private/Layouts/
-			  1 = {$plugin.tx_reintdownloadmanager.view.layoutRootPath}
+			# configure settings for the extension here
+			settings {
+				# use redirecting to the file instead of a download header for all files
+				redirecttofile = {$plugin.tx_reintdownloadmanager.settings.redirecttofile}
+				# add the modification date when redirecting to file
+				addfiletstamp = {$plugin.tx_reintdownloadmanager.settings.addfiletstamp}
+				# Include JavaScript for file search
+				includedefaultjs = {$plugin.tx_reintdownloadmanager.settings.includedefaultjs}
+				# Include default CSS
+				includedefaultcss = {$plugin.tx_reintdownloadmanager.settings.includedefaultcss}
 			}
-		  }
-
-		  # configure a default storage pid here
-		  persistence {
-			storagePid = {$plugin.tx_reintdownloadmanager.persistence.storagePid}
-		  }
-
-		  # configure settings for the extension here
-		  settings {
-			# use redirecting to the file instead of a download header for all files
-			redirecttofile = {$plugin.tx_reintdownloadmanager.settings.redirecttofile}
-			# add the modification date when redirecting to file
-			addfiletstamp = {$plugin.tx_reintdownloadmanager.settings.addfiletstamp}
-			# Include JavaScript for file search
-			includedefaultjs = {$plugin.tx_reintdownloadmanager.settings.includedefaultjs}
-			# Include default CSS
-			includedefaultcss = {$plugin.tx_reintdownloadmanager.settings.includedefaultcss}
-		  }
 		}
-
-		plugin.tx_reintdownloadmanager_dmlist < plugin.tx_reintdownloadmanager
-		plugin.tx_reintdownloadmanager_dmlist.templateName = List
-
-		plugin.tx_reintdownloadmanager_dmtopdownloads < plugin.tx_reintdownloadmanager
-		plugin.tx_reintdownloadmanager_dmtopdownloads.templateName = Topdownloads
-
-		plugin.tx_reintdownloadmanager_dmfilesearch < plugin.tx_reintdownloadmanager
-		plugin.tx_reintdownloadmanager_dmfilesearch.templateName = Filesearch
 
 
 

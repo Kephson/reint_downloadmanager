@@ -77,7 +77,3 @@ out
 gen
 
 *.lock
-
-# TYPO3 documentation
-docker-compose.yml
-Documentation-GENERATED-temp/

@@ -2,11 +2,14 @@
 
 namespace RENOLIT\ReintDownloadmanager\Hooks;
 
+use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /* * *************************************************************
  *
  *  Copyright notice
  *
- *  (c) 2017-2021 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2019 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *  (c) 2018 Benjamin Franzke <bfr@qbus.de>
  *
  *  All rights reserved
@@ -28,10 +31,6 @@ namespace RENOLIT\ReintDownloadmanager\Hooks;
  *  This copyright notice MUST APPEAR in all copies of the script!
 * ************************************************************* */
 
-use TYPO3\CMS\Core\Cache\Backend\RedisBackend;
-use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 class SetPageCacheHook
 {
 
@@ -52,7 +51,7 @@ class SetPageCacheHook
              * which is enough, so that it is never used. */
             $params['lifetime'] = -1;
 
-            if ($frontend->getBackend() instanceof RedisBackend) {
+            if ($frontend->getBackend() instanceof \TYPO3\CMS\Core\Cache\Backend\RedisBackend) {
                 /* The redis backend does not allow lifetime of -1, use 1 as a workaround.
                  * That means the temporary record will be stored to cache, but as we set the
                  * 'variable' to false, it is interpreted as unset in TSFE:

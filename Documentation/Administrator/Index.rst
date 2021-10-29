@@ -24,10 +24,9 @@ Installation
 
 To install the extension, perform the following steps:
 
-#. Install extension via composer
 #. Go to the Extension Manager
 #. Install the extension
-#. Load the static TypoScript template to your site
+#. Load the static template to your site
 
 
 .. figure:: ../Images/Administrator/extensionmanager.png
@@ -43,9 +42,9 @@ To install the extension, perform the following steps:
 Configuration
 -------------
 
-#. Copy the templates (/Resources/Private/Templates/) and layouts (/Resources/Private/Layouts/) from the extension folder to a folder in your own sitepackage if you want to edit them
-#. Configure your new template pathes in TypoScript
-#. Include the TypoScript of your sitepackage after the extension template
+#. Copy the templates (/Resources/Private/Templates/) and layouts (/Resources/Private/Layouts/) from the extension folder to your own folder
+#. Configure your new pathes in TypoScript
+#. Include the TypoScript
 #. Style the output like you want it
 
 

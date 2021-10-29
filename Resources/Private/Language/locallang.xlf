@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2015-02-13T13:47:45Z"
-		  product-name="reint_downloadmanager">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-02-13T13:47:45Z" product-name="reint_downloadmanager">
 		<header/>
 		<body>
 			<trans-unit id="plugin_label">
@@ -10,7 +9,7 @@
 			<trans-unit id="plugin_value">
 				<source>A download manager for file collections.</source>
 			</trans-unit>
-
+			
 			<trans-unit id="tx_reintdownloadmanager_domain_model_manager">
 				<source>Manager</source>
 			</trans-unit>
@@ -20,7 +19,7 @@
 			<trans-unit id="tx_reintdownloadmanager_domain_model_manager.filereference">
 				<source>Filereference</source>
 			</trans-unit>
-
+			
 			<trans-unit id="chead1">
 				<source>View</source>
 			</trans-unit>
@@ -33,34 +32,13 @@
 			<trans-unit id="celem1">
 				<source>List view</source>
 			</trans-unit>
-			<trans-unit id="celem1_desc">
-				<source>List view of downloads</source>
-			</trans-unit>
 			<trans-unit id="celem2">
 				<source>Top downloads view</source>
 			</trans-unit>
 			<trans-unit id="celem3">
 				<source>File search</source>
 			</trans-unit>
-			<trans-unit id="celem1_ce">
-				<source>List of downloads</source>
-			</trans-unit>
-			<trans-unit id="celem1_ce_desc">
-				<source>List view of multiple download files</source>
-			</trans-unit>
-			<trans-unit id="celem2_ce">
-				<source>Top downloads view</source>
-			</trans-unit>
-			<trans-unit id="celem2_ce_desc">
-				<source>A list of top downloaded files</source>
-			</trans-unit>
-			<trans-unit id="celem3_ce">
-				<source>Downloads file search</source>
-			</trans-unit>
-			<trans-unit id="celem3_ce_desc">
-				<source>Add the search plugin for download files</source>
-			</trans-unit>
-
+			
 			<trans-unit id="lbrpid">
 				<source>Select single file collections to display (max. 99)</source>
 			</trans-unit>
@@ -76,18 +54,18 @@
 			<trans-unit id="customsearchplaceholder">
 				<source>Placeholder for search field</source>
 			</trans-unit>
-
+			
 			<trans-unit id="nocollection">
 				<source>No collection found. Please set a collection in the backend configuration.</source>
 			</trans-unit>
 			<trans-unit id="nodownloads">
 				<source>No top downloads found.</source>
 			</trans-unit>
-
+			
 			<trans-unit id="tdhead">
 				<source>Top downloads</source>
 			</trans-unit>
-
+			
 			<trans-unit id="noselection">
 				<source>There is no view selected in backend. Please select the view to see output.</source>
 			</trans-unit>
@@ -95,7 +73,7 @@
 			<trans-unit id="titledesc">
 				<source>Click to see the content of this collection</source>
 			</trans-unit>
-
+			
 			<trans-unit id="searchplaceholder">
 				<source>Please type your search</source>
 			</trans-unit>
@@ -103,11 +81,11 @@
 			<trans-unit id="fileNotFound">
 				<source>The file for download couldn't found.</source>
 			</trans-unit>
-
+			
 			<trans-unit id="fileNoAccess">
 				<source>You have no access to download this file.</source>
 			</trans-unit>
-
+			
 		</body>
 	</file>
 </xliff>
