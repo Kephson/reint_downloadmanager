@@ -28,7 +28,6 @@
     }
   },
   "replace": {
-    "reint-downloadmanager": "self.version",
     "typo3-ter/reint-downloadmanager": "self.version"
   },
   "extra": {
