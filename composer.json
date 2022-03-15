@@ -7,7 +7,7 @@
     {
       "name": "Ephraim Härer",
       "role": "Developer",
-      "homepage": "https://www.renolit.com"
+      "homepage": "https://ephra.im"
     }
   ],
   "license": [
@@ -20,8 +20,8 @@
     "extension"
   ],
   "require": {
-    "typo3/cms-core": "^10.4",
-    "php": ">=7.2.0"
+    "typo3/cms-core": "^10.4 || ^11.5",
+    "php": "^7.2 || ^8.0"
   },
   "autoload": {
     "psr-4": {

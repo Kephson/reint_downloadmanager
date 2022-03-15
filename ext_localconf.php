@@ -18,7 +18,7 @@ if (!defined('TYPO3_MODE')) {
         $extensionName,
         'Reintdlm',
         [
-            'Manager' => 'list, topdownloads, empty, filesearch',
+            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'list, topdownloads, empty, filesearch',
         ],
         [],
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_PLUGIN
@@ -27,7 +27,7 @@ if (!defined('TYPO3_MODE')) {
         $extensionName,
         'DmList',
         [
-            'Manager' => 'list',
+            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'list',
         ],
         [],
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
@@ -36,7 +36,7 @@ if (!defined('TYPO3_MODE')) {
         $extensionName,
         'DmTopdownloads',
         [
-            'Manager' => 'topdownloads',
+            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'topdownloads',
         ],
         [],
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
@@ -45,7 +45,7 @@ if (!defined('TYPO3_MODE')) {
         $extensionName,
         'DmFilesearch',
         [
-            'Manager' => 'filesearch',
+            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'filesearch',
         ],
         [],
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
@@ -68,4 +68,5 @@ if (!defined('TYPO3_MODE')) {
     if (!(bool)$dmManagerPackageConfiguration['disableDefaultPageTs']) {
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $extKey . '/Configuration/TsConfig/Default.tsconfig">');
     }
+
 })();

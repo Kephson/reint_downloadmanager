@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **15.03.2022** -> 3.2.0
+
+  - first basic release for TYPO3 11.5
+
+-----------------------
+
 - **26.08.2021** -> 3.1.0
 
   - migrated TCA and updated classes
