@@ -753,7 +753,7 @@ class ManagerController extends ActionController
                         ->withHeader('Content-Type', $cType)
                         ->withHeader('Content-Disposition', 'attachment; filename="' . $fileName_valid . '"')
                         ->withHeader('Content-Length', $fileLen);
-                    $response->getBody()->write(@readfile($privateUri));
+                    $response->getBody()->read(@readfile($privateUri));
                 } else {
                     $headers = [
                         'Pragma' => 'public',
