@@ -740,12 +740,6 @@ class ManagerController extends ActionController
                 ob_clean();
                 $versionInformation = GeneralUtility::makeInstance(Typo3Version::class);
                 if ($versionInformation->getMajorVersion() === 11) {
-                    header("Pragma: public");
-                    header("Expires: -1");
-                    header("Cache-Control: public");
-                    header("Content-Type: $cType");
-                    header('Content-Disposition: attachment; filename="' . $fileName_valid . '"');
-                    header("Content-Length: $fileLen");
                     $response = $this->responseFactory->createResponse()
                         ->withHeader('Pragma', 'public')
                         ->withHeader('Expires', -1)
