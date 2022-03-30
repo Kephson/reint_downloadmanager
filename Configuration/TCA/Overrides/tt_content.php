@@ -1,11 +1,12 @@
 <?php
 /** @noinspection PhpFullyQualifiedNameUsageInspection */
+
 (static function ($extKey) {
     /* load default Flexform for default download manager plugin */
     $rdPluginSignature = str_replace('_', '', $extKey) . '_' . 'reintdlm';
     $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$rdPluginSignature] = 'pi_flexform';
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($rdPluginSignature,
-        'FILE:EXT:' . $extKey . '/Configuration/FlexForms/ControllerActions.xml');
+        'FILE:EXT:' . $extKey . '/Configuration/FlexForms/FlexForm.xml');
 
     /* register extbase plugin */
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(

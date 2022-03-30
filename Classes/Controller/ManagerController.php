@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
  *
  *  Copyright notice
  *
- *  (c) 2017-2021 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2022 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -32,6 +32,7 @@ use RENOLIT\ReintDownloadmanager\Domain\Repository\DownloadRepository;
 use TYPO3\CMS\Core\Collection\RecordCollectionRepository;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileCollectionRepository;
@@ -148,19 +149,22 @@ class ManagerController extends ActionController
 
     public function injectCollectionRepository(
         RecordCollectionRepository $collectionRepository
-    ) {
+    )
+    {
         $this->collectionRepository = $collectionRepository;
     }
 
     public function injectDownloadRepository(
         DownloadRepository $downloadRepository
-    ) {
+    )
+    {
         $this->downloadRepository = $downloadRepository;
     }
 
     public function injectFileCollectionRepository(
         FileCollectionRepository $fileCollectionRepository
-    ) {
+    )
+    {
         $this->fileCollectionRepository = $fileCollectionRepository;
     }
 
@@ -171,7 +175,8 @@ class ManagerController extends ActionController
 
     public function injectPersistenceManager(
         PersistenceManager $persistenceManager
-    ) {
+    )
+    {
         $this->persistenceManager = $persistenceManager;
     }
 
@@ -745,23 +750,38 @@ class ManagerController extends ActionController
                         break;
                 }
 
-                $headers = [
-                    'Pragma' => 'public',
-                    'Expires' => -1,
-                    'Cache-Control' => 'public',
-                    'Content-Type' => $cType,
-                    'Content-Disposition' => 'attachment; filename="' . $fileName_valid . '"',
-                    'Content-Length' => $fileLen
-                ];
-
                 /* set to remove wrong headers which crashed some files (e.g. xls, dot, ...) */
                 ob_clean();
-                foreach ($headers as $header => $data) {
-                    $this->response->setHeader($header, $data);
+                $versionInformation = GeneralUtility::makeInstance(Typo3Version::class);
+                if ($versionInformation->getMajorVersion() === 11) {
+                    header("Pragma: public");
+                    header("Expires: -1");
+                    header("Cache-Control: public");
+                    header("Content-Type: $cType");
+                    header('Content-Disposition: attachment; filename="' . $fileName_valid . '"');
+                    header("Content-Length: $fileLen");
+                    $response = $this->responseFactory->createResponse()
+                        ->withHeader('Pragma', 'public')
+                        ->withHeader('Expires', -1)
+                        ->withHeader('Cache-Control', 'public')
+                        ->withHeader('Content-Type', $cType)
+                        ->withHeader('Content-Disposition', 'attachment; filename="' . $fileName_valid . '"')
+                        ->withHeader('Content-Length', $fileLen);
+                    $response->getBody()->write(@readfile($privateUri));
+                } else {
+                    $headers = [
+                        'Pragma' => 'public',
+                        'Expires' => -1,
+                        'Cache-Control' => 'public',
+                        'Content-Type' => $cType,
+                        'Content-Disposition' => 'attachment; filename="' . $fileName_valid . '"',
+                        'Content-Length' => $fileLen
+                    ];
+                    foreach ($headers as $header => $data) {
+                        $this->response->setHeader($header, $data);
+                    }
+                    $this->response->sendHeaders();
                 }
-                $this->response->sendHeaders();
-
-                @readfile($privateUri);
             }
         }
         exit();
