@@ -29,7 +29,6 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
 
 use RENOLIT\ReintDownloadmanager\Domain\Model\Download;
 use RENOLIT\ReintDownloadmanager\Domain\Repository\DownloadRepository;
-use TYPO3\CMS\Core\Collection\RecordCollectionRepository;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Information\Typo3Version;
@@ -72,11 +71,6 @@ class ManagerController extends ActionController
      * @var DownloadRepository
      */
     protected $downloadRepository = null;
-
-    /**
-     * @var RecordCollectionRepository
-     */
-    protected $collectionRepository;
 
     /**
      * @var FileCollectionRepository
@@ -145,13 +139,6 @@ class ManagerController extends ActionController
         }
         $this->defaultTsConfig['topdtitle'] = $this->settings['topdtitle'];
         $this->defaultTsConfig['searchplaceholder'] = $this->settings['searchplaceholder'];
-    }
-
-    public function injectCollectionRepository(
-        RecordCollectionRepository $collectionRepository
-    )
-    {
-        $this->collectionRepository = $collectionRepository;
     }
 
     public function injectDownloadRepository(
@@ -402,7 +389,6 @@ class ManagerController extends ActionController
 
         /* check if there are any collections */
         if (count($this->collectionIds) > 0) {
-            //$this->fileCollectionRepository->
             /* Get all existing collections */
             foreach ($this->collectionIds as $uid) {
                 $this->collections[] = $this->fileCollectionRepository->findByUid($uid);
