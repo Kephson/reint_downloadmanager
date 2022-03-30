@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+- **30.03.2022** -> 3.2.1
+
+  - removed breaking https://docs.typo3.org/c/typo3/cms-core/main/en-us/Changelog/11.0/Breaking-91909-SysCollectionDatabaseTablesMovedIntoExternalExtension.html
+  - fixed output of @readfile
+
+-----------------------
+
 - **15.03.2022** -> 3.2.0
 
   - first basic release for TYPO3 11.5
