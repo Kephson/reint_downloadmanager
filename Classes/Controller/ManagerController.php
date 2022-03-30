@@ -761,6 +761,7 @@ class ManagerController extends ActionController
                         $this->response->setHeader($header, $data);
                     }
                     $this->response->sendHeaders();
+                    @readfile($privateUri);
                 }
             }
         }
