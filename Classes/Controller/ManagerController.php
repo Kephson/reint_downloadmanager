@@ -792,7 +792,7 @@ class ManagerController extends ActionController
                 header('Expires: ' . '-1', true);
                 header('Cache-Control: ' . 'public', true);
                 header('Content-Disposition: ' . 'attachment; filename="' . $fileNameValid . '"', true);
-                header('Content-Length:' . $fileLen, true);
+                header('Content-Length: ' . $fileLen, true);
 
                 @readfile($privateUri);
                 exit();
