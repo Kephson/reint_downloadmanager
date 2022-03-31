@@ -18,36 +18,44 @@ if (!defined('TYPO3_MODE')) {
         $extensionName,
         'Reintdlm',
         [
-            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'list, topdownloads, empty, filesearch',
+            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'list, topdownloads, empty, filesearch, download',
         ],
-        [],
+        [
+            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'download',
+        ],
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_PLUGIN
     );
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         $extensionName,
         'DmList',
         [
-            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'list',
+            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'list, download',
         ],
-        [],
+        [
+            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'download',
+        ],
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         $extensionName,
         'DmTopdownloads',
         [
-            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'topdownloads',
+            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'topdownloads, download',
         ],
-        [],
+        [
+            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'download',
+        ],
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         $extensionName,
         'DmFilesearch',
         [
-            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'filesearch',
+            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'filesearch, download',
         ],
-        [],
+        [
+            \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'download',
+        ],
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
 

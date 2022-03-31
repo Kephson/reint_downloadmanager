@@ -21,19 +21,19 @@
                                 <items>
                                     <numIndex index="0">
                                         <numIndex index="0">LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem0</numIndex>
-                                        <numIndex index="1">Manager->empty</numIndex>
+                                        <numIndex index="1">Manager->empty,Manager->download</numIndex>
                                     </numIndex>
                                     <numIndex index="1">
                                         <numIndex index="0">LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem1</numIndex>
-                                        <numIndex index="1">Manager->list</numIndex>
+                                        <numIndex index="1">Manager->list,Manager->download</numIndex>
                                     </numIndex>
                                     <numIndex index="2">
                                         <numIndex index="0">LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem2</numIndex>
-                                        <numIndex index="1">Manager->topdownloads</numIndex>
+                                        <numIndex index="1">Manager->topdownloads,Manager->download</numIndex>
                                     </numIndex>
                                     <numIndex index="3">
                                         <numIndex index="0">LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem3</numIndex>
-                                        <numIndex index="1">Manager->filesearch</numIndex>
+                                        <numIndex index="1">Manager->filesearch,Manager->download</numIndex>
                                     </numIndex>
                                 </items>
                             </config>

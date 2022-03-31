@@ -6,7 +6,8 @@
         <element>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:chead1</sheetTitle>
+                    <sheetTitle>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:chead1
+                    </sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
@@ -29,7 +30,8 @@
                     <settings.dfolder>
                         <TCEforms>
                             <exclude>0</exclude>
-                            <label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:dfolder</label>
+                            <label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:dfolder
+                            </label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -41,7 +43,6 @@
                             </config>
                         </TCEforms>
                     </settings.dfolder>
-
                 </el>
             </ROOT>
         </element>
