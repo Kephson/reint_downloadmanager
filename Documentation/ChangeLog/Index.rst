@@ -11,7 +11,7 @@
 ChangeLog
 =========
 
-- **02.04.2022** -> 3.3.0
+- **02.04.2022** -> 3.1.0
 
   - added FlexForm upgrade wizard to migrate controller actions to new config
   - moved download part to own action
@@ -19,20 +19,20 @@ ChangeLog
 
 -----------------------
 
-- **30.03.2022** -> 3.2.1
+- **30.03.2022** -> master
 
   - removed breaking https://docs.typo3.org/c/typo3/cms-core/main/en-us/Changelog/11.0/Breaking-91909-SysCollectionDatabaseTablesMovedIntoExternalExtension.html
   - fixed output of @readfile
 
 -----------------------
 
-- **15.03.2022** -> 3.2.0
+- **15.03.2022** -> master
 
-  - first basic release for TYPO3 11.5
+  - first basic release for TYPO3 11.5 in master
 
 -----------------------
 
-- **26.08.2021** -> 3.1.0
+- **26.08.2021** -> master
 
   - migrated TCA and updated classes
   - new release is TYPO3 10 only
