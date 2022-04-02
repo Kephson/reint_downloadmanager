@@ -21,7 +21,7 @@
 						<ul class="collection-content">
 							<f:for each="{collection.items}" as="record">
 								<li class="link-item">
-									<f:link.page target="_self" additionalParams="{r:pluginArgArray(pluginParam:'{extAdditionalParams}',valueArray:'{downloaduid:\'{record.properties.file}\'}')}"><f:if condition="{record.properties.title}"><f:then>{record.properties.title}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
+									<f:link.page target="_blank" additionalParams="{r:pluginArgArray(pluginParam:'{extAdditionalParams}',valueArray:'{downloaduid:\'{record.properties.file}\'}')}"><f:if condition="{record.properties.title}"><f:then>{record.properties.title}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
 								</li>
 							</f:for>
 						</ul>
