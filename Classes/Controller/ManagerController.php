@@ -47,13 +47,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * ManagerController
@@ -731,7 +729,6 @@ class ManagerController extends ActionController
      */
     protected function downloadFile($privateUri, $fileName, $publicUri, $fileModDate = true)
     {
-        //DebuggerUtility::var_dump($this->settings); die();
         /* check if there is a setting to redirect only to the file */
         if (isset($this->settings['redirecttofile']) && (int)$this->settings['redirecttofile'] === 1) {
             /* add modification date when set in setup */
