@@ -7,6 +7,10 @@ use Doctrine\DBAL\Driver\Exception;
 use PDO;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
@@ -28,19 +32,19 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
      * @var string[]
      */
     protected $search = [
-        'empty' => '<numIndex index="1">Manager-&gt;empty</numIndex>',
-        'list' => '<numIndex index="1">Manager-&gt;list</numIndex>',
-        'topdownloads' => '<numIndex index="1">Manager-&gt;topdownloads</numIndex>',
-        'filesearch' => '<numIndex index="1">Manager-&gt;filesearch</numIndex>',
+        'empty' => '<value index="vDEF">Manager-&gt;empty</value>',
+        'list' => '<value index="vDEF">Manager-&gt;list</value>',
+        'topdownloads' => '<value index="vDEF">Manager-&gt;topdownloads</value>',
+        'filesearch' => '<value index="vDEF">Manager-&gt;filesearch</value>',
     ];
     /**
      * @var string[]
      */
     protected $replace = [
-        'empty' => '<numIndex index="1">Manager-&gt;empty,Manager-&gt;download</numIndex>',
-        'list' => '<numIndex index="1">Manager-&gt;list,Manager-&gt;download</numIndex>',
-        'topdownloads' => '<numIndex index="1">Manager-&gt;topdownloads,Manager-&gt;download</numIndex>',
-        'filesearch' => '<numIndex index="1">Manager-&gt;filesearch,Manager-&gt;download</numIndex>',
+        'empty' => '<value index="vDEF">Manager-&gt;empty;Manager-&gt;download</value>',
+        'list' => '<value index="vDEF">Manager-&gt;list;Manager-&gt;download</value>',
+        'topdownloads' => '<value index="vDEF">Manager-&gt;topdownloads;Manager-&gt;download</value>',
+        'filesearch' => '<value index="vDEF">Manager-&gt;filesearch;Manager-&gt;download</value>',
     ];
 
     /**
@@ -105,7 +109,7 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
                         $queryBuilder->expr()->eq('t.uid', $queryBuilder->createNamedParameter($entry['uid'], PDO::PARAM_INT))
                     )
                     ->set('t.pi_flexform', str_replace($this->search, $this->replace, $entry['pi_flexform']))
-                    ->executeStatement();
+                    ->execute();
             }
         }
 
@@ -150,9 +154,8 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
      */
     protected function getEntriesToMigrate($singleEntry = true)
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable($this->table)
-            ->createQueryBuilder();
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
+        $queryBuilder->getRestrictions()->removeAll();
 
         $queryBuilder->select('uid', 'pi_flexform')
             ->from($this->table)
@@ -169,6 +172,6 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
         if ($singleEntry) {
             return (bool)$queryBuilder->execute()->fetchOne();
         }
-        return (bool)$queryBuilder->execute()->fetchAssociative();
+        return $queryBuilder->execute()->fetchAllAssociative();
     }
 }

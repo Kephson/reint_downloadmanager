@@ -3,6 +3,7 @@
 	"type": "typo3-cms-extension",
 	"description": "A simple download manager with different views of file collections as downloadable lists.",
 	"homepage": "https://github.com/Kephson/reint_downloadmanager",
+	"version": "4.0.0",
 	"authors": [
 		{
 			"name": "Ephraim Härer",
