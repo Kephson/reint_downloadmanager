@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **02.04.2022** -> 3.3.0
+
+  - added FlexForm upgrade wizard
+
+-----------------------
+
 - **30.03.2022** -> 3.2.1
 
   - removed breaking https://docs.typo3.org/c/typo3/cms-core/main/en-us/Changelog/11.0/Breaking-91909-SysCollectionDatabaseTablesMovedIntoExternalExtension.html

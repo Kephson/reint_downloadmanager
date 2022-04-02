@@ -1,39 +1,40 @@
 {
-  "name": "renolit/reint-downloadmanager",
-  "type": "typo3-cms-extension",
-  "description": "A simple download manager with different views of file collections as downloadable lists.",
-  "homepage": "https://github.com/Kephson/reint_downloadmanager",
-  "authors": [
-    {
-      "name": "Ephraim Härer",
-      "role": "Developer",
-      "homepage": "https://ephra.im"
-    }
-  ],
-  "license": [
-    "GPL-2.0-or-later"
-  ],
-  "keywords": [
-    "TYPO3 CMS",
-    "Download",
-    "Manager",
-    "extension"
-  ],
-  "require": {
-    "typo3/cms-core": "^10.4 || ^11.5",
-    "php": "^7.2 || ^8.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "RENOLIT\\ReintDownloadmanager\\": "Classes"
-    }
-  },
-  "replace": {
-    "typo3-ter/reint-downloadmanager": "self.version"
-  },
-  "extra": {
-    "typo3/cms": {
-      "extension-key": "reint_downloadmanager"
-    }
-  }
+	"name": "renolit/reint-downloadmanager",
+	"type": "typo3-cms-extension",
+	"description": "A simple download manager with different views of file collections as downloadable lists.",
+	"version": "3.3.0",
+	"homepage": "https://github.com/Kephson/reint_downloadmanager",
+	"authors": [
+		{
+			"name": "Ephraim Härer",
+			"role": "Developer",
+			"homepage": "https://ephra.im"
+		}
+	],
+	"license": [
+		"GPL-2.0-or-later"
+	],
+	"keywords": [
+		"TYPO3 CMS",
+		"Download",
+		"Manager",
+		"extension"
+	],
+	"require": {
+		"typo3/cms-core": "^10.4 || ^11.5",
+		"php": "^7.2 || ^8.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"RENOLIT\\ReintDownloadmanager\\": "Classes"
+		}
+	},
+	"replace": {
+		"typo3-ter/reint-downloadmanager": "self.version"
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "reint_downloadmanager"
+		}
+	}
 }
