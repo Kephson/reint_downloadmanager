@@ -13,7 +13,9 @@ ChangeLog
 
 - **02.04.2022** -> 3.3.0
 
-  - added FlexForm upgrade wizard
+  - added FlexForm upgrade wizard to migrate controller actions to new config
+  - moved download part to own action
+  - IMPORTANT: check the upgrade wizard in "Admin Tools -> Upgrade" to fix current flexforms!
 
 -----------------------
 
