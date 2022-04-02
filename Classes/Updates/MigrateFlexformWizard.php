@@ -28,19 +28,19 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
      * @var string[]
      */
     protected $search = [
-        'empty' => '%<numIndex index="1">Manager-&gt;empty</numIndex>%',
-        'list' => '%<numIndex index="1">Manager-&gt;list</numIndex>%',
-        'topdownloads' => '%<numIndex index="1">Manager-&gt;topdownloads</numIndex>%',
-        'filesearch' => '%<numIndex index="1">Manager-&gt;filesearch</numIndex>%',
+        'empty' => '<numIndex index="1">Manager-&gt;empty</numIndex>',
+        'list' => '<numIndex index="1">Manager-&gt;list</numIndex>',
+        'topdownloads' => '<numIndex index="1">Manager-&gt;topdownloads</numIndex>',
+        'filesearch' => '<numIndex index="1">Manager-&gt;filesearch</numIndex>',
     ];
     /**
      * @var string[]
      */
     protected $replace = [
-        'empty' => '%<numIndex index="1">Manager-&gt;empty,Manager-&gt;download</numIndex>%',
-        'list' => '%<numIndex index="1">Manager-&gt;list,Manager-&gt;download</numIndex>%',
-        'topdownloads' => '%<numIndex index="1">Manager-&gt;topdownloads,Manager-&gt;download</numIndex>%',
-        'filesearch' => '%<numIndex index="1">Manager-&gt;filesearch,Manager-&gt;download</numIndex>%',
+        'empty' => '<numIndex index="1">Manager-&gt;empty,Manager-&gt;download</numIndex>',
+        'list' => '<numIndex index="1">Manager-&gt;list,Manager-&gt;download</numIndex>',
+        'topdownloads' => '<numIndex index="1">Manager-&gt;topdownloads,Manager-&gt;download</numIndex>',
+        'filesearch' => '<numIndex index="1">Manager-&gt;filesearch,Manager-&gt;download</numIndex>',
     ];
 
     /**
@@ -157,13 +157,13 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
         $queryBuilder->select('uid', 'pi_flexform')
             ->from($this->table)
             ->orWhere(
-                $queryBuilder->expr()->like('pi_flexform', $queryBuilder->createNamedParameter($this->search['empty'])),
-                $queryBuilder->expr()->like('pi_flexform', $queryBuilder->createNamedParameter($this->search['list'])),
-                $queryBuilder->expr()->like('pi_flexform', $queryBuilder->createNamedParameter($this->search['topdownloads'])),
-                $queryBuilder->expr()->like('pi_flexform', $queryBuilder->createNamedParameter($this->search['filesearch']))
+                $queryBuilder->expr()->like('pi_flexform', $queryBuilder->createNamedParameter('%' . $this->search['empty'] . '%')),
+                $queryBuilder->expr()->like('pi_flexform', $queryBuilder->createNamedParameter('%' . $this->search['list'] . '%')),
+                $queryBuilder->expr()->like('pi_flexform', $queryBuilder->createNamedParameter('%' . $this->search['topdownloads'] . '%')),
+                $queryBuilder->expr()->like('pi_flexform', $queryBuilder->createNamedParameter('%' . $this->search['filesearch'] . '%'))
             )
             ->andWhere(
-                $queryBuilder->expr()->eq('list_type', $queryBuilder->createNamedParameter('reintdownloadmanager_reintdlm')),
+                $queryBuilder->expr()->eq('list_type', $queryBuilder->createNamedParameter('reintdownloadmanager_reintdlm'))
             );
 
         if ($singleEntry) {
