@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **05.04.2022** -> 3.1.1
+
+  - fixed redirect to file with correct function
+
+-----------------------
+
 - **02.04.2022** -> 3.1.0
 
   - added FlexForm upgrade wizard to migrate controller actions to new config

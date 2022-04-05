@@ -738,7 +738,7 @@ class ManagerController extends ActionController
             } else {
                 $fullPublicUri = GeneralUtility::locationHeaderUrl($publicUri);
             }
-            return $this->responseFactory->createResponse()->withHeader('Location', $fullPublicUri);
+            return $this->redirectToUri($fullPublicUri);
         } else {
             if (is_file($privateUri)) {
                 $fileLen = filesize($privateUri);
