@@ -59,7 +59,6 @@ node_modules/
 /Resources/Private/package-lock.json
 /Resources/Private/yarn-error.log
 /Resources/Private/yarn.lock
-/composer.lock
 /clover.xml
 /nbproject
 /var

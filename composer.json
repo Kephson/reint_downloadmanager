@@ -1,39 +1,54 @@
 {
 	"name": "renolit/reint-downloadmanager",
-	"type": "typo3-cms-extension",
 	"description": "A simple download manager with different views of file collections as downloadable lists.",
-	"homepage": "https://github.com/Kephson/reint_downloadmanager",
-	"authors": [
-		{
-			"name": "Ephraim Härer",
-			"role": "Developer",
-			"homepage": "https://ephra.im"
-		}
-	],
 	"license": [
 		"GPL-2.0-or-later"
 	],
+	"type": "typo3-cms-extension",
 	"keywords": [
 		"TYPO3 CMS",
 		"Download",
 		"Manager",
 		"extension"
 	],
+	"authors": [
+		{
+			"name": "Ephraim Härer",
+			"homepage": "https://ephra.im",
+			"role": "Developer"
+		}
+	],
+	"homepage": "https://github.com/Kephson/reint_downloadmanager",
 	"require": {
-		"typo3/cms-core": "^10.4 || ^11.5",
-		"php": "^7.2 || ^8.0"
+		"php": "^7.2 || ^8.0",
+		"typo3/cms-core": "^10.4 || ^11.5"
+	},
+	"require-dev": {
+		"ergebnis/composer-normalize": "^2.28"
+	},
+	"replace": {
+		"typo3-ter/reint-downloadmanager": "self.version"
 	},
 	"autoload": {
 		"psr-4": {
 			"RENOLIT\\ReintDownloadmanager\\": "Classes"
 		}
 	},
-	"replace": {
-		"typo3-ter/reint-downloadmanager": "self.version"
+	"config": {
+		"allow-plugins": {
+			"typo3/class-alias-loader": true,
+			"typo3/cms-composer-installers": true,
+			"ergebnis/composer-normalize": true
+		},
+		"bin-dir": ".Build/bin",
+		"sort-packages": true,
+		"vendor-dir": ".Build/vendor"
 	},
 	"extra": {
 		"typo3/cms": {
-			"extension-key": "reint_downloadmanager"
+			"cms-package-dir": "{$vendor-dir}/typo3/cms",
+			"extension-key": "reint_downloadmanager",
+			"web-dir": ".Build/web"
 		}
 	}
 }
