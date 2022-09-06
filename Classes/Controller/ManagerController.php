@@ -60,7 +60,7 @@ class ManagerController extends ActionController
     /**
      * feUserFileAccess
      *
-     * @var boolean
+     * @var bool
      */
     protected $feUserFileAccess = true;
 
@@ -198,6 +198,8 @@ class ManagerController extends ActionController
      * displays a list with the defined file collections
      *
      * @return void
+     * @throws NoSuchArgumentException
+     * @throws StopActionException
      */
     public function listAction()
     {
@@ -228,6 +230,8 @@ class ManagerController extends ActionController
      * shows a list of the top downloads
      *
      * @return void
+     * @throws NoSuchArgumentException
+     * @throws StopActionException
      */
     public function topdownloadsAction()
     {
@@ -275,6 +279,8 @@ class ManagerController extends ActionController
      * displays a search field for the defined file collections
      *
      * @return void
+     * @throws NoSuchArgumentException
+     * @throws StopActionException
      */
     public function filesearchAction()
     {
@@ -597,15 +603,15 @@ class ManagerController extends ActionController
      */
     protected function checkPublicUriForParams($publicUri, $fileModDate = false)
     {
-
-        if (ExtensionManagementUtility::isLoaded('reint_file_timestamp') || stripos($publicUri, '?') !== false) {
+        /* do not add timestamp if EXT:reint_file_timestamp is installed */
+        if (ExtensionManagementUtility::isLoaded('reint_file_timestamp')) {
+            $uri = $publicUri;
+        } elseif (stripos($publicUri, '?') > 0 && $fileModDate) {
             $uri = $publicUri . '&v=' . $fileModDate;
+        } elseif (stripos($publicUri, '?') === false && $fileModDate) {
+            $uri = $publicUri . '?v=' . $fileModDate;
         } else {
-            if ($fileModDate) {
-                $uri = $publicUri . '?v=' . $fileModDate;
-            } else {
-                $uri = $publicUri;
-            }
+            $uri = $publicUri;
         }
 
         return $uri;
@@ -719,7 +725,7 @@ class ManagerController extends ActionController
                 $this->redirect('list');
             }
         }
-        //return $this->responseFactory->createResponse();
+        return $this->responseFactory->createResponse();
     }
 
     /**
@@ -771,22 +777,6 @@ class ManagerController extends ActionController
                         $cType = 'application/octet-stream';
                         break;
                 }
-
-                /*
-                 * TODO: set the return headers correctly via response factory doesn't work
-                 * header will be overwritten
-                return $this->responseFactory->createResponse()
-                    ->withAddedHeader('Content-Type', $cType)
-                    ->withAddedHeader('Pragma', 'public')
-                    ->withAddedHeader('Expires', '-1')
-                    ->withAddedHeader('Cache-Control', 'public')
-                    ->withAddedHeader('Content-Disposition', 'attachment; filename="' . $fileNameValid . '"')
-                    ->withAddedHeader('Content-Length', (string)$fileLen)
-                    ->withoutHeader('Content-Language')
-                    ->withoutHeader('Vary')
-                    ->withoutHeader('Content-Encoding')
-                    ->withBody($this->streamFactory->createStream($privateUri));
-                */
 
                 /* set to remove wrong headers which crashed some files (e.g. xls, dot, ...) */
                 ob_clean();
