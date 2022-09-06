@@ -57,8 +57,6 @@ Overwrite the template path or the default storage page id and change the defaul
 			addfiletstamp = {$plugin.tx_reintdownloadmanager.settings.addfiletstamp}
 			# Include JavaScript for file search
 			includedefaultjs = {$plugin.tx_reintdownloadmanager.settings.includedefaultjs}
-			# Include default CSS
-			includedefaultcss = {$plugin.tx_reintdownloadmanager.settings.includedefaultcss}
 		  }
 		}
 
@@ -90,9 +88,3 @@ When redirecting to file (redirecttofile = 1) is set, it is possible to add the 
 **plugin.tx_reintdownloadmanager.settings.includedefaultjs = 1** (default: 1)
 
 As default a JS file is included which uses jQuery Mobile for a simple search. File could be removed with this option or in the Fluid template.
-
------------------------
-
-**plugin.tx_reintdownloadmanager.settings.includedefaultcss = 1** (default: 1)
-
-As default a CSS file is included. File could be removed with this option or in the Fluid template.

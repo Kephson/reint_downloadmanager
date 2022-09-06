@@ -30,8 +30,6 @@ plugin.tx_reintdownloadmanager {
     addfiletstamp = {$plugin.tx_reintdownloadmanager.settings.addfiletstamp}
     # Include JavaScript for file search
     includedefaultjs = {$plugin.tx_reintdownloadmanager.settings.includedefaultjs}
-    # Include default CSS
-    includedefaultcss = {$plugin.tx_reintdownloadmanager.settings.includedefaultcss}
   }
 }
 

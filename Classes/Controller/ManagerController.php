@@ -116,7 +116,6 @@ class ManagerController extends ActionController
      */
     protected $defaultTsConfig = [
         'includedefaultjs' => 1,
-        'includedefaultcss' => 1,
     ];
 
 
@@ -142,12 +141,9 @@ class ManagerController extends ActionController
             $this->configurationManager->setConfiguration(array_merge($configuration, $currentPid));
         }
 
-        /* check settings for css and js */
+        /* check settings for default JavaScript */
         if (isset($this->settings['includedefaultjs'])) {
             $this->defaultTsConfig['includedefaultjs'] = (int)$this->settings['includedefaultjs'];
-        }
-        if (isset($this->settings['includedefaultcss'])) {
-            $this->defaultTsConfig['includedefaultcss'] = (int)$this->settings['includedefaultcss'];
         }
 
         /* other settings */

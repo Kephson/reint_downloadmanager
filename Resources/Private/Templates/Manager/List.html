@@ -3,35 +3,47 @@
 	  data-namespace-typo3-fluid="true">
 <f:layout name="Default" />
 
+Bootstrap accordion see https://getbootstrap.com/docs/5.0/components/accordion/
+
 <f:section name="main">
-	<f:if condition="{config.includedefaultjs}"><r:includeFile path="EXT:reint_downloadmanager/Resources/Public/js/dmjs.js" name="zdmfile1" /></f:if>
-	<f:if condition="{config.includedefaultcss}"><r:includeFile path="EXT:reint_downloadmanager/Resources/Public/css/dmcss.css" /></f:if>
 
 	<f:flashMessages/>
 
-	<div class="all-collection-wrapper">
-		<f:if condition="{fileCollections}">
-			<f:then>
-				<f:for each="{fileCollections}" as="collection">
-					<div class="collection-wrapper">
-						<div class="collection-header">
-							<h3 class="collection-title">{collection.title}</h3>
-							<f:if condition="{collection.description}"><p><f:format.html>{collection.description}</f:format.html></p></f:if>
-						</div>
-						<ul class="collection-content">
-							<f:for each="{collection.items}" as="record">
-								<li class="link-item">
-									<f:link.page target="_blank" additionalParams="{r:pluginArgArray(pluginParam:'{extAdditionalParams}',valueArray:'{downloaduid:\'{record.properties.file}\'}')}"><f:if condition="{record.properties.title}"><f:then>{record.properties.title}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
-								</li>
-							</f:for>
-						</ul>
-					</div>
-				</f:for>
-			</f:then>
-			<f:else>
-				<p><f:translate key="nocollection" /></p>
-			</f:else>
-		</f:if>
-	</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <f:if condition="{fileCollections}">
+                    <f:then>
+                        <div class="accordion" id="accordion-{contentobj.uid}">
+                        <f:for each="{fileCollections}" as="collection" iteration="i">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-{collection.uid}">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{collection.uid}" aria-expanded="{f:if(condition:'{i.isFirst}',then:'true',else:'false')}" aria-controls="collapse-{collection.uid}">
+                                        {collection.title}
+                                    </button>
+                                </h2>
+                                <div id="collapse-{collection.uid}" class="accordion-collapse collapse{f:if(condition:'{i.isFirst}',then:' show')}" aria-labelledby="heading-{collection.uid}" data-bs-parent="#accordion-{contentobj.uid}">
+                                    <div class="accordion-body">
+                                        <f:if condition="{collection.description}"><f:format.html>{collection.description}</f:format.html></f:if>
+                                        <ul class="collection-{collection.uid}-content">
+                                            <f:for each="{collection.items}" as="record">
+                                                <li class="link-item">
+                                                    <f:link.page target="_blank" additionalParams="{r:pluginArgArray(pluginParam:'{extAdditionalParams}',valueArray:'{downloaduid:\'{record.properties.file}\'}')}"><f:if condition="{record.properties.title}"><f:then>{record.properties.title}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
+                                                </li>
+                                            </f:for>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </f:for>
+                        </div>
+                    </f:then>
+                    <f:else>
+                        <p><f:translate key="nocollection" /></p>
+                    </f:else>
+                </f:if>
+            </div>
+        </div>
+    </div>
 </f:section>
 </html>

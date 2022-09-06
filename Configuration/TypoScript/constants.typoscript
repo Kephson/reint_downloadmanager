@@ -20,7 +20,5 @@ plugin.tx_reintdownloadmanager {
     addfiletstamp = 0
     # cat=plugin.tx_reintdownloadmanager//a; type=boolean; label=Include default JavaScript file
     includedefaultjs = 1
-    # cat=plugin.tx_reintdownloadmanager//a; type=boolean; label=Include default CSS file
-    includedefaultcss = 1
   }
 }
