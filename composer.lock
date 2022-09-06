@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c44e753229c4ff12f1a6823d1ef1333f",
+    "content-hash": "b611a4a8d2de39dda4a676585b5ae62f",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -5509,6 +5509,67 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "beechit/fal-securedownload",
+            "version": "4.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beechit/fal_securedownload.git",
+                "reference": "04b51fe1522a32e779cc486650c722dfa3934090"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beechit/fal_securedownload/zipball/04b51fe1522a32e779cc486650c722dfa3934090",
+                "reference": "04b51fe1522a32e779cc486650c722dfa3934090",
+                "shasum": ""
+            },
+            "require": {
+                "typo3/cms-core": "^11.5"
+            },
+            "replace": {
+                "typo3-ter/fal-securedownload": "self.version"
+            },
+            "type": "typo3-cms-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                },
+                "typo3/cms": {
+                    "extension-key": "fal_securedownload"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BeechIt\\FalSecuredownload\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Frans Saris",
+                    "email": "t3ext@beech.it",
+                    "homepage": "http://www.beech.it",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Secure download of assets. Makes it possible to secure FE use of assets/files by setting permissions to folders/files for fe_groups.",
+            "homepage": "https://github.com/beechit/fal_securedownload/",
+            "keywords": [
+                "TYPO3 CMS",
+                "fal",
+                "secure download",
+                "typo3"
+            ],
+            "support": {
+                "email": "t3ext@beech.it",
+                "issues": "https://github.com/beechit/fal_securedownload/issues",
+                "source": "https://github.com/beechit/fal_securedownload"
+            },
+            "time": "2022-08-18T13:58:10+00:00"
+        },
         {
             "name": "ergebnis/composer-normalize",
             "version": "2.28.3",

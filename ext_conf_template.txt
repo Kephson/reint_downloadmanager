@@ -1,6 +1,4 @@
-##############
-### PAGETS ###
-##############
-
-# cat=PageTS; type=boolean; label=Disable default pageTs?
+# cat=Config; type=boolean; label=Disable default pageTs?
 disableDefaultPageTs = 0
+# cat=Config; type=boolean; label=Disable default deprecated plugin?
+disableDefaultPlugin = 1

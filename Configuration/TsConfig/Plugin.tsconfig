@@ -1,0 +1,19 @@
+mod {
+  wizards.newContentElement.wizardItems {
+    plugins {
+      elements {
+        plugins_reint_downloadmanager {
+          iconIdentifier = reint-dm-icon
+          title = LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:plugin_label
+          description = LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:plugin_value
+          tt_content_defValues {
+            CType = list
+            list_type = reintdownloadmanager_reintdlm
+          }
+        }
+      }
+
+      show := addToList(plugins_reint_downloadmanager)
+    }
+  }
+}

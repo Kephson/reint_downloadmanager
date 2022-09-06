@@ -46,8 +46,8 @@
                             <label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:lbrpid</label>
                             <displayCond>
                                 <OR>
-                                    <numIndex index="0">FIELD:switchableControllerActions:=:Manager->list</numIndex>
-                                    <numIndex index="1">FIELD:switchableControllerActions:=:Manager->filesearch</numIndex>
+                                    <numIndex index="0">FIELD:switchableControllerActions:=:Manager->list;Manager->download</numIndex>
+                                    <numIndex index="1">FIELD:switchableControllerActions:=:Manager->filesearch;Manager->download</numIndex>
                                 </OR>
                             </displayCond>
                             <config>
@@ -68,8 +68,8 @@
                             <label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:dfolder</label>
                             <displayCond>
                                 <OR>
-                                    <numIndex index="0">FIELD:switchableControllerActions:=:Manager->list</numIndex>
-                                    <numIndex index="1">FIELD:switchableControllerActions:=:Manager->filesearch</numIndex>
+                                    <numIndex index="0">FIELD:switchableControllerActions:=:Manager->list;Manager->download</numIndex>
+                                    <numIndex index="1">FIELD:switchableControllerActions:=:Manager->filesearch;Manager->download</numIndex>
                                 </OR>
                             </displayCond>
                             <config>
@@ -88,7 +88,7 @@
                         <TCEforms>
                             <exclude>0</exclude>
                             <label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:topdnum</label>
-                            <displayCond>FIELD:switchableControllerActions:=:Manager->topdownloads</displayCond>
+                            <displayCond>FIELD:switchableControllerActions:=:Manager->topdownloads;Manager->download</displayCond>
                             <config>
                                 <type>input</type>
                                 <size>20</size>
@@ -102,7 +102,7 @@
                         <TCEforms>
                             <exclude>0</exclude>
                             <label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:topdtitle</label>
-                            <displayCond>FIELD:switchableControllerActions:=:Manager->topdownloads</displayCond>
+                            <displayCond>FIELD:switchableControllerActions:=:Manager->topdownloads;Manager->download</displayCond>
                             <config>
                                 <type>input</type>
                                 <size>60</size>
@@ -116,7 +116,7 @@
                         <TCEforms>
                             <exclude>0</exclude>
                             <label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:customsearchplaceholder</label>
-                            <displayCond>FIELD:switchableControllerActions:=:Manager->filesearch</displayCond>
+                            <displayCond>FIELD:switchableControllerActions:=:Manager->filesearch;Manager->download</displayCond>
                             <config>
                                 <type>input</type>
                                 <size>60</size>

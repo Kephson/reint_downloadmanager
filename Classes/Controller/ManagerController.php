@@ -35,8 +35,6 @@ use RENOLIT\ReintDownloadmanager\Domain\Model\Download;
 use RENOLIT\ReintDownloadmanager\Domain\Repository\DownloadRepository;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Http\Stream;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Resource\File;
