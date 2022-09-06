@@ -151,8 +151,14 @@ class ManagerController extends ActionController
         if (isset($this->settings['includedefaultcss'])) {
             $this->defaultTsConfig['includedefaultcss'] = (int)$this->settings['includedefaultcss'];
         }
-        $this->defaultTsConfig['topdtitle'] = $this->settings['topdtitle'];
-        $this->defaultTsConfig['searchplaceholder'] = $this->settings['searchplaceholder'];
+
+        /* other settings */
+        if (isset($this->settings['topdtitle'])) {
+            $this->defaultTsConfig['topdtitle'] = $this->settings['topdtitle'];
+        }
+        if (isset($this->settings['searchplaceholder'])) {
+            $this->defaultTsConfig['searchplaceholder'] = $this->settings['searchplaceholder'];
+        }
     }
 
     public function injectDownloadRepository(
@@ -664,12 +670,13 @@ class ManagerController extends ActionController
      * @throws DBALException
      * @throws FileDoesNotExistException
      * @throws NoSuchArgumentException
+     * @throws StopActionException
      */
     protected function downloadAction(): ResponseInterface
     {
 
         if ($this->request->hasArgument('downloaduid') && $this->request->hasArgument('actionfrom')) {
-            $returnToAction = $this->request->hasArgument('actionfrom');
+            $returnToAction = $this->request->getArgument('actionfrom');
 
             $recordUid = (int)$this->request->getArgument('downloaduid');
             $publicUri = '';
@@ -711,7 +718,7 @@ class ManagerController extends ActionController
                 }
             } else {
                 $this->setFileNotFound();
-                $this->redirect($returnToAction);
+                $this->redirect('list');
             }
         }
         //return $this->responseFactory->createResponse();
@@ -725,7 +732,8 @@ class ManagerController extends ActionController
      * @param string $publicUri
      * @param bool $fileModDate
      *
-     * @return ResponseInterface
+     * @return ResponseInterface|void
+     * @throws StopActionException
      */
     protected function downloadFile($privateUri, $fileName, $publicUri, $fileModDate = true)
     {
@@ -738,7 +746,7 @@ class ManagerController extends ActionController
             } else {
                 $fullPublicUri = GeneralUtility::locationHeaderUrl($publicUri);
             }
-            return $this->redirectToUri($fullPublicUri);
+            $this->redirectToUri($fullPublicUri);
         } else {
             if (is_file($privateUri)) {
                 $fileLen = filesize($privateUri);
