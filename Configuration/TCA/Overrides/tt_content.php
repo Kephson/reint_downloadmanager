@@ -7,7 +7,7 @@
     );
     $dmManagerPackageConfiguration = $extensionConfiguration->get($extKey);
 
-    if (!(bool)$dmManagerPackageConfiguration['disableDefaultPlugin']) {
+    if (isset($dmManagerPackageConfiguration['disableDefaultPlugin']) && !(bool)$dmManagerPackageConfiguration['disableDefaultPlugin']) {
         /* load default Flexform for default download manager plugin */
         $rdPluginSignature = str_replace('_', '', $extKey) . '_' . 'reintdlm';
         $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$rdPluginSignature] = 'pi_flexform';

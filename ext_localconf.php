@@ -14,7 +14,7 @@ if (!defined('TYPO3_MODE')) {
     $dmManagerPackageConfiguration = $extensionConfiguration->get($extKey);
 
     $extensionName = 'RENOLIT.' . $extKey;
-    if (!(bool)$dmManagerPackageConfiguration['disableDefaultPlugin']) {
+    if (isset($dmManagerPackageConfiguration['disableDefaultPlugin']) && !(bool)$dmManagerPackageConfiguration['disableDefaultPlugin']) {
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
             $extensionName,
             'Reintdlm',
@@ -77,7 +77,7 @@ if (!defined('TYPO3_MODE')) {
     );
 
     /* add a default pageTS if allowed in extension configuration */
-    if (!(bool)$dmManagerPackageConfiguration['disableDefaultPageTs']) {
+    if (isset($dmManagerPackageConfiguration['disableDefaultPageTs']) && !(bool)$dmManagerPackageConfiguration['disableDefaultPageTs']) {
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $extKey . '/Configuration/TsConfig/Default.tsconfig">');
     }
 
