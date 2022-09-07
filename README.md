@@ -1,8 +1,8 @@
 # TYPO3 Extension `reint_downloadmanager`
 
-[![Latest Stable Version](https://poser.pugx.org/renolit/reint-downloadmanager/v)](//packagist.org/packages/renolit/reint-downloadmanager) 
-[![Total Downloads](https://poser.pugx.org/renolit/reint-downloadmanager/downloads)](//packagist.org/packages/renolit/reint-downloadmanager) 
-[![Latest Unstable Version](https://poser.pugx.org/renolit/reint-downloadmanager/v/unstable)](//packagist.org/packages/renolit/reint-downloadmanager) 
+[![Latest Stable Version](https://poser.pugx.org/renolit/reint-downloadmanager/v)](//packagist.org/packages/renolit/reint-downloadmanager)
+[![Total Downloads](https://poser.pugx.org/renolit/reint-downloadmanager/downloads)](//packagist.org/packages/renolit/reint-downloadmanager)
+[![Latest Unstable Version](https://poser.pugx.org/renolit/reint-downloadmanager/v/unstable)](//packagist.org/packages/renolit/reint-downloadmanager)
 [![License](https://poser.pugx.org/renolit/reint-downloadmanager/license)](//packagist.org/packages/renolit/reint-downloadmanager)
 [![.gitattributes](https://poser.pugx.org/renolit/reint-downloadmanager/gitattributes)](//packagist.org/packages/renolit/reint-downloadmanager)
 
@@ -11,8 +11,9 @@
 
 ## 1 Features
 
-* Show a list of downloads, count number of downloads for each file 
+* Show a list of downloads, count number of downloads for each file
 * Show top downloads as list
+* Add a searchable file list
 * [Full documentation in TYPO3 TER][1]
 
 ## 2 Usage
@@ -37,7 +38,7 @@ Download and install the [extension][3] with the extension manager module.
 
 ### 2.2 Minimal setup
 
-1) Just install the extension and you are done
+Just install the extension, include the TypoScript constants and setup and you are done.
 
 ## 3 Report issues
 
@@ -48,6 +49,7 @@ Please report issue directly in the [issue tracker in the Github repository][6].
 ### 4.1 Settings in extension configuration
 
 * **disableDefaultPageTs** - You can disable the automatic including of the default pageTS for the extension.
+* **disableDefaultPlugin** - You can enable the default plugin, but this is deprecated since TYPO3 11.5.
 
 ### 4.2 Changelog
 
@@ -62,7 +64,7 @@ Paste reference uses [**semantic versioning**][5], which means, that
 
 ### 4.4 Contribution
 
-**Pull Requests** are gladly welcome! Nevertheless please don't forget to add an issue and connect it to your pull requests. 
+**Pull Requests** are gladly welcome! Nevertheless please don't forget to add an issue and connect it to your pull requests.
 This is very helpful to understand what kind of issue the **PR** is going to solve.
 
 Bugfixes: Please describe what kind of bug your fix solve and give us feedback how to reproduce the issue. We're going

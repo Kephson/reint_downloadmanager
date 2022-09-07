@@ -62,3 +62,19 @@ Download manager
 	KnownProblems/Index
 	ToDoList/Index
 	ChangeLog/Index
+
+
+Screenshots
+-----------
+
+Examples for the **list**, **top downloads** and **search** view you can see here:
+
+.. figure:: ./Images/list_top_search.jpg
+   :width: 500px
+   :alt: List, top downloads and search view
+
+   List, top downloads and search view
+
+   The list, top downloads and search view of file collections as simple accordion.
+
+-----------

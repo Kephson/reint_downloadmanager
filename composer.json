@@ -22,14 +22,20 @@
 	"require": {
 		"php": "^7.4 || ^8.0",
 		"typo3/cms-core": "^10.4 || ^11.5",
-		"typo3/cms-install": "^10.4 || ^11.5"
+		"typo3/cms-install": "^10.4 || ^11.5",
+		"ext-pdo": "*"
 	},
 	"require-dev": {
+		"beechit/fal-securedownload": "^3.0 || ^4.0",
 		"ergebnis/composer-normalize": "^2.28",
-		"beechit/fal-securedownload": "^3.0 || ^4.0"
+		"typo3/cms-filemetadata": "^10.4 || ^11.5"
 	},
 	"replace": {
 		"typo3-ter/reint-downloadmanager": "self.version"
+	},
+	"suggest": {
+		"beechit/fal-securedownload": "^3.0 || ^4.0",
+		"typo3/cms-filemetadata": "^10.4 || ^11.5"
 	},
 	"autoload": {
 		"psr-4": {

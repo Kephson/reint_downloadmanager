@@ -13,13 +13,24 @@ Users Manual
 
 Target group: **Editors**
 
-Go to the page you want to insert the plugin and add a new content element which you can find under plugins, it is called **Download manager**.
+Go to the page you want to insert the plugin and add a new content element;
+you can find the download manager plugins in the "special elements" section of the new content element wizard.
+
+.. figure:: ../Images/User/user_step_00.jpg
+   :width: 600px
+   :alt: collection subfolder
+
+   Add new content element
+
+   Add new content element with the wizard
+
+
 
 .. tip::
 
-   1. Add a subfolder for the file collections and the download counter
+   1. Add a subfolder for the file collections and the download counter, e.g "My file collection"
 
-.. figure:: ../Images/User/typo3_backend_example.png
+.. figure:: ../Images/User/user_step_01.jpg
    :width: 800px
    :alt: collection subfolder
 
@@ -31,56 +42,47 @@ Go to the page you want to insert the plugin and add a new content element which
 
    2. Add file collections to the subfolder
 
-.. figure:: ../Images/User/file_collections_list_view.png
+.. figure:: ../Images/User/user_step_02.jpg
    :width: 800px
-   :alt: List view with file collections
+   :alt: Create file collections in folder
 
-   List view with file collections
+   Create file collections in folder
 
-   List view with file collections which are added to the subfolder
+   Create file collections in the added subfolder
 
-.. figure:: ../Images/User/file_collection_example.png
+.. figure:: ../Images/User/user_step_03.jpg
    :width: 800px
-   :alt: Adding images
+   :alt: Adding files
 
-   Adding images
+   Adding files
 
-   Adding images to a file collection
+   Adding files to a file collection
 
-.. figure:: ../Images/User/file_collection_example_02.png
+.. figure:: ../Images/User/user_step_04.jpg
    :width: 800px
    :alt: Adding description
 
    Adding description
 
-   Adding description to a file collection
+   Adding a description to a file collection
 
 .. tip::
 
-   3. Insert the **download manager** plugin
+   3. Insert the **download manager** plugin(s)
 
-.. figure:: ../Images/User/typo3_backend_add_tt_content.png
+.. figure:: ../Images/User/user_step_05.jpg
    :width: 800px
    :alt: Insert plugin
 
    Insert plugin
 
-   Insert the plugin on the page you want the output
-
-.. figure:: ../Images/User/add_plugin_wizard.png
-   :width: 800px
-   :alt: Insert plugin
-
-   Insert plugin
-
-   Insert the plugin with the wizard
-
+   Insert one or multiple plugins on the page you want to have the output
 
 .. tip::
 
    4a. Configure the list view
 
-.. figure:: ../Images/User/list_view.png
+.. figure:: ../Images/User/user_step_06.jpg
    :width: 800px
    :alt: List view
 
@@ -93,7 +95,7 @@ Go to the page you want to insert the plugin and add a new content element which
 
    4b. Configure the top downloads view
 
-.. figure:: ../Images/User/top_downloads_view.png
+.. figure:: ../Images/User/user_step_07.jpg
    :width: 800px
    :alt: Top downloads view
 
@@ -107,7 +109,7 @@ Go to the page you want to insert the plugin and add a new content element which
 
    4c. Configure the file search
 
-.. figure:: ../Images/User/search_view.png
+.. figure:: ../Images/User/user_step_08.jpg
    :width: 800px
    :alt: Top downloads view
 
@@ -121,32 +123,32 @@ Go to the page you want to insert the plugin and add a new content element which
 
    5. Add keywords to the files
 
-.. figure:: ../Images/User/file_keywords.png
+.. figure:: ../Images/User/user_step_09.jpg
    :width: 800px
-   :alt: Top downloads view
+   :alt: Add keywords to a file
 
    Add keywords
 
-   Add keywords to the files (separated by whitespaces), to add more content to search for (needs extension filemetadata installed). The default search is only for the title of the file.
+   Add keywords to the files (separated by whitespaces), to add more content to search for (needs extension "typo3/cms-filemetadata" installed). The default search is only for the title of the file.
 
 
 
 .. important::
 
-   Set the record storage page(s) in the tab behaviour
+   Select the records or single file collections to display
 
-Set the record storage page(s) in the tab **behaviour** of the plugin to say 
-the plugin where to store the download statistics or from where to get the 
-download statistics. 
-If this is not set, the data will be saved on the page where the plugin is set.
 
-.. figure:: ../Images/User/record_storage_page.png
+Select single file collections to display or select a folder or page with file collections.
+The number of downloads will also stored in this page or folder.
+If this is not set, the data will be saved on the page where the plugin is placed.
+
+.. figure:: ../Images/User/user_step_10.jpg
    :width: 800px
-   :alt: Record storage page(s)
+   :alt: Select file collections
 
-   Record storage page(s)
+   Select file collections
 
-   How to set the record storage page(s)
+   How to select file collections or folders with file collections
 
 
 

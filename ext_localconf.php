@@ -84,4 +84,7 @@ if (!defined('TYPO3_MODE')) {
     /* add migration wizard for FlexForms */
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['reintDownloadmanager_migrateFlexformWizard'] = \RENOLIT\ReintDownloadmanager\Updates\MigrateFlexformWizard::class;
 
+    /* add migration wizard for plugin to content element */
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['reintDownloadmanager_migratePluginToContentElement'] = \RENOLIT\ReintDownloadmanager\Updates\MigratePluginToContentElement::class;
+
 })();

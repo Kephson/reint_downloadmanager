@@ -11,6 +11,19 @@
 ChangeLog
 =========
 
+- **07.09.2022** -> 3.2.0
+
+  - [bugfix] fixed problems with PHP 8.0 and 8.1
+  - [bugfix] updated Flexforms and fixed some bugs
+  - [feature] updated all templates to Bootstrap 5
+  - [feature] removed jQuery mobile and did the search with Vanilla JavaScript
+  - cleaned coding and removed old code
+  - disabled plugin by default (switchable controller actions)
+  - enable only content elements for different views by default
+  - updated documentation to latest version with screens of TYPO3 11.5
+
+-----------------------
+
 - **05.04.2022** -> 3.1.1
 
   - fixed redirect to file with correct function

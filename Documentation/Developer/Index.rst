@@ -13,24 +13,11 @@ Developer Corner
 
 Target group: **Developers**
 
-.. _developer-realurl:
 
-RealUrl example configuration
------------------------------
+.. _developer-updates:
 
-Example realurl configuration you could use:
+Updates
+-------
 
-::
-		$TYPO3_CONF_VARS['EXTCONF']['realurl']['_DEFAULT']['postVarSets']['_DEFAULT']['dlmanager'] = array(
-			[
-				'GETvar' => 'tx_reintdownloadmanager_reintdlm[downloaduid]',
-			],
-		);
-
-TYPO3 9.5+ example slug configuration
--------------------------------------
-
-As example slug configuration you could use in your sites configuration the following:
-
-::
-		---
+There are some migrations which should be done after upgrading the extension to a version newer than version 3.1.0.
+Have a look at the :ref:`Known Problems section <known-problems>` on how to upgrade.

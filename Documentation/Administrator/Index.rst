@@ -16,6 +16,9 @@ Target group: **Administrators**
 This extension is easy to install and to configure.
 There are no dependencies to other extension, only to TYPO3 core.
 
+The extension suggests to install EXT:fal_securedownload if needed
+and EXT:filemetadata to add keywords to files.
+
 
 .. _admin-installation:
 
@@ -24,18 +27,19 @@ Installation
 
 To install the extension, perform the following steps:
 
-#. Install extension via composer
-#. Go to the Extension Manager
-#. Install the extension
-#. Load the static TypoScript template to your site
+With composer:
+
+#. Install extension via composer with **composer req renolit/reint-downloadmanager**
+#. Load the static TypoScript constants and setup to your site extension
 
 
-.. figure:: ../Images/Administrator/extensionmanager.png
-   :alt: Extension Manager
+.. _admin-updates:
 
-   Extension Manager
+Updates
+-------
 
-   Install it in the Extension Manager
+There are some migrations which should be done after upgrading the extension to a version newer than version 3.1.0.
+Have a look at the :ref:`Known Problems section <known-problems>` on how to upgrade.
 
 
 .. _admin-configuration:

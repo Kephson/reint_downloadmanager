@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6558c68a5b910761e3ba4005cb286714",
+    "content-hash": "9e51decdf0cca4489d84da2980facae6",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -5967,6 +5967,56 @@
                 }
             ],
             "time": "2020-07-06T04:49:32+00:00"
+        },
+        {
+            "name": "typo3/cms-filemetadata",
+            "version": "v11.5.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TYPO3-CMS/filemetadata.git",
+                "reference": "311a65fbfae2027ab3fef6562071d8ddfecbd4ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TYPO3-CMS/filemetadata/zipball/311a65fbfae2027ab3fef6562071d8ddfecbd4ba",
+                "reference": "311a65fbfae2027ab3fef6562071d8ddfecbd4ba",
+                "shasum": ""
+            },
+            "require": {
+                "typo3/cms-core": "11.5.15"
+            },
+            "conflict": {
+                "typo3/cms": "*"
+            },
+            "type": "typo3-cms-framework",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "11.5.x-dev"
+                },
+                "typo3/cms": {
+                    "extension-key": "filemetadata"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "TYPO3 Core Team",
+                    "email": "typo3cms@typo3.org",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add advanced metadata to File.",
+            "homepage": "https://typo3.org",
+            "support": {
+                "chat": "https://typo3.org/help",
+                "docs": "https://docs.typo3.org",
+                "issues": "https://forge.typo3.org",
+                "source": "https://github.com/typo3/typo3"
+            },
+            "time": "2022-08-25T07:04:55+00:00"
         }
     ],
     "aliases": [],
