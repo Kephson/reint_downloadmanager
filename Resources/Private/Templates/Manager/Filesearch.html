@@ -3,39 +3,39 @@
       data-namespace-typo3-fluid="true">
 <f:layout name="Default" />
 
+Showing a input field to search for files, search is done with Vanilla JavaScript
+
 <f:section name="main">
 	<f:if condition="{config.includedefaultjs}"><f:asset.script identifier="dmJs" src="EXT:reint_downloadmanager/Resources/Public/JavaScript/dmjs.js" /></f:if>
 
 	<f:flashMessages/>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
+    <div class="row">
+        <div class="col-12">
 
-                <f:if condition="{fileCollections}">
-                    <f:then>
-                        <form autocomplete="off" class="ui-filterable">
-                            <input data-type="search" class="form-control dmSearchFileField" data-searchid="filterList-{contentobj.uid}" id="searchFileField" placeholder="{f:if(condition:'{config.searchplaceholder}',then:'{config.searchplaceholder}',else:'{f:translate(key:\'searchplaceholder\')}')}" />
-                        </form>
-                        <div id="filterList-{contentobj.uid}" class="list-group">
-                            <f:for each="{fileCollections}" as="collection" key="i">
-                                <ul id="filterGroup-{contentobj.uid}" class="list-group mt-2 mb-2">
-                                    <li data-filtertext="{collection.title} {r:SimpleDisplay(obj:'{collectionSearchStrings}',prop:'{i}')}" class="list-item list-group-item d-none">{collection.title}</li>
-                                    <f:for each="{collection.items}" as="record">
-                                        <li data-filtertext="{collection.title} {f:if(condition:'{record.properties.title}',then:'{record.properties.title}',else:'{record.properties.name}')}{f:if(condition:'{record.properties.keywords}',then:' {record.properties.keywords}')}" class="list-item list-group-item d-none">
-                                            <f:link.page target="_blank" additionalParams="{r:pluginArgArray(pluginParam:'{extAdditionalParams}',valueArray:'{downloaduid:\'{record.properties.file}\'}')}"><f:if condition="{record.properties.title}"><f:then>{record.properties.title}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
-                                        </li>
-                                    </f:for>
-                                </ul>
-                            </f:for>
-                        </div>
-                    </f:then>
-                    <f:else>
-                        <p><f:translate key="nocollection" /></p>
-                    </f:else>
-                </f:if>
+            <f:if condition="{fileCollections}">
+                <f:then>
+                    <form autocomplete="off" class="ui-filterable">
+                        <input data-type="search" class="form-control dmSearchFileField" data-searchid="filterList-{contentobj.uid}" id="searchFileField" placeholder="{f:if(condition:'{config.searchplaceholder}',then:'{config.searchplaceholder}',else:'{f:translate(key:\'searchplaceholder\')}')}" />
+                    </form>
+                    <div id="filterList-{contentobj.uid}" class="list-group">
+                        <f:for each="{fileCollections}" as="collection" key="i">
+                            <ul id="filterGroup-{contentobj.uid}" class="list-group mt-2 mb-2">
+                                <li data-filtertext="{collection.title} {r:SimpleDisplay(obj:'{collectionSearchStrings}',prop:'{i}')}" class="list-item list-group-item d-none">{collection.title}</li>
+                                <f:for each="{collection.items}" as="record">
+                                    <li data-filtertext="{collection.title} {f:if(condition:'{record.properties.title}',then:'{record.properties.title}',else:'{record.properties.name}')}{f:if(condition:'{record.properties.keywords}',then:' {record.properties.keywords}')}" class="list-item list-group-item d-none">
+                                        <f:link.page target="_blank" additionalParams="{r:pluginArgArray(pluginParam:'{extAdditionalParams}',valueArray:'{downloaduid:\'{record.properties.file}\'}')}"><f:if condition="{record.properties.title}"><f:then>{record.properties.title}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
+                                    </li>
+                                </f:for>
+                            </ul>
+                        </f:for>
+                    </div>
+                </f:then>
+                <f:else>
+                    <p><f:translate key="nocollection" /></p>
+                </f:else>
+            </f:if>
 
-            </div>
         </div>
     </div>
 

@@ -3,32 +3,31 @@
       data-namespace-typo3-fluid="true">
 <f:layout name="Default" />
 
-This Template is responsible for displaying a top ten list of downloads
+This Template is responsible for displaying a top list of downloads
 
 <f:section name="main">
 
 	<f:flashMessages/>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h3 class="collection-title">{f:if(condition:'{config.topdtitle}',then:'{config.topdtitle}',else:'{f:translate(key:\'tdhead\')}')}</h3>
-                <f:if condition="{files}">
-                    <f:then>
-                        <ul class="list-group">
-                            <f:for each="{files}" as="record" key="num">
-                                <li class="list-group-item">
-                                    <span class="badge bg-secondary">{num}</span>&nbsp;&nbsp;<f:link.page target="_blank" additionalParams="{r:pluginArgArray(pluginParam:'{extAdditionalParams}',valueArray:'{downloaduid:\'{record.properties.file}\'}')}"><f:if condition="{record.properties.name}"><f:then>{record.properties.name}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
-                                </li>
-                            </f:for>
-                        </ul>
-                    </f:then>
-                    <f:else>
-                        <p><f:translate key="nodownloads" /></p>
-                    </f:else>
-                </f:if>
-            </div>
+    <div class="row">
+        <div class="col-12">
+            <h3 class="collection-title">{f:if(condition:'{config.topdtitle}',then:'{config.topdtitle}',else:'{f:translate(key:\'tdhead\')}')}</h3>
+            <f:if condition="{files}">
+                <f:then>
+                    <ul class="list-group">
+                        <f:for each="{files}" as="record" key="num">
+                            <li class="list-group-item">
+                                <span class="badge bg-secondary">{num}</span>&nbsp;&nbsp;<f:link.page target="_blank" additionalParams="{r:pluginArgArray(pluginParam:'{extAdditionalParams}',valueArray:'{downloaduid:\'{record.properties.file}\'}')}"><f:if condition="{record.properties.name}"><f:then>{record.properties.name}</f:then><f:else>{record.properties.name}</f:else></f:if> [{record.properties.extension -> r:format.strtolower()}]</f:link.page>
+                            </li>
+                        </f:for>
+                    </ul>
+                </f:then>
+                <f:else>
+                    <p><f:translate key="nodownloads" /></p>
+                </f:else>
+            </f:if>
         </div>
     </div>
+
 </f:section>
 </html>
