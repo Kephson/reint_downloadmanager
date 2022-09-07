@@ -92,8 +92,9 @@
                             <config>
                                 <type>input</type>
                                 <size>20</size>
-                                <max>10</max>
-                                <eval>trim</eval>
+                                <max>100</max>
+                                <eval>int</eval>
+                                <default>10</default>
                             </config>
                         </TCEforms>
                     </settings.topdnum>
