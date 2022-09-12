@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+
+- **12.09.2022** -> 3.2.1
+
+  - improved migration wizard to migrate plugin to content element
+
+-----------------------
+
 - **07.09.2022** -> 3.2.0
 
   - [bugfix] fixed problems with PHP 8.0 and 8.1

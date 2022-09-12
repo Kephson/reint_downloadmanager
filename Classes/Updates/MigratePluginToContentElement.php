@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
@@ -77,21 +76,29 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
     public function executeUpdate(): bool
     {
         $entries = $this->getEntriesToMigrate(false);
+
         if (count($entries) > 0) {
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
             $flexFormService = GeneralUtility::makeInstance(FlexFormService::class);
+            $entriesMigrated = 0;
+            $entriesNotMigrated = 0;
             foreach ($entries as $entry) {
                 $flexFormData = $flexFormService->convertFlexFormContentToArray($entry['pi_flexform']);
                 $migratedEntry = $this->getMigratedData($entry, $flexFormData);
-                $queryBuilder
-                    ->update($this->table, 't')
-                    ->where(
-                        $queryBuilder->expr()->eq('t.uid', $queryBuilder->createNamedParameter($migratedEntry['uid'], PDO::PARAM_INT))
-                    )
-                    ->set('t.list_type', $migratedEntry['list_type'])
-                    ->set('t.CType', $migratedEntry['CType'])
-                    ->set('t.pi_flexform', $migratedEntry['pi_flexform'])
-                    ->execute();
+                if ($migratedEntry) {
+                    $queryBuilder
+                        ->update($this->table, 't')
+                        ->where(
+                            $queryBuilder->expr()->eq('t.uid', $queryBuilder->createNamedParameter($migratedEntry['uid'], PDO::PARAM_INT))
+                        )
+                        ->set('t.list_type', $migratedEntry['list_type'])
+                        ->set('t.CType', $migratedEntry['CType'])
+                        ->set('t.pi_flexform', $migratedEntry['pi_flexform'])
+                        ->execute();
+                    $entriesMigrated++;
+                } else {
+                    $entriesNotMigrated++;
+                }
             }
         }
 
@@ -139,7 +146,7 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
         $queryBuilder->getRestrictions()->removeAll();
 
-        $queryBuilder->select('uid', 'CType', 'list_type', 'pi_flexform')
+        $queryBuilder->select('uid', 'CType', 'list_type', 'pi_flexform', 'pages')
             ->from($this->table)
             ->andWhere(
                 $queryBuilder->expr()->eq('list_type', $queryBuilder->createNamedParameter('reintdownloadmanager_reintdlm')),
@@ -166,7 +173,19 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
             'list_type' => '',
             'pi_flexform' => '',
         ];
-        if (isset($flexFormData['switchableControllerActions'], $flexFormData['settings']['lbpid'], $flexFormData['settings']['dfolder']) &&
+        if (isset($oldEntry['pages']) && !empty($oldEntry['pages'])) {
+            $folder = $oldEntry['pages'];
+        } else if (isset($flexFormData['settings']['dfolder']) && !empty($flexFormData['settings']['dfolder'])) {
+            $folder = $flexFormData['settings']['dfolder'];
+        } else {
+            $folder = '';
+        }
+        $searchPlaceholder = $flexFormData['settings']['searchplaceholder'] ?: htmlentities($flexFormData['settings']['searchplaceholder']);
+        $topdtitle = $flexFormData['settings']['topdtitle'] ?: htmlentities($flexFormData['settings']['topdtitle']);
+        $topdnum = $flexFormData['settings']['topdnum'] ?: htmlentities($flexFormData['settings']['topdnum']);
+        $lbpid = $flexFormData['settings']['lbpid'] ?: htmlentities($flexFormData['settings']['lbpid']);
+
+        if (isset($flexFormData['switchableControllerActions']) &&
             ($flexFormData['switchableControllerActions'] === 'Manager->list;Manager->download' ||
                 $flexFormData['switchableControllerActions'] === 'Manager->list')) {
             $newEntry['CType'] = 'reintdownloadmanager_dmlist';
@@ -176,18 +195,16 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
         <sheet index="element">
             <language index="lDEF">
                 <field index="settings.lbpid">
-                    <value index="vDEF">' . $flexFormData['settings']['lbpid'] . '</value>
+                    <value index="vDEF">' . $lbpid . '</value>
                 </field>
                 <field index="settings.dfolder">
-                    <value index="vDEF">' . $flexFormData['settings']['dfolder'] . '</value>
+                    <value index="vDEF">' . $folder . '</value>
                 </field>
             </language>
         </sheet>
     </data>
 </T3FlexForms>';
-        }
-        if (isset($flexFormData['switchableControllerActions'], $flexFormData['settings']['topdnum'], $flexFormData['settings']['topdtitle'],
-                $flexFormData['settings']['lbpid'], $flexFormData['settings']['dfolder']) &&
+        } else if (isset($flexFormData['switchableControllerActions']) &&
             ($flexFormData['switchableControllerActions'] === 'Manager->topdownloads;Manager->download' ||
                 $flexFormData['switchableControllerActions'] === 'Manager->topdownloads')) {
             $newEntry['CType'] = 'reintdownloadmanager_dmtopdownloads';
@@ -197,24 +214,22 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
         <sheet index="element">
             <language index="lDEF">
                 <field index="settings.topdnum">
-                    <value index="vDEF">' . $flexFormData['settings']['topdnum'] . '</value>
+                    <value index="vDEF">' . $topdnum . '</value>
                 </field>
                 <field index="settings.topdtitle">
-                    <value index="vDEF">' . $flexFormData['settings']['topdtitle'] . '</value>
+                    <value index="vDEF">' . $topdtitle . '</value>
                 </field>
                 <field index="settings.lbpid">
-                    <value index="vDEF">' . $flexFormData['settings']['lbpid'] . '</value>
+                    <value index="vDEF">' . $lbpid . '</value>
                 </field>
                 <field index="settings.dfolder">
-                    <value index="vDEF">' . $flexFormData['settings']['dfolder'] . '</value>
+                    <value index="vDEF">' . $folder . '</value>
                 </field>
             </language>
         </sheet>
     </data>
 </T3FlexForms>';
-        }
-        if (isset($flexFormData['switchableControllerActions'], $flexFormData['settings']['searchplaceholder'],
-                $flexFormData['settings']['lbpid'], $flexFormData['settings']['dfolder']) &&
+        } else if (isset($flexFormData['switchableControllerActions']) &&
             ($flexFormData['switchableControllerActions'] === 'Manager->filesearch;Manager->download' ||
                 $flexFormData['switchableControllerActions'] === 'Manager->filesearch')) {
             $newEntry['CType'] = 'reintdownloadmanager_dmfilesearch';
@@ -224,18 +239,20 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
         <sheet index="element">
             <language index="lDEF">
                 <field index="settings.searchplaceholder">
-                    <value index="vDEF">' . $flexFormData['settings']['searchplaceholder'] . '</value>
+                    <value index="vDEF">' . $searchPlaceholder . '</value>
                 </field>
                 <field index="settings.lbpid">
-                    <value index="vDEF">' . $flexFormData['settings']['lbpid'] . '</value>
+                    <value index="vDEF">' . $lbpid . '</value>
                 </field>
                 <field index="settings.dfolder">
-                    <value index="vDEF">' . $flexFormData['settings']['dfolder'] . '</value>
+                    <value index="vDEF">' . $folder . '</value>
                 </field>
             </language>
         </sheet>
     </data>
 </T3FlexForms>';
+        } else {
+            $newEntry = [];
         }
         return $newEntry;
     }
