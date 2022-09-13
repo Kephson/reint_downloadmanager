@@ -11,6 +11,11 @@
 ChangeLog
 =========
 
+- **13.09.2022** -> 3.2.2
+
+  - updated backend layout templates to fix view in TYPO3 v10
+
+-----------------------
 
 - **12.09.2022** -> 3.2.1
 
