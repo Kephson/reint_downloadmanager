@@ -37,10 +37,10 @@ class DownloadRepository extends Repository
 {
 
     /**
-     * @param integer $uid
+     * @param int $uid
      * @return object
      */
-    public function getOneBySysFileUid($uid)
+    public function getOneBySysFileUid(int $uid)
     {
         $query = $this->createQuery();
         $query->matching(
@@ -52,13 +52,17 @@ class DownloadRepository extends Repository
     /**
      * find the top ten downloads ordered by the counter
      *
-     * @param integer $limit
+     * @param array $storagePids
+     * @param int $limit
      * @return object
      */
-    public function findTopDownloadList($limit = 10)
+    public function findTopDownloadList(array $storagePids = [], int $limit = 10)
     {
 
         $query = $this->createQuery();
+        if (!empty($storagePids)) {
+            $query->getQuerySettings()->setStoragePageIds($storagePids);
+        }
         $query->setLimit($limit);
         $query->setOrderings(
             [

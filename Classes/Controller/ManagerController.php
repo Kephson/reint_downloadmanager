@@ -241,10 +241,14 @@ class ManagerController extends ActionController
         /* remove old and deleted files */
         $this->cleanupTopDownloads();
 
+        $storagePids = [];
+        if (isset($this->settings['dfolder']) && !empty($this->settings['dfolder'])) {
+            $storagePids = explode(',', $this->settings['dfolder']);
+        }
         if (isset($this->settings['topdnum']) && (int)$this->settings['topdnum'] > 0) {
-            $files = $this->downloadRepository->findTopDownloadList((int)$this->settings['topdnum']);
+            $files = $this->downloadRepository->findTopDownloadList($storagePids, (int)$this->settings['topdnum']);
         } else {
-            $files = $this->downloadRepository->findTopDownloadList();
+            $files = $this->downloadRepository->findTopDownloadList($storagePids);
         }
 
         $filesArray = [];
