@@ -133,12 +133,16 @@ class ManagerController extends ActionController
     {
         parent::initializeAction();
 
-        /* fallback to current pid if no storagePid is defined */
+        /* fallback to current pid or settings from FlexForm if no storagePid is defined */
         $configuration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
         if (empty($configuration['persistence']['storagePid'])) {
-            $currentPid = [];
-            $currentPid['persistence']['storagePid'] = $GLOBALS['TSFE']->id;
-            $this->configurationManager->setConfiguration(array_merge($configuration, $currentPid));
+            if (isset($this->settings['dfolder']) && $this->settings['dfolder'] > 0) {
+                $storagePids = $this->settings['dfolder'];
+            } else {
+                $storagePids = $GLOBALS['TSFE']->id;
+            }
+            $configuration['persistence']['storagePid'] = $storagePids;
+            $this->configurationManager->setConfiguration($configuration);
         }
 
         /* check settings for default JavaScript */

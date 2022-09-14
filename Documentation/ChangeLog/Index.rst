@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+- **14.09.2022** -> 3.2.3
+
+  - removed unused field in Flexform of top downloads
+  - updated fallback for storagePid to FlexForm values if there is no storage Pid in TSconfig or TypoScript setup defined
+
+-----------------------
+
 - **13.09.2022** -> 3.2.2
 
   - updated backend layout templates to fix view in TYPO3 v10

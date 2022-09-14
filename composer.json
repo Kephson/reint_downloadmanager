@@ -21,9 +21,9 @@
 	"homepage": "https://github.com/Kephson/reint_downloadmanager",
 	"require": {
 		"php": "^7.4 || ^8.0",
+		"ext-pdo": "*",
 		"typo3/cms-core": "^10.4 || ^11.5",
-		"typo3/cms-install": "^10.4 || ^11.5",
-		"ext-pdo": "*"
+		"typo3/cms-install": "^10.4 || ^11.5"
 	},
 	"require-dev": {
 		"beechit/fal-securedownload": "^3.0 || ^4.0",

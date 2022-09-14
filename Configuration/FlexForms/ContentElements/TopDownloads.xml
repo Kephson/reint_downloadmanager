@@ -41,22 +41,6 @@
                         </TCEforms>
                     </settings.topdtitle>
 
-                    <settings.lbpid>
-                        <TCEforms>
-                            <exclude>0</exclude>
-                            <label>LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:lbrpid</label>
-                            <config>
-                                <type>group</type>
-                                <internal_type>db</internal_type>
-                                <allowed>sys_file_collection</allowed>
-                                <size>10</size>
-                                <maxitems>999</maxitems>
-                                <minitems>0</minitems>
-                                <show_thumbs>0</show_thumbs>
-                            </config>
-                        </TCEforms>
-                    </settings.lbpid>
-
                     <settings.dfolder>
                         <TCEforms>
                             <exclude>0</exclude>
