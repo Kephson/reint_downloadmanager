@@ -65,3 +65,19 @@ Yes, please copy the templates from the extension to your own folder (e.g. EXT:m
 What to do if there are no files shown in frontend?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Please check your storagePid settings in TypoScript or TSconfig or define the folder in the FlexForm in the plugin on the page.
+
+
+.. _admin-changes:
+
+Important changes
+-----------------
+
+.. important::
+
+   Upgrade to version >= 3.1: there are important changes since version 3.0 and later
+
+  - Please compare all the templates between the new version and your local templates
+  - Check the upgrade wizard in "Admin Tools -> Upgrade" section and execute them if needed
+  - Have a look at the :ref:`Known Problems section <known-problems>` on how to upgrade
+
+

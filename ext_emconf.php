@@ -10,7 +10,7 @@
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Download manager',
     'description' => 'A simple download manager with different views of file collections as downloadable lists.',
-    'version' => '3.2.3',
+    'version' => '3.2.4',
     'category' => 'plugin',
     'constraints' => [
         'depends' => [

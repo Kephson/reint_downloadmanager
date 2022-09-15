@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+- **15.09.2022** -> 3.2.4
+
+  - updated documentation with migration information
+  - updated fallback for storagePid in top downloads view
+
+-----------------------
+
 - **14.09.2022** -> 3.2.3
 
   - removed unused field in Flexform of top downloads
