@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **05.11.2023** -> 4.0.0
+
+  - initial release for TYPO3 12.4
+
+-----------------------
+
 - **15.09.2022** -> 3.2.4
 
   - updated documentation with migration information
