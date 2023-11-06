@@ -48,7 +48,6 @@ use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -242,8 +241,8 @@ class ManagerController extends ActionController
     public function topdownloadsAction(): ResponseInterface
     {
         /* check if there is a file download request */
-        if ($this->request->hasArgument('topdownloads')) {
-            return $this->checkFileDownloadRequest();
+        if ($this->request->hasArgument('downloaduid')) {
+            return $this->checkFileDownloadRequest('topdownloads');
         }
 
         /* remove old and deleted files */
@@ -297,8 +296,8 @@ class ManagerController extends ActionController
     public function filesearchAction(): ResponseInterface
     {
         /* check if there is a file download request */
-        if ($this->request->hasArgument('filesearch')) {
-            return $this->checkFileDownloadRequest();
+        if ($this->request->hasArgument('downloaduid')) {
+            return $this->checkFileDownloadRequest('filesearch');
         }
 
         /* load the configured collections from flexform */
