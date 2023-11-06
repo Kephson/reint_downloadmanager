@@ -21,6 +21,7 @@ return [
         'iconfile' => 'EXT:reint_downloadmanager/Resources/Public/Images/renolit_table.png',
         'security' => [
             'ignoreRootLevelRestriction' => true,
+            'ignorePageTypeRestriction' => true,
         ]
     ],
     'interface' => [],

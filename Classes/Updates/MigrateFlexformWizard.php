@@ -2,7 +2,6 @@
 
 namespace RENOLIT\ReintDownloadmanager\Updates;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Exception;
 use PDO;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -11,6 +10,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
+# [UpgradeWizard('migrateFlexformWizard')]
 class MigrateFlexformWizard implements UpgradeWizardInterface
 {
     /**
@@ -52,17 +52,6 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
     }
 
     /**
-     * Return the identifier for this wizard
-     * This should be the same string as used in the ext_localconf class registration
-     *
-     * @return string
-     */
-    public function getIdentifier(): string
-    {
-        return 'reintDownloadmanager_migrateFlexformWizard';
-    }
-
-    /**
      * Return the speaking name of this wizard
      *
      * @return string
@@ -88,7 +77,6 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
      * Called when a wizard reports that an update is necessary
      *
      * @return bool
-     * @throws DBALException
      * @throws Exception
      */
     public function executeUpdate(): bool
@@ -118,7 +106,6 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
      * Check if data for migration exists.
      *
      * @return bool Whether an update is required (TRUE) or not (FALSE)
-     * @throws DBALException
      * @throws Exception
      */
     public function updateNecessary(): bool
@@ -144,10 +131,9 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
     /**
      * @param bool $singleEntry
      * @return array<string,mixed>|bool
-     * @throws DBALException
-     * @throws Exception
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function getEntriesToMigrate($singleEntry = true)
+    protected function getEntriesToMigrate($singleEntry = true): array|bool
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
         $queryBuilder->getRestrictions()->removeAll();

@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
  *
  *  Copyright notice
  *
- *  (c) 2017-2022 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2023 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -28,23 +28,27 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
  * ************************************************************* */
 
 use BeechIt\FalSecuredownload\Security\CheckPermissions;
+use Doctrine\DBAL\Exception;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
-use Doctrine\DBAL\DBALException;
 use RENOLIT\ReintDownloadmanager\Domain\Model\Download;
 use RENOLIT\ReintDownloadmanager\Domain\Repository\DownloadRepository;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileCollectionRepository;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
-use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -62,59 +66,59 @@ class ManagerController extends ActionController
      *
      * @var bool
      */
-    protected $feUserFileAccess = true;
+    protected bool $feUserFileAccess = true;
 
     /**
      * persistenceManager
      *
      * @var PersistenceManager
      */
-    protected $persistenceManager;
+    protected PersistenceManager $persistenceManager;
 
     /**
      * downloadRepository
      *
-     * @var DownloadRepository
+     * @var ?DownloadRepository
      */
-    protected $downloadRepository = null;
+    protected ?DownloadRepository $downloadRepository = null;
 
     /**
      * @var FileCollectionRepository
      */
-    protected $fileCollectionRepository;
+    protected FileCollectionRepository $fileCollectionRepository;
 
     /**
      * @var FileRepository
      */
-    protected $fileRepository;
+    protected FileRepository $fileRepository;
 
     /**
      * Collections ids to display
      *
      * @var array
      */
-    protected $collectionIds = [];
+    protected array $collectionIds = [];
 
     /**
      * The loaded collections to display
      *
      * @var array
      */
-    protected $collections = [];
+    protected array $collections = [];
 
     /**
      * The collection search strings
      *
      * @var array
      */
-    protected $collectionSearchStrings = [];
+    protected array $collectionSearchStrings = [];
 
     /**
      * default TypoScript configuration
      *
      * @var array
      */
-    protected $defaultTsConfig = [
+    protected array $defaultTsConfig = [
         'includedefaultjs' => 1,
     ];
 
@@ -129,7 +133,7 @@ class ManagerController extends ActionController
      *
      * @return void
      */
-    protected function initializeAction()
+    protected function initializeAction(): void
     {
         parent::initializeAction();
 
@@ -139,7 +143,8 @@ class ManagerController extends ActionController
             if (isset($this->settings['dfolder']) && $this->settings['dfolder'] > 0) {
                 $storagePids = $this->settings['dfolder'];
             } else {
-                $storagePids = $GLOBALS['TSFE']->id;
+                $pageArguments = $this->request->getAttribute('routing');
+                $storagePids = $pageArguments->getPageId();
             }
             $configuration['persistence']['storagePid'] = $storagePids;
             $this->configurationManager->setConfiguration($configuration);
@@ -161,26 +166,26 @@ class ManagerController extends ActionController
 
     public function injectDownloadRepository(
         DownloadRepository $downloadRepository
-    )
+    ): void
     {
         $this->downloadRepository = $downloadRepository;
     }
 
     public function injectFileCollectionRepository(
         FileCollectionRepository $fileCollectionRepository
-    )
+    ): void
     {
         $this->fileCollectionRepository = $fileCollectionRepository;
     }
 
-    public function injectFileRepository(FileRepository $fileRepository)
+    public function injectFileRepository(FileRepository $fileRepository): void
     {
         $this->fileRepository = $fileRepository;
     }
 
     public function injectPersistenceManager(
         PersistenceManager $persistenceManager
-    )
+    ): void
     {
         $this->persistenceManager = $persistenceManager;
     }
@@ -188,7 +193,7 @@ class ManagerController extends ActionController
     /**
      * @return string
      */
-    protected function getUrlExtParam()
+    protected function getUrlExtParam(): string
     {
         return strtolower('tx_' . $this->request->getControllerExtensionName() . '_' . $this->request->getPluginName());
     }
@@ -197,14 +202,14 @@ class ManagerController extends ActionController
      * action list
      * displays a list with the defined file collections
      *
-     * @return void
-     * @throws NoSuchArgumentException
-     * @throws StopActionException
+     * @return ResponseInterface
      */
-    public function listAction()
+    public function listAction(): ResponseInterface
     {
         /* check if there is a file download request */
-        $this->checkFileDownloadRequest('list');
+        if ($this->request->hasArgument('downloaduid')) {
+            return $this->checkFileDownloadRequest();
+        }
 
         /* load the configured collections from flexform */
         $this->loadCollectionsFromFlexform();
@@ -223,20 +228,23 @@ class ManagerController extends ActionController
                 'contentobj' => $contentObject,
             ]
         );
+
+        return $this->htmlResponse();
     }
 
     /**
      * action topdownloads
      * shows a list of the top downloads
      *
-     * @return void
+     * @return ResponseInterface
      * @throws NoSuchArgumentException
-     * @throws StopActionException
      */
-    public function topdownloadsAction()
+    public function topdownloadsAction(): ResponseInterface
     {
         /* check if there is a file download request */
-        $this->checkFileDownloadRequest('topdownloads');
+        if ($this->request->hasArgument('topdownloads')) {
+            return $this->checkFileDownloadRequest();
+        }
 
         /* remove old and deleted files */
         $this->cleanupTopDownloads();
@@ -276,20 +284,22 @@ class ManagerController extends ActionController
                 'contentobj' => $contentObject,
             ]
         );
+
+        return $this->htmlResponse();
     }
 
     /**
      * action filesearch
      * displays a search field for the defined file collections
      *
-     * @return void
-     * @throws NoSuchArgumentException
-     * @throws StopActionException
+     * @return ResponseInterface
      */
-    public function filesearchAction()
+    public function filesearchAction(): ResponseInterface
     {
         /* check if there is a file download request */
-        $this->checkFileDownloadRequest('filesearch');
+        if ($this->request->hasArgument('filesearch')) {
+            return $this->checkFileDownloadRequest();
+        }
 
         /* load the configured collections from flexform */
         $this->loadCollectionsFromFlexform();
@@ -312,41 +322,42 @@ class ManagerController extends ActionController
                 'contentobj' => $contentObject,
             ]
         );
+
+        return $this->htmlResponse();
     }
 
     /**
      * action empty
      * nothing selected in flexform
      *
-     * @return void
+     * @return ResponseInterface
      */
-    public function emptyAction()
+    public function emptyAction(): ResponseInterface
     {
-
+        return $this->htmlResponse();
     }
 
     /**
      * check if there is a file download request
      * @param string $action
-     * @throws NoSuchArgumentException
-     * @throws StopActionException
+     *
+     * @return ResponseInterface
      */
-    protected function checkFileDownloadRequest($action = 'list')
+    protected function checkFileDownloadRequest(string $action = 'list'): ResponseInterface
     {
         /* download file and exit */
-        if ($this->request->hasArgument('downloaduid')) {
-            $arguments = [
-                'downloaduid' => $this->request->getArgument('downloaduid'),
-                'actionfrom' => $action,
-            ];
-            $this->redirect('download', 'Manager', null, $arguments);
-        }
+        $arguments = [
+            'downloaduid' => $this->request->getArgument('downloaduid'),
+            'actionfrom' => $action,
+        ];
+        $uri = $this->uriBuilder->uriFor('download', $arguments);
+        return $this->responseFactory->createResponse(307)->withHeader('Location', $uri);
     }
 
     /**
      * cleanup the top download table if file was deleted
      */
-    protected function cleanupTopDownloads()
+    protected function cleanupTopDownloads(): void
     {
         $topdownloads = $this->downloadRepository->findAllWithoutPid();
         /** @var $queryBuilder QueryBuilder */
@@ -366,7 +377,7 @@ class ManagerController extends ActionController
      * write a search field for each file collection as string
      * includes the *file titles*, *file extensions* and *file keywords*
      */
-    protected function writeCollectionTitleSearchfield()
+    protected function writeCollectionTitleSearchfield(): void
     {
         if (is_array($this->collections) && !empty($this->collections)) {
             foreach ($this->collections as $key => $col) {
@@ -429,7 +440,7 @@ class ManagerController extends ActionController
      * @return void
      * @throws
      */
-    protected function loadCollectionsFromDb()
+    protected function loadCollectionsFromDb(): void
     {
         /* check if there are any collections */
         if (count($this->collectionIds) > 0) {
@@ -452,7 +463,7 @@ class ManagerController extends ActionController
      *
      * @return true
      */
-    protected function loadCollectionsFromFlexform()
+    protected function loadCollectionsFromFlexform(): bool
     {
         /* check if single collections are set */
         if (isset($this->settings['lbpid']) && !empty($this->settings['lbpid'])) {
@@ -478,7 +489,7 @@ class ManagerController extends ActionController
      * @param array $pageIds
      * @throws
      */
-    protected function getCollectionsFromPages($pageIds)
+    protected function getCollectionsFromPages($pageIds): void
     {
         $table = 'sys_file_collection';
         $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
@@ -491,11 +502,11 @@ class ManagerController extends ActionController
                     ->where($queryBuilder->expr()->eq('pid', $pageId),
                         $queryBuilder->expr()->eq('hidden', 0),
                         $queryBuilder->expr()->eq('deleted', 0),
-                        $queryBuilder->expr()->orX(
+                        $queryBuilder->expr()->or(
                             $queryBuilder->expr()->eq('sys_language_uid', $languageAspect->getId()),
                             $queryBuilder->expr()->eq('sys_language_uid', 0)
                         )
-                    )->orderBy('sorting')->execute()->fetchAll();
+                    )->orderBy('sorting')->executeQuery()->fetchAllAssociative();
                 if (count($fileCollections) > 0) {
                     foreach ($fileCollections as $col) {
                         if (!isset($this->collectionIds[$col['uid']])) {
@@ -517,17 +528,17 @@ class ManagerController extends ActionController
      * @param integer $uid
      * @param string $fieldname
      * @return string
-     * @throws DBALException
+     * @throws Exception
      */
-    protected function getSysFileCollectionData($uid, $fieldname = 'description_frontend')
+    protected function getSysFileCollectionData($uid, $fieldname = 'description_frontend'): string
     {
         $table = 'sys_file_collection';
         /** @var $queryBuilder QueryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
         $res = $queryBuilder->select('*')->from($table)
             ->where($queryBuilder->expr()->eq('uid', $uid))
-            ->execute()->fetch();
-        return $res[$fieldname] ?? '';
+            ->executeQuery()->fetchAllAssociative();
+        return $res[0][$fieldname] ?? '';
     }
 
     /**
@@ -536,7 +547,7 @@ class ManagerController extends ActionController
      * @param File $file
      * @return string
      */
-    protected function getPrivateUrlForNonPublic(File $file)
+    protected function getPrivateUrlForNonPublic(File $file): string
     {
         $storageConfiguration = $file->getStorage()->getConfiguration();
         $storageBasePath = $storageConfiguration['basePath'];
@@ -546,7 +557,7 @@ class ManagerController extends ActionController
     /**
      * sets the flashmessage for not found file
      */
-    protected function setFileNotFound()
+    protected function setFileNotFound(): void
     {
         $errorFlashMessage = LocalizationUtility::translate('fileNotFound',
             $this->request->getControllerExtensionKey());
@@ -556,7 +567,7 @@ class ManagerController extends ActionController
     /**
      * sets the flashmessage for not found file
      */
-    protected function setFileNoAccess()
+    protected function setFileNoAccess(): void
     {
         $errorFlashMessage = LocalizationUtility::translate('fileNoAccess',
             $this->request->getControllerExtensionKey());
@@ -570,28 +581,30 @@ class ManagerController extends ActionController
      * @return void
      * @throws
      */
-    protected function writeFlashMessage($errorFlashMessage)
+    protected function writeFlashMessage(string $errorFlashMessage): void
     {
         $errorFlashMessageObject = new FlashMessage(
-            $errorFlashMessage, '', FlashMessage::ERROR
+            $errorFlashMessage, '', ContextualFeedbackSeverity::ERROR
         );
-        $this->controllerContext->getFlashMessageQueue()->enqueue($errorFlashMessageObject);
+        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+        $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
+        $messageQueue->addMessage($errorFlashMessageObject);
     }
 
     /**
      * @param integer $uid
-     * @return boolean
-     * @throws DBALException
+     * @return bool
+     * @throws Exception
      */
-    protected function isFileAvailable($uid)
+    protected function isFileAvailable(int $uid): bool
     {
         $table = 'sys_file';
         /** @var $queryBuilder QueryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
         $existingFileRecord = $queryBuilder->select('uid')->from($table)
             ->where($queryBuilder->expr()->eq('uid', $uid))
-            ->execute()->fetch();
-        if (is_array($existingFileRecord)) {
+            ->executeQuery()->fetchOne();
+        if ($uid === $existingFileRecord) {
             return true;
         } else {
             return false;
@@ -605,7 +618,7 @@ class ManagerController extends ActionController
      * @param bool $fileModDate
      * @return string
      */
-    protected function checkPublicUriForParams($publicUri, $fileModDate = false)
+    protected function checkPublicUriForParams(string $publicUri, bool $fileModDate = false): string
     {
         /* do not add timestamp if EXT:reint_file_timestamp is installed */
         if (ExtensionManagementUtility::isLoaded('reint_file_timestamp')) {
@@ -624,10 +637,11 @@ class ManagerController extends ActionController
     /**
      * stores the download of a file in the user session
      *
-     * @param integer $recordUid
-     * @throws
+     * @param int $recordUid
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
-    protected function updateUserSessionDownloads($recordUid)
+    protected function updateUserSessionDownloads(int $recordUid): void
     {
         $countEntry = $this->downloadRepository->getOneBySysFileUid($recordUid);
 
@@ -635,7 +649,7 @@ class ManagerController extends ActionController
 
         $newEntry = false;
         if (!$countEntry) {
-            $countEntry = $this->objectManager->get(Download::class);
+            $countEntry = GeneralUtility::makeInstance(Download::class);
             $countEntry->setSysFileUid($recordUid);
             $countEntry->setDownloads(0);
             $newEntry = true;
@@ -674,18 +688,13 @@ class ManagerController extends ActionController
      * sends a file to download if download param is set
      *
      * @return ResponseInterface
-     *
-     * @throws DBALException
+     * @throws Exception
      * @throws FileDoesNotExistException
-     * @throws NoSuchArgumentException
-     * @throws StopActionException
      */
     protected function downloadAction(): ResponseInterface
     {
-
         if ($this->request->hasArgument('downloaduid') && $this->request->hasArgument('actionfrom')) {
             $returnToAction = $this->request->getArgument('actionfrom');
-
             $recordUid = (int)$this->request->getArgument('downloaduid');
             $publicUri = '';
             $fileName = '';
@@ -693,7 +702,7 @@ class ManagerController extends ActionController
 
             if (($recordUid > 0) && $this->isFileAvailable($recordUid)) {
                 /** @var $fileRepository ResourceFactory */
-                $fileRepository = $this->objectManager->get(ResourceFactory::class);
+                $fileRepository = GeneralUtility::makeInstance(ResourceFactory::class);
                 $file = $fileRepository->getFileObject($recordUid);
 
                 $privateUri = '';
@@ -734,16 +743,16 @@ class ManagerController extends ActionController
 
     /**
      * set download headers and download a file
+     * @see https://brot.krue.ml/extbase-controller-action-responses-in-typo3
      *
      * @param string $privateUri
      * @param string $fileName
      * @param string $publicUri
      * @param bool $fileModDate
      *
-     * @return ResponseInterface|void
-     * @throws StopActionException
+     * @return ResponseInterface
      */
-    protected function downloadFile($privateUri, $fileName, $publicUri, $fileModDate = true)
+    protected function downloadFile($privateUri, $fileName, $publicUri, $fileModDate = true): ResponseInterface
     {
         /* check if there is a setting to redirect only to the file */
         if (isset($this->settings['redirecttofile']) && (int)$this->settings['redirecttofile'] === 1) {
@@ -757,7 +766,7 @@ class ManagerController extends ActionController
             $this->redirectToUri($fullPublicUri);
         } else {
             if (is_file($privateUri)) {
-                $fileLen = filesize($privateUri);
+                $fileLen = (string)filesize($privateUri);
                 $ext = strtolower(substr(strrchr($fileName, '.'), 1));
                 $invalidChars = ['<', '>', '?', '"', ':', '|', '\\', '/', '*', '&'];
                 $fileNameValid = str_replace($invalidChars, '', $fileName);
@@ -782,18 +791,17 @@ class ManagerController extends ActionController
                         break;
                 }
 
-                /* set to remove wrong headers which crashed some files (e.g. xls, dot, ...) */
-                ob_clean();
-                header('Content-Type: ' . $cType, true);
-                header('Pragma: ' . 'public', true);
-                header('Expires: ' . '-1', true);
-                header('Cache-Control: ' . 'public', true);
-                header('Content-Disposition: ' . 'attachment; filename="' . $fileNameValid . '"', true);
-                header('Content-Length: ' . $fileLen, true);
-
-                @readfile($privateUri);
-                exit();
+                return $this->responseFactory->createResponse()
+                    ->withHeader('Content-Type', $cType)
+                    ->withHeader('Pragma', 'public')
+                    ->withHeader('Expires', '-1')
+                    ->withHeader('Cache-Control', 'public')
+                    ->withHeader('Content-Disposition', 'attachment; filename="' . $fileNameValid . '"')
+                    ->withHeader('Content-Length', $fileLen)
+                    ->withBody($this->streamFactory->createStreamFromFile($privateUri));
             }
         }
+
+        return $this->responseFactory->createResponse();
     }
 }

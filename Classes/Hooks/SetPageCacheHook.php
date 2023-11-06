@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Hooks;
  *
  *  Copyright notice
  *
- *  (c) 2017-2021 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2023 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *  (c) 2018 Benjamin Franzke <bfr@qbus.de>
  *
  *  All rights reserved
@@ -28,9 +28,9 @@ namespace RENOLIT\ReintDownloadmanager\Hooks;
  *  This copyright notice MUST APPEAR in all copies of the script!
 * ************************************************************* */
 
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Cache\Backend\RedisBackend;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class SetPageCacheHook
 {
@@ -39,13 +39,15 @@ class SetPageCacheHook
      * @param array $params
      * @param FrontendInterface $frontend
      */
-    public function set(&$params, $frontend)
+    public function set(array &$params, FrontendInterface $frontend): void
     {
         if ($frontend->getIdentifier() !== 'cache_pages') {
             return;
         }
 
-        $extParams = GeneralUtility::_GP('tx_reintdownloadmanager_reintdlm');
+        $request = $this->getRequest();
+        $extParams = $request->getParsedBody()['tx_reintdownloadmanager_reintdlm'] ?? $request->getQueryParams()['tx_reintdownloadmanager_reintdlm'] ?? null;
+
         if (isset($params['variable']['temp_content']) && $params['variable']['temp_content'] && is_array($extParams) && isset($extParams['downloaduid'])) {
             /* We can't prevent temp_content ('Page is being generated') from going into cache.
              * But lifetime '-1' will immediately invalidate the temporary cache entry,
@@ -63,5 +65,13 @@ class SetPageCacheHook
                 $params['variable'] = false;
             }
         }
+    }
+
+    /**
+     * @return ServerRequestInterface
+     */
+    private function getRequest(): ServerRequestInterface
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
     }
 }

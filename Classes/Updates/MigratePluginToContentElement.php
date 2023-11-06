@@ -2,8 +2,6 @@
 
 namespace RENOLIT\ReintDownloadmanager\Updates;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Exception;
 use PDO;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -12,17 +10,18 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
+# [UpgradeWizard('migratePluginToContentElement')]
 class MigratePluginToContentElement implements UpgradeWizardInterface
 {
     /**
      * @var OutputInterface
      */
-    protected $output;
+    protected OutputInterface $output;
 
     /**
      * @var string
      */
-    protected $table = 'tt_content';
+    protected string $table = 'tt_content';
 
     /**
      * @param OutputInterface $output
@@ -31,17 +30,6 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
     public function setOutput(OutputInterface $output): void
     {
         $this->output = $output;
-    }
-
-    /**
-     * Return the identifier for this wizard
-     * This should be the same string as used in the ext_localconf class registration
-     *
-     * @return string
-     */
-    public function getIdentifier(): string
-    {
-        return 'reintDownloadmanager_migratePluginToContentElement';
     }
 
     /**
@@ -70,8 +58,7 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
      * Called when a wizard reports that an update is necessary
      *
      * @return bool
-     * @throws DBALException
-     * @throws Exception
+     * @throws \Doctrine\DBAL\Exception
      */
     public function executeUpdate(): bool
     {
@@ -80,8 +67,6 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
         if (count($entries) > 0) {
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
             $flexFormService = GeneralUtility::makeInstance(FlexFormService::class);
-            $entriesMigrated = 0;
-            $entriesNotMigrated = 0;
             foreach ($entries as $entry) {
                 $flexFormData = $flexFormService->convertFlexFormContentToArray($entry['pi_flexform']);
                 $migratedEntry = $this->getMigratedData($entry, $flexFormData);
@@ -94,10 +79,7 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
                         ->set('t.list_type', $migratedEntry['list_type'])
                         ->set('t.CType', $migratedEntry['CType'])
                         ->set('t.pi_flexform', $migratedEntry['pi_flexform'])
-                        ->execute();
-                    $entriesMigrated++;
-                } else {
-                    $entriesNotMigrated++;
+                        ->executeQuery();
                 }
             }
         }
@@ -112,8 +94,7 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
      * Check if data for migration exists.
      *
      * @return bool Whether an update is required (TRUE) or not (FALSE)
-     * @throws DBALException
-     * @throws Exception
+     * @throws \Doctrine\DBAL\Exception
      */
     public function updateNecessary(): bool
     {
@@ -138,10 +119,9 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
     /**
      * @param bool $singleEntry
      * @return array<string,mixed>|bool
-     * @throws DBALException
-     * @throws Exception
+     * @throws \Doctrine\DBAL\Exception
      */
-    protected function getEntriesToMigrate($singleEntry = true)
+    protected function getEntriesToMigrate(bool $singleEntry = true): array|bool
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
         $queryBuilder->getRestrictions()->removeAll();
@@ -165,7 +145,7 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
      *
      * @return array $newEntry
      */
-    protected function getMigratedData($oldEntry, $flexFormData)
+    protected function getMigratedData(array $oldEntry, array $flexFormData): array
     {
         $newEntry = [
             'uid' => $oldEntry['uid'],

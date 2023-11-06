@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Repository;
  *
  *  Copyright notice
  *
- *  (c) 2017-2022 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2023 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -38,9 +38,9 @@ class DownloadRepository extends Repository
 
     /**
      * @param int $uid
-     * @return object
+     * @return ?object
      */
-    public function getOneBySysFileUid(int $uid)
+    public function getOneBySysFileUid(int $uid): ?object
     {
         $query = $this->createQuery();
         $query->matching(
@@ -56,7 +56,7 @@ class DownloadRepository extends Repository
      * @param int $limit
      * @return object
      */
-    public function findTopDownloadList(array $storagePids = [], int $limit = 10)
+    public function findTopDownloadList(array $storagePids = [], int $limit = 10): object
     {
 
         $query = $this->createQuery();
@@ -77,7 +77,7 @@ class DownloadRepository extends Repository
      *
      * @return object
      */
-    public function findAllWithoutPid()
+    public function findAllWithoutPid(): object
     {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);

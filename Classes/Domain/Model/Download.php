@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Domain\Model;
  *
  *  Copyright notice
  *
- *  (c) 2017-2022 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2023 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -40,21 +40,21 @@ class Download extends AbstractEntity
      *
      * @var int
      */
-    protected $sysFileUid = 0;
+    protected int $sysFileUid = 0;
 
     /**
      * downloads
      *
      * @var int
      */
-    protected $downloads = 0;
+    protected int $downloads = 0;
 
     /**
      * Returns the sysFileUid
      *
      * @return int $sysFileUid
      */
-    public function getSysFileUid()
+    public function getSysFileUid(): int
     {
         return $this->sysFileUid;
     }
@@ -65,7 +65,7 @@ class Download extends AbstractEntity
      * @param int $sysFileUid
      * @return void
      */
-    public function setSysFileUid($sysFileUid)
+    public function setSysFileUid($sysFileUid): void
     {
         $this->sysFileUid = $sysFileUid;
     }
@@ -75,7 +75,7 @@ class Download extends AbstractEntity
      *
      * @return int $downloads
      */
-    public function getDownloads()
+    public function getDownloads(): int
     {
         return $this->downloads;
     }
@@ -86,7 +86,7 @@ class Download extends AbstractEntity
      * @param string $downloads
      * @return void
      */
-    public function setDownloads($downloads)
+    public function setDownloads($downloads): void
     {
         $this->downloads = $downloads;
     }

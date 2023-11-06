@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers;
  *
  *  Copyright notice
  *
- *  (c) 2017-2021 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2023 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -50,7 +50,7 @@ class SimpleDisplayViewHelper extends AbstractViewHelper
      * initialize arguments
      * https://docs.typo3.org/typo3cms/ExtbaseFluidBook/9.5/8-Fluid/8-developing-a-custom-viewhelper.html
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('obj', 'mixed', 'Object or array', false);
@@ -63,7 +63,7 @@ class SimpleDisplayViewHelper extends AbstractViewHelper
      *
      * @return mixed
      */
-    public function render()
+    public function render(): mixed
     {
         $obj = $this->arguments['obj'];
         $prop = $this->arguments['prop'];

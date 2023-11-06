@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers;
  *
  *  Copyright notice
  *
- *  (c) 2020-2021 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2020-2023 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -50,7 +50,7 @@ class PluginArgArrayViewHelper extends AbstractViewHelper
      * initialize arguments
      * https://docs.typo3.org/typo3cms/ExtbaseFluidBook/9.5/8-Fluid/8-developing-a-custom-viewhelper.html
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('pluginParam', 'string', 'Plugin param as string', true);
@@ -61,9 +61,9 @@ class PluginArgArrayViewHelper extends AbstractViewHelper
      * Output and object element with property or
      * an array element with the given key
      *
-     * @return mixed
+     * @return array
      */
-    public function render()
+    public function render(): array
     {
         $pluginParam = $this->arguments['pluginParam'];
         $valueArray = $this->arguments['valueArray'];

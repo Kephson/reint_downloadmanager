@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\ViewHelpers\Format;
  *
  *  Copyright notice
  *
- *  (c) 2017-2021 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2023 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -53,7 +53,7 @@ class StrtolowerViewHelper extends AbstractViewHelper
      * @author Ephraim Härer <ephraim.haerer@renolit.com>
      * @api
      */
-    public function render()
+    public function render(): string
     {
         return strtolower($this->renderChildren());
     }

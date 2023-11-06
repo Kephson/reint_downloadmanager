@@ -4,7 +4,7 @@ if (!defined('TYPO3')) {
     die('Access denied.');
 }
 
-(static function ($extKey = 'reint_downloadmanager', $iconIdentifier = 'reint-dm-icon') {
+(static function ($extKey = 'reint_downloadmanager') {
     /***************
      * Make the extension configuration accessible
      */
@@ -22,8 +22,7 @@ if (!defined('TYPO3')) {
             ],
             [
                 \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'download',
-            ],
-            \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_PLUGIN
+            ]
         );
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $extKey . '/Configuration/TsConfig/Plugin.tsconfig">');
@@ -65,25 +64,9 @@ if (!defined('TYPO3')) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/cache/frontend/class.t3lib_cache_frontend_variablefrontend.php']['set'][$extKey] =
         \RENOLIT\ReintDownloadmanager\Hooks\SetPageCacheHook::class . '->set';
 
-    /***************
-     * Register Icons
-     */
-    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-    $iconRegistry->registerIcon(
-        $iconIdentifier,
-        \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-        ['source' => 'EXT:' . $extKey . '/ext_icon.svg']
-    );
-
     /* add a default pageTS if allowed in extension configuration */
     if (isset($dmManagerPackageConfiguration['disableDefaultPageTs']) && !(bool)$dmManagerPackageConfiguration['disableDefaultPageTs']) {
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $extKey . '/Configuration/TsConfig/Default.tsconfig">');
     }
-
-    /* add migration wizard for FlexForms */
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['reintDownloadmanager_migrateFlexformWizard'] = \RENOLIT\ReintDownloadmanager\Updates\MigrateFlexformWizard::class;
-
-    /* add migration wizard for plugin to content element */
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['reintDownloadmanager_migratePluginToContentElement'] = \RENOLIT\ReintDownloadmanager\Updates\MigratePluginToContentElement::class;
 
 })();
