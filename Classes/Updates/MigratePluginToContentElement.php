@@ -2,15 +2,17 @@
 
 namespace RENOLIT\ReintDownloadmanager\Updates;
 
+use Doctrine\DBAL\Exception as DbalException;
 use PDO;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
-# [UpgradeWizard('migratePluginToContentElement')]
+#[UpgradeWizard('migratePluginToContentElement')]
 class MigratePluginToContentElement implements UpgradeWizardInterface
 {
     /**
@@ -58,7 +60,7 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
      * Called when a wizard reports that an update is necessary
      *
      * @return bool
-     * @throws \Doctrine\DBAL\Exception
+     * @throws DbalException
      */
     public function executeUpdate(): bool
     {
@@ -94,7 +96,7 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
      * Check if data for migration exists.
      *
      * @return bool Whether an update is required (TRUE) or not (FALSE)
-     * @throws \Doctrine\DBAL\Exception
+     * @throws DbalException
      */
     public function updateNecessary(): bool
     {
@@ -119,7 +121,7 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
     /**
      * @param bool $singleEntry
      * @return array<string,mixed>|bool
-     * @throws \Doctrine\DBAL\Exception
+     * @throws DbalException
      */
     protected function getEntriesToMigrate(bool $singleEntry = true): array|bool
     {
@@ -134,9 +136,9 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
             );
 
         if ($singleEntry) {
-            return (bool)$queryBuilder->execute()->fetchOne();
+            return (bool)$queryBuilder->executeQuery()->fetchOne();
         }
-        return $queryBuilder->execute()->fetchAllAssociative();
+        return $queryBuilder->executeQuery()->fetchAllAssociative();
     }
 
     /**
@@ -153,9 +155,9 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
             'list_type' => '',
             'pi_flexform' => '',
         ];
-        if (isset($oldEntry['pages']) && !empty($oldEntry['pages'])) {
+        if (!empty($oldEntry['pages'])) {
             $folder = $oldEntry['pages'];
-        } else if (isset($flexFormData['settings']['dfolder']) && !empty($flexFormData['settings']['dfolder'])) {
+        } else if (!empty($flexFormData['settings']['dfolder'])) {
             $folder = $flexFormData['settings']['dfolder'];
         } else {
             $folder = '';

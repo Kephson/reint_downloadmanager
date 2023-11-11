@@ -14,6 +14,7 @@ ChangeLog
 - **05.11.2023** -> 4.0.0
 
   - initial release for TYPO3 12.4
+  - migrated plugins, wizards, etc for TYPO3 12
 
 -----------------------
 

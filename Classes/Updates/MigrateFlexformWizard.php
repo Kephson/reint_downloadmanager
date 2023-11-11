@@ -2,15 +2,16 @@
 
 namespace RENOLIT\ReintDownloadmanager\Updates;
 
-use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\Exception as DbalException;
 use PDO;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
-# [UpgradeWizard('migrateFlexformWizard')]
+#[UpgradeWizard('migrateFlexformWizard')]
 class MigrateFlexformWizard implements UpgradeWizardInterface
 {
     /**
@@ -77,7 +78,7 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
      * Called when a wizard reports that an update is necessary
      *
      * @return bool
-     * @throws Exception
+     * @throws DbalException
      */
     public function executeUpdate(): bool
     {
@@ -92,7 +93,7 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
                         $queryBuilder->expr()->eq('t.uid', $queryBuilder->createNamedParameter($entry['uid'], PDO::PARAM_INT))
                     )
                     ->set('t.pi_flexform', str_replace($this->search, $this->replace, $entry['pi_flexform']))
-                    ->execute();
+                    ->executeQuery();
             }
         }
 
@@ -106,7 +107,7 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
      * Check if data for migration exists.
      *
      * @return bool Whether an update is required (TRUE) or not (FALSE)
-     * @throws Exception
+     * @throws DbalException
      */
     public function updateNecessary(): bool
     {
@@ -131,9 +132,9 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
     /**
      * @param bool $singleEntry
      * @return array<string,mixed>|bool
-     * @throws \Doctrine\DBAL\Exception
+     * @throws DbalException
      */
-    protected function getEntriesToMigrate($singleEntry = true): array|bool
+    protected function getEntriesToMigrate(bool $singleEntry = true): array|bool
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
         $queryBuilder->getRestrictions()->removeAll();
@@ -151,8 +152,8 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
             );
 
         if ($singleEntry) {
-            return (bool)$queryBuilder->execute()->fetchOne();
+            return (bool)$queryBuilder->executeQuery()->fetchOne();
         }
-        return $queryBuilder->execute()->fetchAllAssociative();
+        return $queryBuilder->executeQuery()->fetchAllAssociative();
     }
 }
