@@ -63,3 +63,4 @@ node_modules/
 /nbproject
 /var
 .Build
+composer.lock
