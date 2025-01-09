@@ -35,6 +35,7 @@ use RENOLIT\ReintDownloadmanager\Domain\Model\Download;
 use RENOLIT\ReintDownloadmanager\Domain\Repository\DownloadRepository;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
@@ -790,7 +791,7 @@ class ManagerController extends ActionController
                         break;
                 }
 
-                return $this->responseFactory->createResponse()
+                $response = $this->responseFactory->createResponse()
                     ->withHeader('Content-Type', $cType)
                     ->withHeader('Pragma', 'public')
                     ->withHeader('Expires', '-1')
@@ -798,6 +799,7 @@ class ManagerController extends ActionController
                     ->withHeader('Content-Disposition', 'attachment; filename="' . $fileNameValid . '"')
                     ->withHeader('Content-Length', $fileLen)
                     ->withBody($this->streamFactory->createStreamFromFile($privateUri));
+                throw new PropagateResponseException($response, 200);
             }
         }
 
