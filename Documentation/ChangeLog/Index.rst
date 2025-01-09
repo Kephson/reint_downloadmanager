@@ -11,6 +11,13 @@
 ChangeLog
 =========
 
+- **09.01.2025** -> 4.0.1
+
+  - [BUGFIX] fixed downloads when creating response object
+  - thanks to @Bunnyfield
+
+-----------------------
+
 - **05.11.2023** -> 4.0.0
 
   - initial release for TYPO3 12.4
