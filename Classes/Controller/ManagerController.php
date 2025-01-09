@@ -763,7 +763,7 @@ class ManagerController extends ActionController
             } else {
                 $fullPublicUri = GeneralUtility::locationHeaderUrl($publicUri);
             }
-            $this->redirectToUri($fullPublicUri);
+            return $this->redirectToUri($fullPublicUri);
         } else {
             if (is_file($privateUri)) {
                 $fileLen = (string)filesize($privateUri);
