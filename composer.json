@@ -21,20 +21,20 @@
 	"homepage": "https://github.com/Kephson/reint_downloadmanager",
 	"require": {
 		"php": "^8.1 || ^8.2",
-		"typo3/cms-core": "^12.4.15",
-		"typo3/cms-install": "^12.4.15"
+		"typo3/cms-core": "^12.4.25",
+		"typo3/cms-install": "^12.4.25"
 	},
 	"require-dev": {
 		"beechit/fal-securedownload": "^5.0",
-		"ergebnis/composer-normalize": "^2.41",
-		"typo3/cms-filemetadata": "^12.4.15"
+		"ergebnis/composer-normalize": "^2.45",
+		"typo3/cms-filemetadata": "^12.4.25"
 	},
 	"replace": {
 		"typo3-ter/reint-downloadmanager": "self.version"
 	},
 	"suggest": {
 		"beechit/fal-securedownload": "^5.0",
-		"typo3/cms-filemetadata": "^12.4.15"
+		"typo3/cms-filemetadata": "^12.4.25"
 	},
 	"autoload": {
 		"psr-4": {
