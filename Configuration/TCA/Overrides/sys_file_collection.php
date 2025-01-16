@@ -17,7 +17,7 @@
                 'type' => 'text',
                 'cols' => 20,
                 'rows' => 5,
-                'eval' => 'null',
+                'nullable' => true,
                 'placeholder' => '__row|uid_local|metadata|description',
                 'mode' => 'useOrOverridePlaceholder',
                 'default' => null,
@@ -32,7 +32,7 @@
                 'enableRichtext' => true,
                 'cols' => 20,
                 'rows' => 5,
-                'eval' => 'null',
+                'nullable' => true,
                 'default' => null,
             ]
         ],
