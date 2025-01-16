@@ -65,7 +65,7 @@ class Download extends AbstractEntity
      * @param int $sysFileUid
      * @return void
      */
-    public function setSysFileUid($sysFileUid): void
+    public function setSysFileUid(int $sysFileUid): void
     {
         $this->sysFileUid = $sysFileUid;
     }
@@ -86,7 +86,7 @@ class Download extends AbstractEntity
      * @param string $downloads
      * @return void
      */
-    public function setDownloads($downloads): void
+    public function setDownloads(string $downloads): void
     {
         $this->downloads = $downloads;
     }
