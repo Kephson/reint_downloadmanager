@@ -26,6 +26,7 @@
 	},
 	"require-dev": {
 		"ergebnis/composer-normalize": "^2.45",
+		"ssch/typo3-rector": "^3.0",
 		"typo3/cms-filemetadata": "^13.4"
 	},
 	"replace": {

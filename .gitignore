@@ -64,3 +64,4 @@ node_modules/
 /var
 .Build
 composer.lock
+/vendor/*
