@@ -23,7 +23,6 @@ return [
             'ignorePageTypeRestriction' => true,
         ]
     ],
-    'interface' => [],
     'types' => [
         '1' => [
             'showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, sys_file_uid, downloads, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'

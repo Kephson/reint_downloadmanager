@@ -217,7 +217,7 @@ class ManagerController extends ActionController
         /* load the collections from database */
         $this->loadCollectionsFromDb();
 
-        $contentObject = $this->configurationManager->getContentObject()->data;
+        $contentObject = $this->request->getAttribute('currentContentObject')->data;
 
         /* assign the data to fluid */
         $this->view->assignMultiple(
@@ -273,7 +273,7 @@ class ManagerController extends ActionController
             }
         }
 
-        $contentObject = $this->configurationManager->getContentObject()->data;
+        $contentObject = $this->request->getAttribute('currentContentObject')->data;
 
         /* assign the data to fluid */
         $this->view->assignMultiple(
@@ -310,7 +310,7 @@ class ManagerController extends ActionController
         /* write the search field for collection titles */
         $this->writeCollectionTitleSearchfield();
 
-        $contentObject = $this->configurationManager->getContentObject()->data;
+        $contentObject = $this->request->getAttribute('currentContentObject')->data;
 
         /* assign the data to fluid */
         $this->view->assignMultiple(
@@ -356,6 +356,8 @@ class ManagerController extends ActionController
 
     /**
      * cleanup the top download table if file was deleted
+     * @throws Exception
+     * @throws IllegalObjectTypeException
      */
     protected function cleanupTopDownloads(): void
     {
@@ -365,7 +367,7 @@ class ManagerController extends ActionController
         foreach ($topdownloads as $d) {
             $fileUid = $d->getSysFileUid();
             $res = $queryBuilder->select('uid')->from('sys_file')->where($queryBuilder->expr()->eq('uid',
-                $fileUid))->execute()->fetch();
+                $fileUid))->executeQuery()->fetchAssociative();
             if (!$res) {
                 $this->downloadRepository->remove($d);
             }
@@ -718,7 +720,7 @@ class ManagerController extends ActionController
                     $privateUri = $this->getPrivateUrlForNonPublic($file);
                 } else {
                     $this->setFileNotFound();
-                    $this->redirect($returnToAction);
+                    return $this->redirect($returnToAction);
                 }
                 if (!$file->isMissing() && is_file($privateUri) && $this->feUserFileAccess) {
                     /* update counter or set new */
@@ -727,15 +729,15 @@ class ManagerController extends ActionController
                 } else {
                     if (!$this->feUserFileAccess) {
                         $this->setFileNoAccess();
-                        $this->redirect($returnToAction);
+                        return $this->redirect($returnToAction);
                     } else {
                         $this->setFileNotFound();
-                        $this->redirect($returnToAction);
+                        return $this->redirect($returnToAction);
                     }
                 }
             } else {
                 $this->setFileNotFound();
-                $this->redirect('list');
+                return $this->redirect('list');
             }
         }
         return $this->responseFactory->createResponse();
@@ -751,8 +753,9 @@ class ManagerController extends ActionController
      * @param bool $fileModDate
      *
      * @return ResponseInterface
+     * @throws PropagateResponseException
      */
-    protected function downloadFile($privateUri, $fileName, $publicUri, $fileModDate = true): ResponseInterface
+    protected function downloadFile(string $privateUri, string $fileName, string $publicUri, bool $fileModDate = true): ResponseInterface
     {
         /* check if there is a setting to redirect only to the file */
         if (isset($this->settings['redirecttofile']) && (int)$this->settings['redirecttofile'] === 1) {
