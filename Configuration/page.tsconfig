@@ -1,0 +1,44 @@
+mod {
+    wizards.newContentElement.wizardItems {
+        special {
+            elements {
+                reintdownloadmanager_dmlist {
+                    iconIdentifier = reint-dm-icon
+                    title = LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem1_ce
+                    description = LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem1_ce_desc
+                    tt_content_defValues {
+                        CType = reintdownloadmanager_dmlist
+                    }
+                }
+            }
+
+            elements {
+                reintdownloadmanager_dmtopdownloads {
+                    iconIdentifier = reint-dm-icon
+                    title = LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem2_ce
+                    description = LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem2_ce_desc
+                    tt_content_defValues {
+                        CType = reintdownloadmanager_dmtopdownloads
+                    }
+                }
+            }
+
+            elements {
+                reintdownloadmanager_dmfilesearch {
+                    iconIdentifier = reint-dm-icon
+                    title = LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem3_ce
+                    description = LLL:EXT:reint_downloadmanager/Resources/Private/Language/locallang.xlf:celem3_ce_desc
+                    tt_content_defValues {
+                        CType = reintdownloadmanager_dmfilesearch
+                    }
+                }
+            }
+
+            show := addToList(reintdownloadmanager_dmlist,reintdownloadmanager_dmtopdownloads,reintdownloadmanager_dmfilesearch)
+        }
+    }
+
+    web_layout.tt_content.preview.reintdownloadmanager_dmlist = EXT:reint_downloadmanager/Resources/Private/Templates/CEPreview/List.html
+    web_layout.tt_content.preview.reintdownloadmanager_dmtopdownloads = EXT:reint_downloadmanager/Resources/Private/Templates/CEPreview/Topdownloads.html
+    web_layout.tt_content.preview.reintdownloadmanager_dmfilesearch = EXT:reint_downloadmanager/Resources/Private/Templates/CEPreview/Filesearch.html
+}

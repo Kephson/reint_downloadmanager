@@ -35,6 +35,7 @@
         'columns' => [
             'pi_flexform' => [
                 'config' => [
+                    'type' => 'flex',
                     'ds' => [
                         '*,' . $contentType => 'FILE:EXT:' . $extKey . '/Configuration/FlexForms/ContentElements/FileSearch.xml',
                     ],

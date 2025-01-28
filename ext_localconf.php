@@ -13,20 +13,6 @@ if (!defined('TYPO3')) {
     );
     $dmManagerPackageConfiguration = $extensionConfiguration->get($extKey);
 
-    if (isset($dmManagerPackageConfiguration['disableDefaultPlugin']) && !(bool)$dmManagerPackageConfiguration['disableDefaultPlugin']) {
-        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            $extKey,
-            'Reintdlm',
-            [
-                \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'list, topdownloads, empty, filesearch, download',
-            ],
-            [
-                \RENOLIT\ReintDownloadmanager\Controller\ManagerController::class => 'download',
-            ]
-        );
-
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $extKey . '/Configuration/TsConfig/Plugin.tsconfig">');
-    }
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         $extKey,
         'DmList',
@@ -63,10 +49,5 @@ if (!defined('TYPO3')) {
 
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/cache/frontend/class.t3lib_cache_frontend_variablefrontend.php']['set'][$extKey] =
         \RENOLIT\ReintDownloadmanager\Hooks\SetPageCacheHook::class . '->set';
-
-    /* add a default pageTS if allowed in extension configuration */
-    if (isset($dmManagerPackageConfiguration['disableDefaultPageTs']) && !(bool)$dmManagerPackageConfiguration['disableDefaultPageTs']) {
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $extKey . '/Configuration/TsConfig/Default.tsconfig">');
-    }
 
 })();

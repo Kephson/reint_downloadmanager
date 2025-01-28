@@ -17,10 +17,10 @@
                 'type' => 'text',
                 'cols' => 20,
                 'rows' => 5,
+                'nullable' => true,
                 'placeholder' => '__row|uid_local|metadata|description',
                 'mode' => 'useOrOverridePlaceholder',
                 'default' => null,
-                'nullable' => true,
             ]
         ],
         'description_frontend' => [
@@ -32,8 +32,8 @@
                 'enableRichtext' => true,
                 'cols' => 20,
                 'rows' => 5,
-                'default' => null,
                 'nullable' => true,
+                'default' => null,
             ]
         ],
     ];

@@ -27,7 +27,6 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-use BeechIt\FalSecuredownload\Security\CheckPermissions;
 use Doctrine\DBAL\Exception;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -43,9 +42,9 @@ use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileCollectionRepository;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Session\UserSessionManager;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
@@ -217,7 +216,7 @@ class ManagerController extends ActionController
         /* load the collections from database */
         $this->loadCollectionsFromDb();
 
-        $contentObject = $this->request->getAttribute('currentContentObject')->data;
+        $contentObject = $this->request->getAttribute('currentContentObject');
 
         /* assign the data to fluid */
         $this->view->assignMultiple(
@@ -237,7 +236,8 @@ class ManagerController extends ActionController
      * shows a list of the top downloads
      *
      * @return ResponseInterface
-     * @throws NoSuchArgumentException
+     * @throws Exception
+     * @throws IllegalObjectTypeException
      */
     public function topdownloadsAction(): ResponseInterface
     {
@@ -273,7 +273,7 @@ class ManagerController extends ActionController
             }
         }
 
-        $contentObject = $this->request->getAttribute('currentContentObject')->data;
+        $contentObject = $this->request->getAttribute('currentContentObject');
 
         /* assign the data to fluid */
         $this->view->assignMultiple(
@@ -310,7 +310,7 @@ class ManagerController extends ActionController
         /* write the search field for collection titles */
         $this->writeCollectionTitleSearchfield();
 
-        $contentObject = $this->request->getAttribute('currentContentObject')->data;
+        $contentObject = $this->request->getAttribute('currentContentObject');
 
         /* assign the data to fluid */
         $this->view->assignMultiple(
@@ -356,8 +356,8 @@ class ManagerController extends ActionController
 
     /**
      * cleanup the top download table if file was deleted
-     * @throws Exception
      * @throws IllegalObjectTypeException
+     * @throws Exception
      */
     protected function cleanupTopDownloads(): void
     {
@@ -366,8 +366,10 @@ class ManagerController extends ActionController
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_file');
         foreach ($topdownloads as $d) {
             $fileUid = $d->getSysFileUid();
-            $res = $queryBuilder->select('uid')->from('sys_file')->where($queryBuilder->expr()->eq('uid',
-                $fileUid))->executeQuery()->fetchAssociative();
+            $res = $queryBuilder->select('uid')
+                ->from('sys_file')
+                ->where($queryBuilder->expr()->eq('uid', $fileUid))
+                ->executeQuery()->fetchAllAssociative();
             if (!$res) {
                 $this->downloadRepository->remove($d);
             }
@@ -646,8 +648,10 @@ class ManagerController extends ActionController
     protected function updateUserSessionDownloads(int $recordUid): void
     {
         $countEntry = $this->downloadRepository->getOneBySysFileUid($recordUid);
-
-        $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'reint_downloadmanager');
+        $loginType = 'FE';
+        $userSessionManager = UserSessionManager::create($loginType);
+        $session = $userSessionManager->createAnonymousSession();
+        $sessionData = $session->get('reint_downloadmanager');
 
         $newEntry = false;
         if (!$countEntry) {
@@ -682,8 +686,7 @@ class ManagerController extends ActionController
         $this->persistenceManager->persistAll();
 
         /*$sessionData = []; to reset session */
-        $GLOBALS['TSFE']->fe_user->setKey('ses', 'reint_downloadmanager', $sessionData);
-        $GLOBALS['TSFE']->fe_user->storeSessionData();
+        $session->set('reint_downloadmanager', $sessionData);
     }
 
     /**
@@ -692,6 +695,9 @@ class ManagerController extends ActionController
      * @return ResponseInterface
      * @throws Exception
      * @throws FileDoesNotExistException
+     * @throws IllegalObjectTypeException
+     * @throws PropagateResponseException
+     * @throws UnknownObjectException
      */
     protected function downloadAction(): ResponseInterface
     {
@@ -713,14 +719,14 @@ class ManagerController extends ActionController
                     $fileName = $file->getName();
                     $fileModDate = $file->getProperty('tstamp');
                     if (!$file->getStorage()->isPublic() && ExtensionManagementUtility::isLoaded('fal_securedownload')) {
-                        /** @var $checkPermissions CheckPermissions */
-                        $checkPermissions = GeneralUtility::makeInstance(CheckPermissions::class);
+                        /** @var $checkPermissions \BeechIt\FalSecuredownload\Security\CheckPermissions */
+                        $checkPermissions = GeneralUtility::makeInstance(\BeechIt\FalSecuredownload\Security\CheckPermissions::class);
                         $this->feUserFileAccess = $checkPermissions->checkFileAccessForCurrentFeUser($file);
                     }
                     $privateUri = $this->getPrivateUrlForNonPublic($file);
                 } else {
                     $this->setFileNotFound();
-                    return $this->redirect($returnToAction);
+                    $this->redirect($returnToAction);
                 }
                 if (!$file->isMissing() && is_file($privateUri) && $this->feUserFileAccess) {
                     /* update counter or set new */
@@ -729,15 +735,15 @@ class ManagerController extends ActionController
                 } else {
                     if (!$this->feUserFileAccess) {
                         $this->setFileNoAccess();
-                        return $this->redirect($returnToAction);
+                        $this->redirect($returnToAction);
                     } else {
                         $this->setFileNotFound();
-                        return $this->redirect($returnToAction);
+                        $this->redirect($returnToAction);
                     }
                 }
             } else {
                 $this->setFileNotFound();
-                return $this->redirect('list');
+                $this->redirect('list');
             }
         }
         return $this->responseFactory->createResponse();
@@ -755,7 +761,7 @@ class ManagerController extends ActionController
      * @return ResponseInterface
      * @throws PropagateResponseException
      */
-    protected function downloadFile(string $privateUri, string $fileName, string $publicUri, bool $fileModDate = true): ResponseInterface
+    protected function downloadFile($privateUri, $fileName, $publicUri, $fileModDate = true): ResponseInterface
     {
         /* check if there is a setting to redirect only to the file */
         if (isset($this->settings['redirecttofile']) && (int)$this->settings['redirecttofile'] === 1) {
