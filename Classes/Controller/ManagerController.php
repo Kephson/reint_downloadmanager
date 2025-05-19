@@ -34,12 +34,14 @@ use RENOLIT\ReintDownloadmanager\Domain\Model\Download;
 use RENOLIT\ReintDownloadmanager\Domain\Repository\DownloadRepository;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileCollectionRepository;
+use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Session\UserSessionManager;
@@ -493,7 +495,7 @@ class ManagerController extends ActionController
      * @param array $pageIds
      * @throws
      */
-    protected function getCollectionsFromPages($pageIds): void
+    protected function getCollectionsFromPages(array $pageIds): void
     {
         $table = 'sys_file_collection';
         $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
@@ -534,7 +536,7 @@ class ManagerController extends ActionController
      * @return string
      * @throws Exception
      */
-    protected function getSysFileCollectionData($uid, $fieldname = 'description_frontend'): string
+    protected function getSysFileCollectionData(int $uid, string $fieldname = 'description_frontend'): string
     {
         $table = 'sys_file_collection';
         /** @var $queryBuilder QueryBuilder */
@@ -569,7 +571,7 @@ class ManagerController extends ActionController
     }
 
     /**
-     * sets the flashmessage for not found file
+     * sets the FlashMessage for not found file
      */
     protected function setFileNoAccess(): void
     {
@@ -596,7 +598,7 @@ class ManagerController extends ActionController
     }
 
     /**
-     * @param integer $uid
+     * @param int $uid
      * @return bool
      * @throws Exception
      */
@@ -704,6 +706,22 @@ class ManagerController extends ActionController
         if ($this->request->hasArgument('downloaduid') && $this->request->hasArgument('actionfrom')) {
             $returnToAction = $this->request->getArgument('actionfrom');
             $recordUid = (int)$this->request->getArgument('downloaduid');
+
+            $this->loadCollectionsFromFlexform();
+            $this->loadCollectionsFromDb();
+            $files = [];
+            foreach ($this->collections as $collection) {
+                /** @var FileReference $fileReference */
+                foreach ($collection as $fileReference) {
+                    $fUid = $fileReference->getOriginalFile()->getUid();
+                    $files[$fUid] = $fUid;
+                }
+            }
+            if (!in_array($recordUid, $files)) {
+                $this->setFileNotFound();
+                return $this->redirect('list');
+            }
+
             $publicUri = '';
             $fileName = '';
             $fileModDate = '';
@@ -726,7 +744,7 @@ class ManagerController extends ActionController
                     $privateUri = $this->getPrivateUrlForNonPublic($file);
                 } else {
                     $this->setFileNotFound();
-                    $this->redirect($returnToAction);
+                    return $this->redirect($returnToAction);
                 }
                 if (!$file->isMissing() && is_file($privateUri) && $this->feUserFileAccess) {
                     /* update counter or set new */
@@ -735,15 +753,15 @@ class ManagerController extends ActionController
                 } else {
                     if (!$this->feUserFileAccess) {
                         $this->setFileNoAccess();
-                        $this->redirect($returnToAction);
+                        return $this->redirect($returnToAction);
                     } else {
                         $this->setFileNotFound();
-                        $this->redirect($returnToAction);
+                        return $this->redirect($returnToAction);
                     }
                 }
             } else {
                 $this->setFileNotFound();
-                $this->redirect('list');
+                return $this->redirect('list');
             }
         }
         return $this->responseFactory->createResponse();
@@ -761,7 +779,7 @@ class ManagerController extends ActionController
      * @return ResponseInterface
      * @throws PropagateResponseException
      */
-    protected function downloadFile($privateUri, $fileName, $publicUri, $fileModDate = true): ResponseInterface
+    protected function downloadFile(string $privateUri, string $fileName, string $publicUri, bool $fileModDate = true): ResponseInterface
     {
         /* check if there is a setting to redirect only to the file */
         if (isset($this->settings['redirecttofile']) && (int)$this->settings['redirecttofile'] === 1) {

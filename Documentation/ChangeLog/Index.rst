@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **19.05.2025** -> 5.0.1
+
+  - Security fix - please update
+
+-----------------------
+
 - **16.01.2025** -> 5.0.0
 
   - initial release for TYPO3 13.4
