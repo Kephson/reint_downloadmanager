@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **19.05.2025** -> 4.0.2
+
+  - Security fix - please update ASAP
+
+-----------------------
+
 - **09.01.2025** -> 4.0.1
 
   - [BUGFIX] fixed downloads when creating response object
