@@ -34,7 +34,7 @@ jobs:
           readonly local comment=$(git tag -n10 -l ${{ steps.get-version.outputs.version }} | sed "s/^[0-9.]*[ ]*//g")
 
           if [[ -z "${comment// }" ]]; then
-            echo ::set-output name=comment::Released version ${{ steps.get-version.outputs.version }} of tailor_ext
+            echo ::set-output name=comment::Released version ${{ steps.get-version.outputs.version }} of reint_downloadmanager
           else
             echo ::set-output name=comment::$comment
           fi
@@ -50,4 +50,4 @@ jobs:
         run: composer global require typo3/tailor --prefer-dist --no-progress
 
       - name: Publish to TER
-        run: php ~/.composer/vendor/bin/tailor ter:publish --comment "${{ steps.get-comment.outputs.comment }}" ${{ steps.get-version.outputs.version }}
+        run: php ~/.composer/vendor/bin/tailor ter:publish --version ${{ steps.get-version.outputs.version }} --comment "${{ steps.get-comment.outputs.comment }}"
