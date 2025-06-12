@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **12.06.2025** -> 4.0.3
+
+  - fixed download bug with file collections when selecting "folder from storage", see issue #38
+
+-----------------------
+
 - **19.05.2025** -> 4.0.2
 
   - Security fix - please update ASAP

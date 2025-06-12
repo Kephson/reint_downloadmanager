@@ -705,9 +705,18 @@ class ManagerController extends ActionController
             $this->loadCollectionsFromDb();
             $files = [];
             foreach ($this->collections as $collection) {
-                /** @var FileReference $fileReference */
-                foreach ($collection as $fileReference) {
-                    $fUid = $fileReference->getOriginalFile()->getUid();
+                /** @var FileReference|File $fileReference */
+                foreach ($collection as $fileObject) {
+                    $fUid = null;
+                    if ($fileObject instanceof File) {
+                        $fUid = $fileObject->getUid();
+                    }
+                    if ($fileObject instanceof FileReference) {
+                        $fUid = $fileObject->getOriginalFile()->getUid();
+                    }
+                    if ($fUid === null) {
+                        continue;
+                    }
                     $files[$fUid] = $fUid;
                 }
             }
