@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+- **06.07.2026** -> 5.0.3
+
+  - small cleanup
+
+-----------------------
+
 - **12.06.2025** -> 5.0.2
 
   - fixed download bug with file collections when selecting "folder from storage", see issue #38

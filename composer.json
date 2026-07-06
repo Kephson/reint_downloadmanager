@@ -20,7 +20,7 @@
 	],
 	"homepage": "https://github.com/Kephson/reint_downloadmanager",
 	"require": {
-		"php": "^8.2 || ^8.3 || ^8.4",
+		"php": "^8.2",
 		"typo3/cms-core": "^13.4",
 		"typo3/cms-install": "^13.4"
 	},
@@ -42,9 +42,9 @@
 	},
 	"config": {
 		"allow-plugins": {
+			"ergebnis/composer-normalize": true,
 			"typo3/class-alias-loader": true,
-			"typo3/cms-composer-installers": true,
-			"ergebnis/composer-normalize": true
+			"typo3/cms-composer-installers": true
 		},
 		"bin-dir": ".Build/bin",
 		"sort-packages": true,
@@ -52,8 +52,12 @@
 	},
 	"extra": {
 		"typo3/cms": {
+			"Package": {
+				"providesPackages": {}
+			},
 			"cms-package-dir": "{$vendor-dir}/typo3/cms",
 			"extension-key": "reint_downloadmanager",
+			"version": "5.0.3",
 			"web-dir": ".Build/web"
 		}
 	}
