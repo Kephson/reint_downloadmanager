@@ -6,7 +6,7 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
  *
  *  Copyright notice
  *
- *  (c) 2017-2025 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
+ *  (c) 2017-2026 Ephraim Härer <ephraim.haerer@renolit.com>, RENOLIT SE
  *
  *  All rights reserved
  *
@@ -27,6 +27,7 @@ namespace RENOLIT\ReintDownloadmanager\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+use BeechIt\FalSecuredownload\Security\CheckPermissions;
 use Doctrine\DBAL\Exception;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -34,7 +35,6 @@ use RENOLIT\ReintDownloadmanager\Domain\Model\Download;
 use RENOLIT\ReintDownloadmanager\Domain\Repository\DownloadRepository;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
@@ -124,7 +124,7 @@ class ManagerController extends ActionController
     ];
 
 
-    public function __construct(ResponseFactoryInterface $responseFactory)
+    public function __construct(ResponseFactoryInterface $responseFactory, private readonly ConnectionPool $connectionPool, private readonly Context $context, private readonly FlashMessageService $flashMessageService, private readonly ResourceFactory $resourceFactory)
     {
         $this->responseFactory = $responseFactory;
     }
@@ -365,7 +365,7 @@ class ManagerController extends ActionController
     {
         $topdownloads = $this->downloadRepository->findAllWithoutPid();
         /** @var $queryBuilder QueryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_file');
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('sys_file');
         foreach ($topdownloads as $d) {
             $fileUid = $d->getSysFileUid();
             $res = $queryBuilder->select('uid')
@@ -498,10 +498,10 @@ class ManagerController extends ActionController
     protected function getCollectionsFromPages(array $pageIds): void
     {
         $table = 'sys_file_collection';
-        $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+        $languageAspect = $this->context->getAspect('language');
         if (count($pageIds) > 0) {
             /** @var $queryBuilder QueryBuilder */
-            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+            $queryBuilder = $this->connectionPool->getQueryBuilderForTable($table);
             foreach ($pageIds as $pageId) {
                 /* load all file collections in default language and current language if set */
                 $fileCollections = $queryBuilder->select('*')->from($table)
@@ -531,7 +531,7 @@ class ManagerController extends ActionController
     /**
      * gets additional data for file collection
      *
-     * @param integer $uid
+     * @param int $uid
      * @param string $fieldname
      * @return string
      * @throws Exception
@@ -539,8 +539,7 @@ class ManagerController extends ActionController
     protected function getSysFileCollectionData(int $uid, string $fieldname = 'description_frontend'): string
     {
         $table = 'sys_file_collection';
-        /** @var $queryBuilder QueryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable($table);
         $res = $queryBuilder->select('*')->from($table)
             ->where($queryBuilder->expr()->eq('uid', $uid))
             ->executeQuery()->fetchAllAssociative();
@@ -561,7 +560,7 @@ class ManagerController extends ActionController
     }
 
     /**
-     * sets the flashmessage for not found file
+     * sets the FlashMessage for not found file
      */
     protected function setFileNotFound(): void
     {
@@ -581,7 +580,7 @@ class ManagerController extends ActionController
     }
 
     /**
-     * write the flash messages to flash message queue
+     * write the FlashMessages to flash message queue
      *
      * @param string $errorFlashMessage
      * @return void
@@ -592,7 +591,7 @@ class ManagerController extends ActionController
         $errorFlashMessageObject = new FlashMessage(
             $errorFlashMessage, '', ContextualFeedbackSeverity::ERROR
         );
-        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+        $flashMessageService = $this->flashMessageService;
         $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
         $messageQueue->addMessage($errorFlashMessageObject);
     }
@@ -605,8 +604,7 @@ class ManagerController extends ActionController
     protected function isFileAvailable(int $uid): bool
     {
         $table = 'sys_file';
-        /** @var $queryBuilder QueryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable($table);
         $existingFileRecord = $queryBuilder->select('uid')->from($table)
             ->where($queryBuilder->expr()->eq('uid', $uid))
             ->executeQuery()->fetchOne();
@@ -736,8 +734,7 @@ class ManagerController extends ActionController
             $fileModDate = '';
 
             if (($recordUid > 0) && $this->isFileAvailable($recordUid)) {
-                /** @var $fileRepository ResourceFactory */
-                $fileRepository = GeneralUtility::makeInstance(ResourceFactory::class);
+                $fileRepository = $this->resourceFactory;
                 $file = $fileRepository->getFileObject($recordUid);
 
                 $privateUri = '';
@@ -747,7 +744,7 @@ class ManagerController extends ActionController
                     $fileModDate = $file->getProperty('tstamp');
                     if (!$file->getStorage()->isPublic() && ExtensionManagementUtility::isLoaded('fal_securedownload')) {
                         /** @var $checkPermissions \BeechIt\FalSecuredownload\Security\CheckPermissions */
-                        $checkPermissions = GeneralUtility::makeInstance(\BeechIt\FalSecuredownload\Security\CheckPermissions::class);
+                        $checkPermissions = GeneralUtility::makeInstance(CheckPermissions::class);
                         $this->feUserFileAccess = $checkPermissions->checkFileAccessForCurrentFeUser($file);
                     }
                     $privateUri = $this->getPrivateUrlForNonPublic($file);

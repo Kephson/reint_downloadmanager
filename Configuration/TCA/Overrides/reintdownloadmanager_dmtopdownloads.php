@@ -1,12 +1,15 @@
 <?php
-/** @noinspection PhpFullyQualifiedNameUsageInspection */
+
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 (static function (
     $tablename = 'tt_content',
     $contentType = 'reintdownloadmanager_dmtopdownloads',
     $iconName = 'reint-dm-icon',
     $extKey = 'reint_downloadmanager'
 ) {
-    \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA'][$tablename], [
+    ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA'][$tablename], [
         'ctrl' => [
             'typeicon_classes' => [
                 $contentType => $iconName,
@@ -36,21 +39,19 @@
             'pi_flexform' => [
                 'config' => [
                     'type' => 'flex',
-                    'ds' => [
-                        '*,' . $contentType => 'FILE:EXT:' . $extKey . '/Configuration/FlexForms/ContentElements/TopDownloads.xml',
-                    ],
+                    'ds' => 'FILE:EXT:' . $extKey . '/Configuration/FlexForms/ContentElements/TopDownloads.xml',
                 ],
             ],
         ],
     ]);
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
+    ExtensionManagementUtility::addTcaSelectItem(
         $tablename,
         'CType',
         [
-            'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang.xlf:celem2_ce',
-            $contentType,
-            $iconName,
+            'label' => 'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang.xlf:celem2_ce',
+            'value' => $contentType,
+            'icon' => $iconName,
         ],
         'textmedia',
         'after'

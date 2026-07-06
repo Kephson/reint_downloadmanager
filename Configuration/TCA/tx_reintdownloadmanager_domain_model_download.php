@@ -16,7 +16,6 @@ return [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'searchFields' => 'sys_file_uid',
         'iconfile' => 'EXT:reint_downloadmanager/Resources/Public/Images/renolit_table.png',
         'security' => [
             'ignoreRootLevelRestriction' => true,
@@ -87,7 +86,8 @@ return [
                 'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
-                ]
+                ],
+                'searchable' => false
             ]
         ],
         'endtime' => [
@@ -100,7 +100,8 @@ return [
                 'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
-                ]
+                ],
+                'searchable' => false
             ]
         ],
         'sys_file_uid' => [
@@ -118,7 +119,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim'
+                'eval' => 'trim',
+                'searchable' => false
             ],
         ],
     ],

@@ -1,5 +1,7 @@
 <?php
-/** @noinspection PhpFullyQualifiedNameUsageInspection */
+
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 (static function ($table) {
     /* add columns for file collections */
     $newSysCategoryColumns = [
@@ -37,8 +39,8 @@
             ]
         ],
     ];
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($table, $newSysCategoryColumns);
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+    ExtensionManagementUtility::addTCAcolumns($table, $newSysCategoryColumns);
+    ExtensionManagementUtility::addToAllTCAtypes(
         'sys_file_collection',
         'description_frontend',
         '',

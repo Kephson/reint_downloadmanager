@@ -2,14 +2,13 @@
 
 namespace RENOLIT\ReintDownloadmanager\Updates;
 
+use TYPO3\CMS\Core\Attribute\UpgradeWizard;
+use TYPO3\CMS\Core\Upgrades\UpgradeWizardInterface;
+use TYPO3\CMS\Core\Upgrades\DatabaseUpdatedPrerequisite;
+use TYPO3\CMS\Core\Database\Connection;
 use Doctrine\DBAL\Exception as DbalException;
-use PDO;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
-use TYPO3\CMS\Install\Attribute\UpgradeWizard;
-use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 #[UpgradeWizard('migrateFlexformWizard')]
 class MigrateFlexformWizard implements UpgradeWizardInterface
@@ -17,17 +16,17 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
     /**
      * @var OutputInterface
      */
-    protected $output;
+    protected OutputInterface $output;
 
     /**
      * @var string
      */
-    protected $table = 'tt_content';
+    protected string $table = 'tt_content';
 
     /**
      * @var string[]
      */
-    protected $search = [
+    protected array $search = [
         'empty' => '<value index="vDEF">Manager-&gt;empty</value>',
         'list' => '<value index="vDEF">Manager-&gt;list</value>',
         'topdownloads' => '<value index="vDEF">Manager-&gt;topdownloads</value>',
@@ -36,12 +35,15 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
     /**
      * @var string[]
      */
-    protected $replace = [
+    protected array $replace = [
         'empty' => '<value index="vDEF">Manager-&gt;empty;Manager-&gt;download</value>',
         'list' => '<value index="vDEF">Manager-&gt;list;Manager-&gt;download</value>',
         'topdownloads' => '<value index="vDEF">Manager-&gt;topdownloads;Manager-&gt;download</value>',
         'filesearch' => '<value index="vDEF">Manager-&gt;filesearch;Manager-&gt;download</value>',
     ];
+    public function __construct(private readonly ConnectionPool $connectionPool)
+    {
+    }
 
     /**
      * @param OutputInterface $output
@@ -84,13 +86,13 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
     {
         $entries = $this->getEntriesToMigrate(false);
         if (count($entries) > 0) {
-            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
+            $queryBuilder = $this->connectionPool->getQueryBuilderForTable($this->table);
 
             foreach ($entries as $entry) {
                 $queryBuilder
                     ->update($this->table, 't')
                     ->where(
-                        $queryBuilder->expr()->eq('t.uid', $queryBuilder->createNamedParameter($entry['uid'], PDO::PARAM_INT))
+                        $queryBuilder->expr()->eq('t.uid', $queryBuilder->createNamedParameter($entry['uid'], Connection::PARAM_INT))
                     )
                     ->set('t.pi_flexform', str_replace($this->search, $this->replace, $entry['pi_flexform']))
                     ->executeQuery();
@@ -136,7 +138,7 @@ class MigrateFlexformWizard implements UpgradeWizardInterface
      */
     protected function getEntriesToMigrate(bool $singleEntry = true): array|bool
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable($this->table);
         $queryBuilder->getRestrictions()->removeAll();
 
         $queryBuilder->select('uid', 'pi_flexform')

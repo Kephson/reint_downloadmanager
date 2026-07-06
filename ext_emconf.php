@@ -10,19 +10,17 @@
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Download manager',
     'description' => 'A simple download manager with different views of file collections as downloadable lists.',
-    'version' => '5.0.3',
+    'version' => '6.0.0',
     'category' => 'plugin',
     'constraints' => [
         'depends' => [
-            'typo3' => '13.4.0-13.4.99',
+            'typo3' => '14.3.0-14.3.99',
             'php' => '8.2.0-8.5.99',
         ],
         'conflicts' => [],
         'suggests' => [],
     ],
     'state' => 'stable',
-    'uploadfolder' => false,
-    'clearCacheOnLoad' => false,
     'author' => 'Ephraim Härer',
     'author_email' => 'ephraim.haerer@renolit.com',
     'author_company' => 'https://www.renolit.com',

@@ -2,15 +2,14 @@
 
 namespace RENOLIT\ReintDownloadmanager\Updates;
 
+use TYPO3\CMS\Core\Attribute\UpgradeWizard;
+use TYPO3\CMS\Core\Upgrades\UpgradeWizardInterface;
+use TYPO3\CMS\Core\Upgrades\DatabaseUpdatedPrerequisite;
+use TYPO3\CMS\Core\Database\Connection;
 use Doctrine\DBAL\Exception as DbalException;
-use PDO;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Service\FlexFormService;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
-use TYPO3\CMS\Install\Attribute\UpgradeWizard;
-use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 #[UpgradeWizard('migratePluginToContentElement')]
 class MigratePluginToContentElement implements UpgradeWizardInterface
@@ -24,6 +23,9 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
      * @var string
      */
     protected string $table = 'tt_content';
+    public function __construct(private readonly ConnectionPool $connectionPool, private readonly FlexFormService $flexFormService)
+    {
+    }
 
     /**
      * @param OutputInterface $output
@@ -67,8 +69,8 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
         $entries = $this->getEntriesToMigrate(false);
 
         if (count($entries) > 0) {
-            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
-            $flexFormService = GeneralUtility::makeInstance(FlexFormService::class);
+            $queryBuilder = $this->connectionPool->getQueryBuilderForTable($this->table);
+            $flexFormService = $this->flexFormService;
             foreach ($entries as $entry) {
                 $flexFormData = $flexFormService->convertFlexFormContentToArray($entry['pi_flexform']);
                 $migratedEntry = $this->getMigratedData($entry, $flexFormData);
@@ -76,7 +78,7 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
                     $queryBuilder
                         ->update($this->table, 't')
                         ->where(
-                            $queryBuilder->expr()->eq('t.uid', $queryBuilder->createNamedParameter($migratedEntry['uid'], PDO::PARAM_INT))
+                            $queryBuilder->expr()->eq('t.uid', $queryBuilder->createNamedParameter($migratedEntry['uid'], Connection::PARAM_INT))
                         )
                         ->set('t.list_type', $migratedEntry['list_type'])
                         ->set('t.CType', $migratedEntry['CType'])
@@ -125,7 +127,7 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
      */
     protected function getEntriesToMigrate(bool $singleEntry = true): array|bool
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable($this->table);
         $queryBuilder->getRestrictions()->removeAll();
 
         $queryBuilder->select('uid', 'CType', 'list_type', 'pi_flexform', 'pages')
@@ -170,7 +172,7 @@ class MigratePluginToContentElement implements UpgradeWizardInterface
         if (isset($flexFormData['switchableControllerActions']) &&
             ($flexFormData['switchableControllerActions'] === 'Manager->list;Manager->download' ||
                 $flexFormData['switchableControllerActions'] === 'Manager->list')) {
-            $newEntry['CType'] = 'reintdownloadmanager_dmlist';
+            $newEntry['CType'] = '';
             $newEntry['pi_flexform'] = '<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <T3FlexForms>
     <data>
