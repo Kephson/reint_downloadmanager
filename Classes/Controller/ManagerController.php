@@ -47,6 +47,7 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Session\UserSessionManager;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\Exception\NoServerRequestGivenException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
@@ -133,6 +134,7 @@ class ManagerController extends ActionController
      * initialize the controller
      *
      * @return void
+     * @throws NoServerRequestGivenException
      */
     protected function initializeAction(): void
     {
@@ -743,7 +745,7 @@ class ManagerController extends ActionController
                     $fileName = $file->getName();
                     $fileModDate = $file->getProperty('tstamp');
                     if (!$file->getStorage()->isPublic() && ExtensionManagementUtility::isLoaded('fal_securedownload')) {
-                        /** @var $checkPermissions \BeechIt\FalSecuredownload\Security\CheckPermissions */
+                        /** @var $checkPermissions CheckPermissions */
                         $checkPermissions = GeneralUtility::makeInstance(CheckPermissions::class);
                         $this->feUserFileAccess = $checkPermissions->checkFileAccessForCurrentFeUser($file);
                     }
