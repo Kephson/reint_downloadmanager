@@ -18,8 +18,8 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
         'types' => [
             $contentType => [
                 'showitem' => implode(',', [
-                    '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, '.
-                    '--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general, '.
+                    '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, ' .
+                    '--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general, ' .
                     '--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.headers;headers',
                     'pi_flexform',
                     '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance,--palette--;;frames,--palette--;;appearanceLinks,',
@@ -35,15 +35,13 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
                 ]),
             ],
         ],
-        'columns' => [
-            'pi_flexform' => [
-                'config' => [
-                    'type' => 'flex',
-                    'ds' => 'FILE:EXT:' . $extKey . '/Configuration/FlexForms/ContentElements/FileSearch.xml',
-                ],
-            ],
-        ],
     ]);
+
+    ExtensionManagementUtility::addPiFlexFormValue(
+        '*',
+        'FILE:EXT:' . $extKey . '/Configuration/FlexForms/ContentElements/FileSearch.xml',
+        $contentType
+    );
 
     ExtensionManagementUtility::addTcaSelectItem(
         $tablename,

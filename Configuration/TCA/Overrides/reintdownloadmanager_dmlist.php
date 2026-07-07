@@ -35,15 +35,13 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
                 ]),
             ],
         ],
-        'columns' => [
-            'pi_flexform' => [
-                'config' => [
-                    'type' => 'flex',
-                    'ds' => 'FILE:EXT:' . $extKey . '/Configuration/FlexForms/ContentElements/ListView.xml',
-                ],
-            ],
-        ],
     ]);
+
+    ExtensionManagementUtility::addPiFlexFormValue(
+        '*',
+        'FILE:EXT:' . $extKey . '/Configuration/FlexForms/ContentElements/ListView.xml',
+        $contentType
+    );
 
     ExtensionManagementUtility::addTcaSelectItem(
         $tablename,
